@@ -12,6 +12,7 @@ class AdverseEffect: Identifiable {
     @Attribute(.unique) var id: Int
     
     private var name: String
+    var normalizedName: String
     
     private var meddraTermType: String
     
@@ -21,6 +22,7 @@ class AdverseEffect: Identifiable {
     init(id: Int, name: String, meddraTermType: String, medicines: [Medicine] = []) {
         self.id = id
         self.name = name
+        self.normalizedName = name.lowercased()
         self.meddraTermType = meddraTermType
         self.medicines = medicines
     }

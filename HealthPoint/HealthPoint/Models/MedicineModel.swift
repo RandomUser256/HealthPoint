@@ -11,8 +11,12 @@ import Foundation
 // SwiftData model for a medicine entry (adjust fields to match your schema)
 @Model
 final class Medicine: Identifiable {
-    @Attribute(.unique) var id: any UnsignedInteger
+    @Attribute(.unique) var id: Int
+    
+    
     private var name: String
+    var normalizedName: String
+    
     private var descriptionText: String
     
     var publicName: String {
@@ -26,12 +30,13 @@ final class Medicine: Identifiable {
     //A single medicine can be linked to multiple users
     @Relationship var user: [User] = []
 
-    init(id: any UnsignedInteger, name: String, descriptionText: String = "", ingredients: [Ingredient] = [], adverseEffects: [AdverseEffect] = []) {
+    init(id: Int, name: String, descriptionText: String = "") {
         self.id = id
         self.name = name
+        self.normalizedName = name.lowercased()
         self.descriptionText = descriptionText
-        self.ingredients = ingredients
-        self.adverseEffects = adverseEffects
+        self.ingredients = []
+        self.adverseEffects = []
     }
     
     func getName() -> String {

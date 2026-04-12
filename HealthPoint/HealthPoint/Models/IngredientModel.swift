@@ -13,6 +13,7 @@ class Ingredient: Identifiable {
     @Attribute(.unique) var id: Int
     
     private var name: String
+    var normalizedName: String
     
     @Relationship(inverse: \Medicine.ingredients)
     private var medicines: [Medicine] = []
@@ -24,6 +25,7 @@ class Ingredient: Identifiable {
     init(id: Int, name: String, medicines: [Medicine] = []) {
         self.id = id
         self.name = name
+        self.normalizedName = name.lowercased()
         self.medicines = medicines
     }
     
