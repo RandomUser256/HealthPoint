@@ -3,6 +3,10 @@ import SwiftData
 internal import Combine
 import Foundation
 
+/// TODO:
+/// - Add safeguards for when a user is not selected and filtering is to be applied
+
+
 // View model derives dynamic content, keeps source immutable via fetched cache
 @MainActor
 final class MedicineExplorerViewModel: ObservableObject {
@@ -20,7 +24,7 @@ final class MedicineExplorerViewModel: ObservableObject {
     
     
     //private var user: UserModel?
-    @EnvironmentObject private var currentUser: UserSettings
+    @EnvironmentObject var currentUser: UserSettings
 
     /*
     func setUser(_ user: User?) {
@@ -55,8 +59,10 @@ final class MedicineExplorerViewModel: ObservableObject {
         }
         if filterByUserPreferences {
             // Exclude medicines containing any of the user's ingredient allergies or unwanted medicines by name
-            let allergySet = Set($currentUser.publicIngredientAllergies.map { $0.lowercased })
-            let unwantedSet = Set($currentUser.publicUnwantedMedicine.map { $0.lowercased })
+            let allergySet = Set(currentUser.user.publicIngredientAllergies.map { $0.getName().lowercased() })
+            
+            let unwantedSet = Set(currentUser.user.publicUnwantedMedicine.map { $0.getName().lowercased() })
+            
             result = result.filter { med in
                 let medIngredients = Set(med.ingredients.map { $0.getName().lowercased() })
                 
@@ -64,7 +70,7 @@ final class MedicineExplorerViewModel: ObservableObject {
                 let hasAllergy = !allergySet.isDisjoint(with: medIngredients)
                 
                 //
-                let isUnwantedByName = unwantedSet.contains(med.name.lowercased())
+                let isUnwantedByName = unwantedSet.contains(med.getName().lowercased())
                 
                 
                 return !hasAllergy && !isUnwantedByName
@@ -90,11 +96,11 @@ final class MedicineExplorerViewModel: ObservableObject {
 }
 
 struct MedicineExplorer: View {
-    @Environment(\._modelContext) private var modelContext
+    @Environment(\.modelContext) private var modelContext
     
     @EnvironmentObject private var currentUser: UserSettings
     
-    @Query(sort: [SortDescriptor(\Medicine.getName(), order: .forward)]) private var allMedicines: [Medicine]
+    @Query(sort: [SortDescriptor(\Medicine.publicName, order: .forward)]) private var allMedicines: [Medicine]
 
     @StateObject private var model = MedicineExplorerViewModel()
 

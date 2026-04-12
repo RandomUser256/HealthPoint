@@ -14,7 +14,7 @@ class User {
 
     private var name: String
     private var birthDate: Date
-    private var gender: Character
+    private var gender: String
     
     // Stored arrays managed by SwiftData. Use defaults to avoid KVC accessor errors.
     @Relationship(inverse: \Ingredient.user)
@@ -26,7 +26,7 @@ class User {
     
     var medicalCondition: [String] = []
     
-    init(id: UUID = UUID(), name: String = "placeholder", birthDate: Date = Date(), gender: Character = "N", ingredientAllergies: [Ingredient] = [], unwantedMedicine: [Medicine] = [], medicalCondition: [String] = []) {
+    init(id: UUID = UUID(), name: String = "placeholder", birthDate: Date = Date(), gender: String = "N", ingredientAllergies: [Ingredient] = [], unwantedMedicine: [Medicine] = [], medicalCondition: [String] = []) {
         self.id = id
         self.name = name
         self.birthDate = birthDate

@@ -15,6 +15,10 @@ final class Medicine: Identifiable {
     private var name: String
     private var descriptionText: String
     
+    var publicName: String {
+        name
+    }
+    
     @Relationship var ingredients: [Ingredient]
     @Relationship var adverseEffects: [AdverseEffect]
     
