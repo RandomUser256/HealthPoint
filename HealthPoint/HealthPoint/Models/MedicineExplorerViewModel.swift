@@ -45,6 +45,22 @@ final class MedicineExplorerViewModel: ObservableObject {
         self.displayed = displayed
         self.filterByUserPreferences = filterByUserPreferences
     }
+    
+    func buildLookupMaps(context: ModelContext) throws -> (
+        medicines: [Int: Medicine],
+        ingredients: [Int: Ingredient],
+        effects: [Int: AdverseEffect]
+    ) {
+        let medicines = try context.fetch(FetchDescriptor<Medicine>())
+        let ingredients = try context.fetch(FetchDescriptor<Ingredient>())
+        let effects = try context.fetch(FetchDescriptor<AdverseEffect>())
+
+        return (
+            Dictionary(uniqueKeysWithValues: medicines.map { ($0.id, $0) }),
+            Dictionary(uniqueKeysWithValues: ingredients.map { ($0.id, $0) }),
+            Dictionary(uniqueKeysWithValues: effects.map { ($0.id, $0) })
+        )
+    }
 
     func loadFromStore(_ items: [Medicine]) {
         // Treat the fetched items as immutable source for this session

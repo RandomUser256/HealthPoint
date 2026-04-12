@@ -25,7 +25,7 @@ class UserSettings: ObservableObject {
     }
     
     init () {
-        self.user = User(id: -1)
+        self.user = User()
     }
 }
 
@@ -43,6 +43,7 @@ struct HealthPointApp: App {
             Ingredient.self,
             Medicine.self,
             AdverseEffect.self,
+            User.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -79,6 +80,7 @@ struct HealthPointApp: App {
 // MARK: - Loading View
 private struct LoadingView: View {
     @ObservedObject var progress: DataImportModel
+    
     var body: some View {
         VStack(spacing: 20) {
             Text(progress.message)
@@ -91,53 +93,32 @@ private struct LoadingView: View {
         }
         .padding()
     }
-    
-    func importProgress() async {
-        progress.message = "Importing ingredients..."
-        do {
-            try await progress.importIngredients()
-            
-            try await progress.importAdverseEffects()
-            
-            try await progress.importMedicines()
-        } catch {
-            progress.message = "Error importing data"
-        }
-    
-        progress.currentStep += 1
-        progress.progress = Double(progress.currentStep / progress.totalSteps)
-
-        /*
-        let progress = progress.progress
-        var processed = 0
-        
-        for row in rows {
-            processed += 1
-            
-            if processed % 500 == 0 {
-                progress.progress = Double(processed) / Double(totalRows)
-            }
-            
-        }
-         */
-    }
 }
 
 // MARK: - CSV Import Helpers
 private extension HealthPointApp {
     func prepopulateIfNeeded() async {
-        guard !didPrepopulate else {
+        guard didPrepopulate else {
             // Already imported on a previous launch
             isLoading = false
             return
         }
         do {
-            loadingMessage = "Importing ingredients…"
-            try await importIngredients()
             loadingMessage = "Importing medicines…"
-            try await importMedicines()
+            try await dataImporter.importMedicines()
+            
+            loadingMessage = "Importing ingredients…"
+            try await dataImporter.importIngredients()
+            
             loadingMessage = "Importing adverse effects…"
-            try await importAdverseEffects()
+            try await dataImporter.importAdverseEffects()
+            
+            loadingMessage = "Linking medicine to ingredients…"
+            try await dataImporter.linkMedicineIngredients()
+            
+            loadingMessage = "Linking medicine to adverse effects…"
+            try await dataImporter.linkMedicineAdverseEffects()
+            
             didPrepopulate = true
         } catch {
             // You may want to present an error UI and/or reset the store

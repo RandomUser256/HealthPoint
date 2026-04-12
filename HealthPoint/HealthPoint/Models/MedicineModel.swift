@@ -13,15 +13,17 @@ import Foundation
 final class Medicine: Identifiable {
     @Attribute(.unique) var id: Int
     
-    
     private var name: String
     var normalizedName: String
     
     private var descriptionText: String
     
+    /*
     var publicName: String {
-        name
+        get { name }
+        set {name = newValue}
     }
+     */
     
     @Relationship var ingredients: [Ingredient]
     @Relationship var adverseEffects: [AdverseEffect]

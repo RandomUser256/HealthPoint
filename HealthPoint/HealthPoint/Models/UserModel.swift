@@ -12,9 +12,9 @@ import Foundation
 class User {
     @Attribute(.unique) var id: Int
 
-    private var name: String
-    private var birthDate: Date
-    private var gender: String
+    var name: String
+    var birthDate: Date
+    var gender: String
     
     // Stored arrays managed by SwiftData. Use defaults to avoid KVC accessor errors.
     @Relationship(inverse: \Ingredient.user)
@@ -23,10 +23,9 @@ class User {
     @Relationship(inverse: \Medicine.user)
     var publicUnwantedMedicine: [Medicine] = []
     
-    
     var medicalCondition: [String] = []
     
-    init(id: Int, name: String = "placeholder", birthDate: Date = Date(), gender: String = "N", ingredientAllergies: [Ingredient] = [], unwantedMedicine: [Medicine] = [], medicalCondition: [String] = []) {
+    init(id: Int, name: String, birthDate: Date = Date(), gender: String = "N", ingredientAllergies: [Ingredient] = [], unwantedMedicine: [Medicine] = [], medicalCondition: [String] = []) {
         self.id = id
         self.name = name
         self.birthDate = birthDate
@@ -34,6 +33,16 @@ class User {
         self.publicIngredientAllergies = ingredientAllergies
         self.publicUnwantedMedicine = unwantedMedicine
         self.medicalCondition = medicalCondition
+    }
+    
+    init() {
+        self.id = -1
+        self.name = "placeholder"
+        self.birthDate = Date()
+        self.gender = "N"
+        self.publicIngredientAllergies = []
+        self.publicUnwantedMedicine = []
+        self.medicalCondition = []
     }
 }
 

@@ -1,7 +1,7 @@
 import SwiftUI
 import SwiftData
-internal import Combine
 import Foundation
+internal import Combine
 
 /// TODO:
 /// - Add safeguards for when a user is not selected and filtering is to be applied
@@ -22,21 +22,48 @@ final class MedicineExplorerViewModel: ObservableObject {
     // User-based filters
     @Published var filterByUserPreferences: Bool = false { didSet { recompute() } }
     
+    var currentUser: UserSettings?
     
-    //private var user: UserModel?
-    @EnvironmentObject var currentUser: UserSettings
+    private var context: ModelContext!
 
-    /*
-    func setUser(_ user: User?) {
-        self.user = user
-        recompute()
+    func setContext(_ context: ModelContext) { self.context = context }
+
+    init() {}
+
+    func medicineLookupMap() throws -> [Int: Medicine] {
+        let meds = try context.fetch(FetchDescriptor<Medicine>())
+        return Dictionary(uniqueKeysWithValues: meds.map { ($0.id, $0) })
     }
-     */
-
+    
     func loadFromStore(_ items: [Medicine]) {
-        // Treat the fetched items as immutable source for this session
         self.source = items
         recompute()
+    }
+    func loadFromStore() {
+        refreshFromStore()
+    }
+
+    func refreshFromStore() {
+        // Load the full source snapshot lazily via paged fetches; we keep only displayed items
+        do {
+            // Update displayed with first page based on current query/sort
+            let descriptor = FetchDescriptor<Medicine>()
+            let total = try context.fetchCount(descriptor)
+            // Fetch first page
+            var fetch = FetchDescriptor<Medicine>(
+                predicate: nil,
+                sortBy: [SortDescriptor(\.normalizedName, order: sortAscending ? .forward : .reverse)],
+            )
+            fetch.fetchLimit = pageSize
+            let items = try context.fetch(fetch)
+            self.source = items
+            self.displayed = items
+            // We don't store total here; the view will compute and pass it
+        } catch {
+            // In case of fetch errors, clear displayed
+            self.displayed = []
+            self.source = []
+        }
     }
 
     func loadMoreIfNeeded(current item: Medicine?) {
@@ -46,7 +73,21 @@ final class MedicineExplorerViewModel: ObservableObject {
     }
 
     func increasePage() {
-        pageSize = min(pageSize + 50, source.count)
+        let newSize = min(pageSize + 50, (try? context.fetchCount(FetchDescriptor<Medicine>())) ?? pageSize)
+        pageSize = newSize
+        // Fetch up to newSize
+        do {
+            var fetch = FetchDescriptor<Medicine>(
+                predicate: nil,
+                sortBy: [SortDescriptor(\.normalizedName, order: sortAscending ? .forward : .reverse)],
+            )
+            fetch.fetchLimit = pageSize
+            let items = try context.fetch(fetch)
+            self.source = items
+            recompute()
+        } catch {
+            // ignore errors
+        }
     }
 
     private func recompute() {
@@ -57,30 +98,19 @@ final class MedicineExplorerViewModel: ObservableObject {
                 med.getName().localizedCaseInsensitiveContains(trimmed) || med.getDescriptionText().localizedCaseInsensitiveContains(trimmed)
             }
         }
-        if filterByUserPreferences {
-            // Exclude medicines containing any of the user's ingredient allergies or unwanted medicines by name
+        if filterByUserPreferences, let currentUser {
             let allergySet = Set(currentUser.user.publicIngredientAllergies.map { $0.getName().lowercased() })
-            
             let unwantedSet = Set(currentUser.user.publicUnwantedMedicine.map { $0.getName().lowercased() })
-            
             result = result.filter { med in
                 let medIngredients = Set(med.ingredients.map { $0.getName().lowercased() })
-                
-                //Checks if result contains allergic components. True if no value in common.
                 let hasAllergy = !allergySet.isDisjoint(with: medIngredients)
-                
-                //
                 let isUnwantedByName = unwantedSet.contains(med.getName().lowercased())
-                
-                
                 return !hasAllergy && !isUnwantedByName
             }
         }
-        //Change sorting to ascending or descending
         result.sort { lhs, rhs in
             sortAscending ? lhs.getName().localizedCaseInsensitiveCompare(rhs.getName()) == .orderedAscending : lhs.getName().localizedCaseInsensitiveCompare(rhs.getName()) == .orderedDescending
         }
-        // Apply paging
         displayed = Array(result.prefix(pageSize))
     }
 
@@ -100,13 +130,9 @@ struct MedicineExplorer: View {
     
     @EnvironmentObject private var currentUser: UserSettings
     
-    @Query(sort: [SortDescriptor(\Medicine.publicName, order: .forward)]) private var allMedicines: [Medicine]
-
     @StateObject private var model = MedicineExplorerViewModel()
-
-    init() {
-        
-    }
+    
+    @State private var allMedicines: Int = 0
 
     var body: some View {
         NavigationStack {
@@ -134,7 +160,7 @@ struct MedicineExplorer: View {
                                 }
                             }
                         }
-                        if model.displayed.count < allMedicines.count {
+                        if model.displayed.count < allMedicines {
                             HStack {
                                 Spacer()
                                 ProgressView()
@@ -164,10 +190,14 @@ struct MedicineExplorer: View {
                 }
             }
             .onAppear {
-                model.loadFromStore(allMedicines)
+                model.setContext(modelContext)
+                model.currentUser = currentUser
+                model.loadFromStore()
+                let descriptor = FetchDescriptor<Medicine>()
+                allMedicines = (try? modelContext.fetchCount(descriptor)) ?? 0
             }
-            .onChange(of: allMedicines) { _, newValue in
-                model.loadFromStore(newValue)
+            .onChange(of: allMedicines) { _, _ in
+                model.loadFromStore()
             }
             .navigationDestination(for: Medicine.self) { medicine in
                 MedicineDetailView(medicine: medicine)

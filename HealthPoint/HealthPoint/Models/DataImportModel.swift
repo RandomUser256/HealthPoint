@@ -16,7 +16,7 @@ class DataImportModel: ObservableObject {
     
     private var didPrepopulateStore: Bool = false
     
-    
+    //Variables for progress tracking when importing data
     let totalSteps = 5.0  // ingredients, meds, effects, link1, link2
     var currentStep = 0.0
     
@@ -39,26 +39,6 @@ class DataImportModel: ObservableObject {
     init() {
         
     }
-
-    /*
-    func importProgress() {
-        message = "Importing ingredients..."
-        try await importIngredients()
-        currentStep += 1
-        progress = currentStep / totalSteps
-
-        let totalRows = rows.count
-        var processed = 0
-
-        for row in rows {
-            processed += 1
-            
-            if processed % 500 == 0 {
-                progress = Double(processed) / Double(totalRows)
-            }
-        }
-    }
-     */
     
     func buildLookupMaps(context: ModelContext) throws -> (
         medicines: [Int: Medicine],
@@ -74,6 +54,16 @@ class DataImportModel: ObservableObject {
             Dictionary(uniqueKeysWithValues: ingredients.map { ($0.id, $0) }),
             Dictionary(uniqueKeysWithValues: effects.map { ($0.id, $0) })
         )
+    }
+
+    func importProgress() {
+        if (currentStep >= 5) {
+            return
+        }
+        
+        currentStep += 1
+        
+        progress = currentStep*5
     }
 
     func linkMedicineIngredients() async throws {
@@ -106,6 +96,8 @@ class DataImportModel: ObservableObject {
         }
         
         try context.save()
+        
+        importProgress()
     }
     
     func linkMedicineAdverseEffects() async throws {
@@ -137,6 +129,8 @@ class DataImportModel: ObservableObject {
         }
         
         try context.save()
+        
+        importProgress()
     }
 
     func importMedicines() async throws {
@@ -146,24 +140,19 @@ class DataImportModel: ObservableObject {
         var batchCount = 0
         let batchSize = 500  // tune this
         
-        try streamCSV(named: "medicines") { row in
+        try streamCSV(named: "vocab_rxnorm_product") { row in
             let id = row["rxnorm_id"] ?? row.values.first ?? ""
             let numericId = Int(id)
             
-            let name = row["name"] ?? ""
-            let description = row["description"] ?? ""
+            let name = row["rxnorm_name"] ?? ""
+            let description = /*row["description"] ?? */ ""
             //let ingredients = row["ingredients"]?.split(separator: ";").map { String($0).trimmingCharacters(in: .whitespaces) } ?? []
             guard !name.isEmpty else { return }
             
-            let safeId: Int
+            //let safeId: Int
             
-            if let testId = numericId, testId >= 0 {
-                safeId = testId
-            } else {
-                safeId = -1
-            }
-            
-            guard let id = numericId, id >= 0 else { return }
+            //guard let id = numericId, id >= 0 else { return }
+            let safeId = (numericId ?? -1) >= 0 ? numericId! : -1
             
             //let med = Medicine(name: name, descriptionText: description, ingredients: ingredients)
             let med = Medicine(id: safeId, name: name, descriptionText: description)
@@ -178,6 +167,8 @@ class DataImportModel: ObservableObject {
             }
         }
         try context.save()
+        
+        importProgress()
     }
 
     func importAdverseEffects() async throws {
@@ -186,7 +177,7 @@ class DataImportModel: ObservableObject {
         var batchCount = 0
         let batchSize = 500  // tune this
         
-        try streamCSV(named: "adverse_effects") { row in
+        try streamCSV(named: "vocab_meddra_adverse_effect") { row in
             
             let idStr = row["meddra_id"] ?? row.values.first ?? ""
             let numericId = Int(idStr)
@@ -214,6 +205,8 @@ class DataImportModel: ObservableObject {
         }
         
         try context.save()
+        
+        importProgress()
     }
     
     func importIngredients() async throws {
@@ -222,7 +215,7 @@ class DataImportModel: ObservableObject {
         var batchCount = 0
         let batchSize = 500  // tune this
         
-        try streamCSV(named: "adverse_effects") { row in
+        try streamCSV(named: "vocab_rxnorm_ingredient") { row in
             let idStr = row["rxnorm_id"] ?? row.values.first ?? ""
             let numericId = Int(idStr)
             
@@ -247,6 +240,8 @@ class DataImportModel: ObservableObject {
         }
         
         try context.save()
+        
+        importProgress()
     }
     
     // Minimal CSV reader that returns an array of dictionaries keyed by header names
