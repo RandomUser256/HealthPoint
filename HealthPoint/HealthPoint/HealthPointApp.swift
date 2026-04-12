@@ -10,6 +10,9 @@
 ///- Add corresponding 3 csv files so the app can populate local database
 ///- Correct readCSV() function to be safeguarded for extremely large csv files
 
+///Notes
+///- Any model class with id=-1 had an invalid id in the original dataset
+
 import SwiftUI
 import SwiftData
 internal import Combine
@@ -115,7 +118,7 @@ private extension HealthPointApp {
             // Adjust indices/keys to your CSV format
             let name = row["name"] ?? row.values.first ?? ""
             if name.isEmpty { continue }
-            let ingredient = Ingredient(name: name)
+            let ingredient = Ingredient(id:   name: name)
             context.insert(ingredient)
         }
         try context.save()
@@ -125,11 +128,21 @@ private extension HealthPointApp {
         let context = sharedModelContainer.mainContext
         let rows = try readCSV(named: "medicines") // medicines.csv in bundle
         for row in rows {
+            let id = row["meddra_id"] ?? row.values.first ?? ""
+            let numericId = Int(id)
+            
             let name = row["name"] ?? ""
             let description = row["description"] ?? ""
             //let ingredients = row["ingredients"]?.split(separator: ";").map { String($0).trimmingCharacters(in: .whitespaces) } ?? []
             if name.isEmpty { continue }
             
+            let safeId: Int
+            
+            if let testId = numericId, testId >= 0 {
+                safeId = testId
+            } else {
+                safeId = -1
+            }
             
             //let med = Medicine(name: name, descriptionText: description, ingredients: ingredients)
             let med = Medicine(name: name, descriptionText: description)
@@ -143,10 +156,22 @@ private extension HealthPointApp {
         let context = sharedModelContainer.mainContext
         let rows = try readCSV(named: "adverse_effects") // adverse_effects.csv in bundle
         for row in rows {
-            let name = row["title"] ?? row["name"] ?? ""
-            let meddraTermType = row["severity"] ?? ""
+            let id = row["meddra_id"] ?? row.values.first ?? ""
+            let numericId = Int(id)
+            
+            let name = row["meddra_name"] ?? row["name"] ?? ""
+            let meddraTermType = row["meddra_term_type"] ?? ""
             if name.isEmpty { continue }
-            let effect = AdverseEffect(name: name, meddraTermType: meddraTermType)
+            
+            let safeId: Int
+            
+            if let testId = numericId, testId >= 0 {
+                safeId = testId
+            } else {
+                safeId = -1
+            }
+            
+            let effect = AdverseEffect(id: safeId, name: name, meddraTermType: meddraTermType)
             context.insert(effect)
         }
         try context.save()

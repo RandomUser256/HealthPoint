@@ -11,7 +11,7 @@ import Foundation
 // SwiftData model for a medicine entry (adjust fields to match your schema)
 @Model
 final class Medicine: Identifiable {
-    @Attribute(.unique) var id: UUID
+    @Attribute(.unique) var id: any UnsignedInteger
     private var name: String
     private var descriptionText: String
     
@@ -26,7 +26,7 @@ final class Medicine: Identifiable {
     //A single medicine can be linked to multiple users
     @Relationship var user: [User] = []
 
-    init(id: UUID = UUID(), name: String, descriptionText: String = "", ingredients: [Ingredient] = [], adverseEffects: [AdverseEffect] = []) {
+    init(id: any UnsignedInteger, name: String, descriptionText: String = "", ingredients: [Ingredient] = [], adverseEffects: [AdverseEffect] = []) {
         self.id = id
         self.name = name
         self.descriptionText = descriptionText

@@ -9,7 +9,7 @@ import Foundation
 
 @Model
 class AdverseEffect: Identifiable {
-    @Attribute(.unique) var id: UUID
+    @Attribute(.unique) var id: Int
     
     private var name: String
     
@@ -18,7 +18,7 @@ class AdverseEffect: Identifiable {
     @Relationship(inverse: \Medicine.adverseEffects)
     var medicines: [Medicine]
     
-    init(id: UUID = UUID(), name: String, meddraTermType: String, medicines: [Medicine] = []) {
+    init(id: Int, name: String, meddraTermType: String, medicines: [Medicine] = []) {
         self.id = id
         self.name = name
         self.meddraTermType = meddraTermType

@@ -10,7 +10,7 @@ import Foundation
 
 @Model
 class User {
-    @Attribute(.unique) var id: UUID
+    @Attribute(.unique) var id: Int
 
     private var name: String
     private var birthDate: Date
@@ -26,7 +26,7 @@ class User {
     
     var medicalCondition: [String] = []
     
-    init(id: UUID = UUID(), name: String = "placeholder", birthDate: Date = Date(), gender: String = "N", ingredientAllergies: [Ingredient] = [], unwantedMedicine: [Medicine] = [], medicalCondition: [String] = []) {
+    init(id: Int, name: String = "placeholder", birthDate: Date = Date(), gender: String = "N", ingredientAllergies: [Ingredient] = [], unwantedMedicine: [Medicine] = [], medicalCondition: [String] = []) {
         self.id = id
         self.name = name
         self.birthDate = birthDate

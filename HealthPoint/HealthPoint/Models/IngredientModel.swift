@@ -10,18 +10,18 @@ import Foundation
 
 @Model
 class Ingredient: Identifiable {
-    @Attribute(.unique) var id: UUID
+    @Attribute(.unique) var id: Int
     
     private var name: String
     
-    @Relationship(inverse: \Medicine.adverseEffects)
+    @Relationship(inverse: \Medicine.ingredients)
     private var medicines: [Medicine] = []
     
     //Used to link to a user if listed in allergy list
     //A single ingredient can be linked to multiple users
     @Relationship var user: [User] = []
     
-    init(id: UUID = UUID(), name: String, medicines: [Medicine] = []) {
+    init(id: Int, name: String, medicines: [Medicine] = []) {
         self.id = id
         self.name = name
         self.medicines = medicines
