@@ -1,0 +1,203 @@
+import SwiftUI
+import SwiftData
+internal import Combine
+import Foundation
+
+// View model derives dynamic content, keeps source immutable via fetched cache
+@MainActor
+final class MedicineExplorerViewModel: ObservableObject {
+    // Immutable cache of fetched results (treated as source snapshot)
+    private var source: [Medicine] = []
+
+    // Paging and filters
+    @Published var query: String = "" { didSet { recompute() } }
+    @Published var sortAscending: Bool = true { didSet { recompute() } }
+    @Published var pageSize: Int = 50 { didSet { recompute() } }
+    @Published private(set) var displayed: [Medicine] = []
+
+    // User-based filters
+    @Published var filterByUserPreferences: Bool = false { didSet { recompute() } }
+    
+    
+    //private var user: UserModel?
+    @EnvironmentObject private var currentUser: UserSettings
+
+    /*
+    func setUser(_ user: User?) {
+        self.user = user
+        recompute()
+    }
+     */
+
+    func loadFromStore(_ items: [Medicine]) {
+        // Treat the fetched items as immutable source for this session
+        self.source = items
+        recompute()
+    }
+
+    func loadMoreIfNeeded(current item: Medicine?) {
+        guard let item, let idx = displayed.firstIndex(where: { $0.id == item.id }) else { return }
+        let threshold = displayed.count - 10
+        if idx >= threshold { increasePage() }
+    }
+
+    func increasePage() {
+        pageSize = min(pageSize + 50, source.count)
+    }
+
+    private func recompute() {
+        var result = source
+        let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !trimmed.isEmpty {
+            result = result.filter { med in
+                med.getName().localizedCaseInsensitiveContains(trimmed) || med.getDescriptionText().localizedCaseInsensitiveContains(trimmed)
+            }
+        }
+        if filterByUserPreferences {
+            // Exclude medicines containing any of the user's ingredient allergies or unwanted medicines by name
+            let allergySet = Set($currentUser.publicIngredientAllergies.map { $0.lowercased })
+            let unwantedSet = Set($currentUser.publicUnwantedMedicine.map { $0.lowercased })
+            result = result.filter { med in
+                let medIngredients = Set(med.ingredients.map { $0.getName().lowercased() })
+                
+                //Checks if result contains allergic components. True if no value in common.
+                let hasAllergy = !allergySet.isDisjoint(with: medIngredients)
+                
+                //
+                let isUnwantedByName = unwantedSet.contains(med.name.lowercased())
+                
+                
+                return !hasAllergy && !isUnwantedByName
+            }
+        }
+        //Change sorting to ascending or descending
+        result.sort { lhs, rhs in
+            sortAscending ? lhs.getName().localizedCaseInsensitiveCompare(rhs.getName()) == .orderedAscending : lhs.getName().localizedCaseInsensitiveCompare(rhs.getName()) == .orderedDescending
+        }
+        // Apply paging
+        displayed = Array(result.prefix(pageSize))
+    }
+
+    // Sectioning by first letter of name
+    var sectioned: [(key: String, items: [Medicine])] {
+        let groups = Dictionary(grouping: displayed) { med in
+            String(med.getName().prefix(1)).uppercased()
+        }
+        return groups.keys.sorted().map { key in
+            (key, groups[key]!.sorted { $0.getName().localizedCaseInsensitiveCompare($1.getName()) == .orderedAscending })
+        }
+    }
+}
+
+struct MedicineExplorer: View {
+    @Environment(\._modelContext) private var modelContext
+    
+    @EnvironmentObject private var currentUser: UserSettings
+    
+    @Query(sort: [SortDescriptor(\Medicine.getName(), order: .forward)]) private var allMedicines: [Medicine]
+
+    @StateObject private var model = MedicineExplorerViewModel()
+
+    init() {
+        
+    }
+
+    var body: some View {
+        NavigationStack {
+            Group {
+                if model.sectioned.isEmpty {
+                    ContentUnavailableView("No results", systemImage: "pills", description: Text("Try adjusting your search or filters."))
+                } else {
+                    List {
+                        ForEach(model.sectioned, id: \.key) { section in
+                            Section(section.key) {
+                                ForEach(section.items) { item in
+                                    NavigationLink(value: item) {
+                                        VStack(alignment: .leading, spacing: 4) {
+                                            Text(item.getName())
+                                                .font(.headline)
+                                            Text(item.getDescriptionText())
+                                                .font(.subheadline)
+                                                .foregroundStyle(.secondary)
+                                                .lineLimit(2)
+                                        }
+                                        .task {
+                                            model.loadMoreIfNeeded(current: item)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if model.displayed.count < allMedicines.count {
+                            HStack {
+                                Spacer()
+                                ProgressView()
+                                    .onAppear { model.increasePage() }
+                                Spacer()
+                            }
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Explore Medicines")
+            .searchable(text: $model.query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search medicines")
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Menu {
+                        Picker("Sort order", selection: $model.sortAscending) {
+                            Text("Name A–Z").tag(true)
+                            Text("Name Z–A").tag(false)
+                        }
+                        .pickerStyle(.inline)
+                        Toggle(isOn: $model.filterByUserPreferences) {
+                            Label("Respect user allergies & unwanted", systemImage: "line.3.horizontal.decrease.circle")
+                        }
+                    } label: {
+                        Label("Filters", systemImage: "arrow.up.arrow.down.circle")
+                    }
+                }
+            }
+            .onAppear {
+                model.loadFromStore(allMedicines)
+            }
+            .onChange(of: allMedicines) { _, newValue in
+                model.loadFromStore(newValue)
+            }
+            .navigationDestination(for: Medicine.self) { medicine in
+                MedicineDetailView(medicine: medicine)
+            }
+        }
+    }
+}
+
+struct MedicineDetailView: View {
+    let medicine: Medicine
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                Text(medicine.getName())
+                    .font(.largeTitle.bold())
+                Text(medicine.getDescriptionText())
+                    .font(.body)
+                if !medicine.ingredients.isEmpty {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Ingredients").font(.headline)
+                        ForEach(medicine.ingredients, id: \.self) { ing in
+                            Text(ing.getName())
+                        }
+                    }
+                }
+                Spacer(minLength: 0)
+            }
+            .padding()
+        }
+        .navigationTitle(medicine.getName())
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+#Preview {
+    // Preview without a user
+    MedicineExplorer()
+}

@@ -7,6 +7,19 @@
 
 import SwiftUI
 import SwiftData
+internal import Combine
+
+class UserSettings: ObservableObject {
+    @Published var user: User
+    
+    init(user: User) {
+        self.user = user
+    }
+    
+    init () {
+        self.user = User()
+    }
+}
 
 @main
 struct HealthPointApp: App {
@@ -26,7 +39,13 @@ struct HealthPointApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(UserSettings())
         }
         .modelContainer(sharedModelContainer)
+        
+    }
+    
+    init() {
+        print("Disk storage path: ", URL.applicationSupportDirectory.path(percentEncoded: false))
     }
 }

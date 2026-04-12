@@ -10,9 +10,12 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+    //@Query private var items: [Item]
+    
+    @EnvironmentObject var currentUser: UserSettings
 
     var body: some View {
+        /*
         NavigationSplitView {
             List {
                 ForEach(items) { item in
@@ -37,8 +40,12 @@ struct ContentView: View {
         } detail: {
             Text("Select an item")
         }
+         */
+        
+        MedicineExplorer()
     }
 
+    /*
     private func addItem() {
         withAnimation {
             let newItem = Item(timestamp: Date())
@@ -52,7 +59,9 @@ struct ContentView: View {
                 modelContext.delete(items[index])
             }
         }
+         
     }
+     */
 }
 
 #Preview {
