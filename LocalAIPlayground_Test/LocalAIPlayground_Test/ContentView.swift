@@ -1,14 +1,21 @@
 //
 //  ContentView.swift
-//  LocalAIPlayground_Test
+//  HealthPoint
 //
-//  Created by Máximo Magallanes Urtuzuástegui on 11/04/26.
+//  Created by Máximo Magallanes Urtuzuástegui on 10/04/26.
 //
 
 import SwiftUI
+import SwiftData
 import FoundationModels
 
-struct LocalAIView: View {
+struct ContentView: View {
+    //Used to call swiftData model actions
+    @Environment(\.modelContext) private var modelContext
+    
+    //References global environmentObject of current user
+    @EnvironmentObject var currentUser: UserSettings
+
     @State private var prompt = ""
     @State private var response = ""
     @State private var isLoading = false
@@ -22,67 +29,77 @@ struct LocalAIView: View {
         ])
         return ChatOrchestrator(retriever: retriever)
     }()
-
+    
     var body: some View {
-        VStack(spacing: 16) {
-            Text("Local AI Assistant")
-                .font(.title)
-                .bold()
-
-            // Personality picker
-            Picker("Personality", selection: $selectedPersonality) {
-                ForEach(ChatPersonality.allCases) { persona in
-                    Text(persona.displayName).tag(persona)
+        TabView {
+            MedicineExplorer()
+                .tabItem {
+                    Image(systemName: "pencil")
+                    Text("Medicinas")
                 }
-            }
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
+            VStack(spacing: 16) {
+                Text("Local AI Assistant")
+                    .font(.title)
+                    .bold()
 
-            TextField("Enter your prompt...", text: $prompt, axis: .vertical)
-                .textFieldStyle(.roundedBorder)
-                .padding(.horizontal)
-                .lineLimit(3, reservesSpace: true)
-
-            Button(action: generate) {
-                if isLoading {
-                    ProgressView().progressViewStyle(.circular)
-                } else {
-                    Text("Generate Response")
-                }
-            }
-            .disabled(prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isLoading)
-            .buttonStyle(.borderedProminent)
-            .padding(.horizontal)
-
-            ScrollView {
-                VStack(alignment: .leading, spacing: 12) {
-                    if !response.isEmpty {
-                        Text(response)
-                            .font(.body)
+                // Personality picker
+                Picker("Personality", selection: $selectedPersonality) {
+                    ForEach(ChatPersonality.allCases) { persona in
+                        Text(persona.displayName).tag(persona)
                     }
+                }
+                .pickerStyle(.segmented)
+                .padding(.horizontal)
 
-                    if !usedContext.isEmpty {
-                        Divider()
-                        Text("Used Context")
-                            .font(.headline)
-                        ForEach(Array(usedContext.enumerated()), id: \.offset) { idx, snippet in
-                            Text("\(idx + 1). \(snippet)")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
+                TextField("Enter your prompt...", text: $prompt, axis: .vertical)
+                    .textFieldStyle(.roundedBorder)
+                    .padding(.horizontal)
+                    .lineLimit(3, reservesSpace: true)
+
+                Button(action: generate) {
+                    if isLoading {
+                        ProgressView().progressViewStyle(.circular)
+                    } else {
+                        Text("Generate Response")
+                    }
+                }
+                .disabled(prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isLoading)
+                .buttonStyle(.borderedProminent)
+                .padding(.horizontal)
+
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 12) {
+                        if !response.isEmpty {
+                            Text(response)
+                                .font(.body)
+                        }
+
+                        if !usedContext.isEmpty {
+                            Divider()
+                            Text("Used Context")
+                                .font(.headline)
+                            ForEach(Array(usedContext.enumerated()), id: \.offset) { idx, snippet in
+                                Text("\(idx + 1). \(snippet)")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
                         }
                     }
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxHeight: 320)
+                .background(Color(.secondarySystemBackground))
+                .cornerRadius(12)
+                .padding(.horizontal)
             }
-            .frame(maxHeight: 320)
-            .background(Color(.secondarySystemBackground))
-            .cornerRadius(12)
-            .padding(.horizontal)
+            .tabItem {
+                Image(systemName: "plus")
+                Text("Medicinas")
+            }
+            .padding()
         }
-        .padding()
     }
-
     private func generate() {
         isLoading = true
         response = ""
@@ -101,5 +118,6 @@ struct LocalAIView: View {
 }
 
 #Preview {
-    LocalAIView()
+    ContentView()
+        .modelContainer(for: Item.self, inMemory: true)
 }

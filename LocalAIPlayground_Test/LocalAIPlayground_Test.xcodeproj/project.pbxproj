@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		882F99632F8B1A2900E7D2D4 /* LocalAIPlayground_Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocalAIPlayground_Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		882F99632F8B1A2900E7D2D4 /* LocalAIPlayground_Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = LocalAIPlayground_Test.app; path = "/Users/curso/Documents/GitHub/HealthPoint/LocalAIPlayground_Test/build/Debug-iphoneos/LocalAIPlayground_Test.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -33,16 +33,7 @@
 			isa = PBXGroup;
 			children = (
 				882F99652F8B1A2900E7D2D4 /* LocalAIPlayground_Test */,
-				882F99642F8B1A2900E7D2D4 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		882F99642F8B1A2900E7D2D4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				882F99632F8B1A2900E7D2D4 /* LocalAIPlayground_Test.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -95,7 +86,7 @@
 			mainGroup = 882F995A2F8B1A2900E7D2D4;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 882F99642F8B1A2900E7D2D4 /* Products */;
+			productRefGroup = 882F995A2F8B1A2900E7D2D4;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
