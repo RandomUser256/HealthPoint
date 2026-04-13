@@ -7,8 +7,14 @@
 
 ///TODO:
 ///- Attend vulnerabilities in MedicineExplorer view
-///- Add corresponding 3 csv files so the app can populate local database
-///- Correct readCSV() function to be safeguarded for extremely large csv files
+///- Check if app is not reloading data each boot up
+
+///ERRORS:
+/// - Does not list medicine ingredients
+///     - When checking if ingredient list is empty, it shows up as empty when it shouldnt
+///     - Have not checked if medicine.ingredients is populated correctly
+/// - Paging is not working, all the medicine load at once
+/// - When changing alphabetical order of listed items, the app does not load back to main list
 
 ///Notes
 ///- Any model class with id=-1 had an invalid id in the original dataset
@@ -17,6 +23,7 @@ import SwiftUI
 import SwiftData
 internal import Combine
 
+//Structure for storing the user currently in session
 class UserSettings: ObservableObject {
     @Published var user: User
     
@@ -31,12 +38,17 @@ class UserSettings: ObservableObject {
 
 @main
 struct HealthPointApp: App {
+    //Persisted storage indicator if dataset has previously been loaded
     @AppStorage("didPrepopulateStore") private var didPrepopulate: Bool = false
     @State private var isLoading: Bool = true
+    
+    //Message for debugging purposes
     @State private var loadingMessage: String = "Preparing data…"
     
+    //Handles csv reading and maping to SwiftData objects
     @State private var dataImporter: DataImportModel = DataImportModel()
     
+    //Loads different SwiftData schema
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -57,14 +69,17 @@ struct HealthPointApp: App {
     var body: some Scene {
         WindowGroup {
             Group {
+                //Loading progress var view for processing dataset
                 if isLoading {
                     LoadingView(progress: dataImporter)
                 } else {
+                    //main content view
                     ContentView()
                         .environmentObject(UserSettings())
                 }
             }
             .task {
+                //Loads all data
                 await prepopulateIfNeeded()
             }
         }
@@ -77,7 +92,7 @@ struct HealthPointApp: App {
     }
 }
 
-// MARK: - Loading View
+// MARK: - Loading View progress bar
 private struct LoadingView: View {
     @ObservedObject var progress: DataImportModel
     
@@ -97,6 +112,7 @@ private struct LoadingView: View {
 
 // MARK: - CSV Import Helpers
 private extension HealthPointApp {
+    //Calls importing functions for database
     func prepopulateIfNeeded() async {
         guard didPrepopulate else {
             // Already imported on a previous launch

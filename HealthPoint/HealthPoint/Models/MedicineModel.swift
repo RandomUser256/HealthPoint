@@ -14,17 +14,19 @@ final class Medicine: Identifiable {
     @Attribute(.unique) var id: Int
     
     private var name: String
+    //Version with no capitalization, for optimizing search up
     var normalizedName: String
     
     private var descriptionText: String
     
-    /*
+    /* MARKED ERRORS WHEN COMPILING
     var publicName: String {
         get { name }
         set {name = newValue}
     }
      */
     
+    //Array to reference ingredients and adverseEffects related to this medicine
     @Relationship var ingredients: [Ingredient]
     @Relationship var adverseEffects: [AdverseEffect]
     

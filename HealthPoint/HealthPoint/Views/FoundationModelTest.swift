@@ -4,7 +4,7 @@
 //
 //  Created by Máximo on 4/11/26.
 //
-
+/*
 import SwiftUI
 import FoundationModels
 
@@ -32,3 +32,5 @@ struct GenerativeView: View {
         }
     }
 }
+
+*/

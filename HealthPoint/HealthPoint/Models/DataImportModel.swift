@@ -11,15 +11,16 @@ internal import Combine
 class DataImportModel: ObservableObject {
     @Published var data: [Data] = []
     
+    //Variable for import progress tracking
     @Published var message: String = ""
     @Published var progress: Double = 0.0  // 0 → 1
-    
-    private var didPrepopulateStore: Bool = false
-    
-    //Variables for progress tracking when importing data
     let totalSteps = 5.0  // ingredients, meds, effects, link1, link2
     var currentStep = 0.0
     
+    //Indicates if importing has been previously done or not
+    private var didPrepopulateStore: Bool = false
+    
+    //Stores SwiftData schema for persisted objects
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -40,11 +41,13 @@ class DataImportModel: ObservableObject {
         
     }
     
+    //Builds dictionaries of (key, item) for each object type. Speeds up lookups
     func buildLookupMaps(context: ModelContext) throws -> (
         medicines: [Int: Medicine],
         ingredients: [Int: Ingredient],
         effects: [Int: AdverseEffect]
     ) {
+        //Fetches objects of each class type from disk
         let medicines = try context.fetch(FetchDescriptor<Medicine>())
         let ingredients = try context.fetch(FetchDescriptor<Ingredient>())
         let effects = try context.fetch(FetchDescriptor<AdverseEffect>())
@@ -56,6 +59,7 @@ class DataImportModel: ObservableObject {
         )
     }
 
+    //Updates progress tracker indicators
     func importProgress() {
         if (currentStep >= 5) {
             return
@@ -77,8 +81,9 @@ class DataImportModel: ObservableObject {
         let batchSize = 500
         
         for row in rows {
-            guard let medId = Int(row["medicine_id"] ?? ""),
-                  let ingId = Int(row["ingredient_id"] ?? ""),
+            //Creates inmutable vraiables for target id (medicine and ingredient), extracts the corresponding object for each
+            guard let medId = Int(row["rxnorm_id"] ?? ""),
+                  let ingId = Int(row["rxnorm_id_ingredient"] ?? ""),
                   let medicine = maps.medicines[medId],
                   let ingredient = maps.ingredients[ingId]
             else { continue }
@@ -88,15 +93,17 @@ class DataImportModel: ObservableObject {
                 medicine.ingredients.append(ingredient)
             }
             
+            //Indicator for loading batch, when module is cero then all entries have been processed
             batchCount += 1
-            
             if batchCount % batchSize == 0 {
+                //Saves changes to disk
                 try context.save()
             }
         }
         
         try context.save()
         
+        //Update loading progress
         importProgress()
     }
     
@@ -111,8 +118,9 @@ class DataImportModel: ObservableObject {
         let batchSize = 500
         
         for row in rows {
-            guard let medId = Int(row["medicine_id"] ?? ""),
-                  let effId = Int(row["adverse_effect_id"] ?? ""),
+            //Creates inmutable vraiables for target id (medicine and adverseEffect), extracts the corresponding object for each
+            guard let medId = Int(row["rxnorm_id"] ?? ""),
+                  let effId = Int(row["meddra_id"] ?? ""),
                   let medicine = maps.medicines[medId],
                   let effect = maps.effects[effId]
             else { continue }
@@ -121,8 +129,8 @@ class DataImportModel: ObservableObject {
                 medicine.adverseEffects.append(effect)
             }
             
+            //Indicator for loading batch, when module is cero then all entries have been processed
             batchCount += 1
-            
             if batchCount % batchSize == 0 {
                 try context.save()
             }
@@ -133,6 +141,7 @@ class DataImportModel: ObservableObject {
         importProgress()
     }
 
+    //Import object registries
     func importMedicines() async throws {
         let context = sharedModelContainer.mainContext
         //let rows = try streamCSV(named: "medicines") // medicines.csv in bundle
@@ -171,6 +180,7 @@ class DataImportModel: ObservableObject {
         importProgress()
     }
 
+    //Import object registries
     func importAdverseEffects() async throws {
         let context = sharedModelContainer.mainContext
         
@@ -209,6 +219,7 @@ class DataImportModel: ObservableObject {
         importProgress()
     }
     
+    //Import object registries
     func importIngredients() async throws {
         let context = sharedModelContainer.mainContext
         
@@ -267,7 +278,7 @@ class DataImportModel: ObservableObject {
         return rows
     }
     
-    // Minimal CSV reader that returns an array of dictionaries keyed by header names
+    // Minimal CSV reader that reads file in chunks, meant for extremely large files
     func streamCSV(
         named resourceName: String,
         rowHandler: (_ row: [String: String]) -> Void

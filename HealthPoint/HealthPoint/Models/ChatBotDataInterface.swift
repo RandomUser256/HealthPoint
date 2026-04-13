@@ -8,6 +8,8 @@ import SwiftData
 import Foundation
 internal import Combine
 
+//CURRENTLY NONE FUNCTIONAL
+
 class DataInterface: ObservableObject {
     var medicinesByName: [String: Medicine] = [:]
     var ingredientsToMedicines: [String: [Medicine]] = [:]

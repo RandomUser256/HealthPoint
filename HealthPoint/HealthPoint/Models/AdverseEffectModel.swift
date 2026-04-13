@@ -16,6 +16,7 @@ class AdverseEffect: Identifiable {
     
     private var meddraTermType: String
     
+    //Stores related medicine, and updates corresponding medicine register
     @Relationship(inverse: \Medicine.adverseEffects)
     var medicines: [Medicine]
     

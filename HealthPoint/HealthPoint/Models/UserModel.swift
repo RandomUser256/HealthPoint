@@ -20,9 +20,11 @@ class User {
     @Relationship(inverse: \Ingredient.user)
     var publicIngredientAllergies: [Ingredient] = []
     
+    //Array of unwanted/blackliste medicine by user for whatever reason
     @Relationship(inverse: \Medicine.user)
     var publicUnwantedMedicine: [Medicine] = []
     
+    //String to sotre medical conditions, in support is added later
     var medicalCondition: [String] = []
     
     init(id: Int, name: String, birthDate: Date = Date(), gender: String = "N", ingredientAllergies: [Ingredient] = [], unwantedMedicine: [Medicine] = [], medicalCondition: [String] = []) {

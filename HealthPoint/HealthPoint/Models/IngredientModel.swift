@@ -15,6 +15,7 @@ class Ingredient: Identifiable {
     private var name: String
     var normalizedName: String
     
+    //Stores related medicine, and updates corresponding medicine register
     @Relationship(inverse: \Medicine.ingredients)
     private var medicines: [Medicine] = []
     
