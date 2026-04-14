@@ -22,26 +22,9 @@
 		8863190C2F8DC7C000A4AC25 /* SaludPuntual_DatabaseTool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SaludPuntual_DatabaseTool; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		886319522F8DE00D00A4AC25 /* Exceptions for "SaludPuntual_DatabaseTool" folder in "Copy Files" phase from "SaludPuntual_DatabaseTool" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 8863190A2F8DC7C000A4AC25 /* CopyFiles */;
-			membershipExceptions = (
-				medicine_adverse_effects.csv,
-				medicine_ingredients.csv,
-				vocab_meddra_adverse_effect.csv,
-				vocab_rxnorm_ingredient.csv,
-				vocab_rxnorm_product.csv,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		8863190E2F8DC7C000A4AC25 /* SaludPuntual_DatabaseTool */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				886319522F8DE00D00A4AC25 /* Exceptions for "SaludPuntual_DatabaseTool" folder in "Copy Files" phase from "SaludPuntual_DatabaseTool" target */,
-			);
 			path = SaludPuntual_DatabaseTool;
 			sourceTree = "<group>";
 		};

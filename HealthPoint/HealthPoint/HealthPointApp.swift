@@ -94,13 +94,7 @@ struct HealthPointApp: App {
 
     init() {
         preloadStoreIfNeeded()
-        /*
-        let storeURL = appSupport.appendingPathComponent("default.store")
         
-        let config = ModelConfiguration(url: storeURL)
-        
-        sharedModelContainer = try! ModelContainer(for: Item.self, Medicine.self, Ingredient.self, AdverseEffect.self, User.self, configurations: config)
-        */
         let fileManager = FileManager.default
         
         let appSupport = try! fileManager.url(

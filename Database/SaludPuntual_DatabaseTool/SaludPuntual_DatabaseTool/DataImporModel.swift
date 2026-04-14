@@ -114,7 +114,7 @@ class DataImportModel: ObservableObject {
             else { return }
             
             // Avoid duplicates
-            if !medicine.ingredients.contains(where: { $0.id == ingId }) {
+            if !(medicine.ingredients.contains(where: { $0.id == ingId })) {
                 medicine.ingredients.append(ingredient)
             }
             
@@ -150,7 +150,7 @@ class DataImportModel: ObservableObject {
                   let effect = maps.effects[effId]
             else { return }
             
-            if !medicine.adverseEffects.contains(where: { $0.id == effId }) {
+            if !(medicine.adverseEffects.contains(where: { $0.id == effId })) {
                 medicine.adverseEffects.append(effect)
             }
             

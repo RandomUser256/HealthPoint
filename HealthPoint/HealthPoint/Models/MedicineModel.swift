@@ -27,12 +27,12 @@ final class Medicine: Identifiable {
      */
     
     //Array to reference ingredients and adverseEffects related to this medicine
-    @Relationship var ingredients: [Ingredient]
-    @Relationship var adverseEffects: [AdverseEffect]
+    var ingredients: [Ingredient]
+    var adverseEffects: [AdverseEffect]
     
     //Used to link to a user if listed in allergy list
     //A single medicine can be linked to multiple users
-    @Relationship var user: [User] = []
+    var user: [User] = []
 
     init(id: Int, name: String, descriptionText: String = "") {
         self.id = id

@@ -279,6 +279,15 @@ struct MedicineDetailView: View {
                     }
                 }
                 Spacer(minLength: 0)
+                if !medicine.adverseEffects.isEmpty {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Side effects").font(.headline)
+                        ForEach(medicine.adverseEffects, id: \.self) { ing in
+                            Text(ing.getName())
+                        }
+                    }
+                }
+                Spacer(minLength: 0)
             }
             .padding()
         }
