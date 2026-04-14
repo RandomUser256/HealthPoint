@@ -6,6 +6,18 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXCopyFilesBuildPhase section */
+		8863195F2F8DE5F200A4AC25 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		88DFC25E2F89AAC3009C2E2E /* HealthPoint.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HealthPoint.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -55,6 +67,7 @@
 				88DFC25A2F89AAC3009C2E2E /* Sources */,
 				88DFC25B2F89AAC3009C2E2E /* Frameworks */,
 				88DFC25C2F89AAC3009C2E2E /* Resources */,
+				8863195F2F8DE5F200A4AC25 /* CopyFiles */,
 			);
 			buildRules = (
 			);

@@ -4,6 +4,7 @@
 //
 //  Created by Máximo on 4/12/26.
 //
+/* UNUSED with external DB import
 import SwiftData
 import Foundation
 internal import Combine
@@ -69,7 +70,7 @@ class DataImportModel: ObservableObject {
         
         progress = currentStep*5
     }
-
+    
     func linkMedicineIngredients() async throws {
         let context = sharedModelContainer.mainContext
         
@@ -346,4 +347,4 @@ class DataImportModel: ObservableObject {
         return result
     }
 }
-
+*/

@@ -40,15 +40,18 @@ class UserSettings: ObservableObject {
 struct HealthPointApp: App {
     //Persisted storage indicator if dataset has previously been loaded
     @AppStorage("didPrepopulateStore") private var didPrepopulate: Bool = false
-    @State private var isLoading: Bool = true
+    @State private var isLoading: Bool = false
     
     //Message for debugging purposes
     @State private var loadingMessage: String = "Preparing data…"
     
     //Handles csv reading and maping to SwiftData objects
-    @State private var dataImporter: DataImportModel = DataImportModel()
+    //@State private var dataImporter: DataImportModel = DataImportModel()
     
     //Loads different SwiftData schema
+    var sharedModelContainer: ModelContainer
+    
+    /*
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -65,13 +68,14 @@ struct HealthPointApp: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
-
+    */
+     
     var body: some Scene {
         WindowGroup {
             Group {
                 //Loading progress var view for processing dataset
                 if isLoading {
-                    LoadingView(progress: dataImporter)
+                    //LoadingView(progress: dataImporter)
                 } else {
                     //main content view
                     ContentView()
@@ -79,8 +83,9 @@ struct HealthPointApp: App {
                 }
             }
             .task {
-                //Loads all data
-                await prepopulateIfNeeded()
+                //No longer loads data, uses a prebuilt default.store file
+                //await prepopulateIfNeeded()
+                
             }
         }
         .modelContainer(sharedModelContainer)
@@ -88,11 +93,49 @@ struct HealthPointApp: App {
      
 
     init() {
+        preloadStoreIfNeeded()
+        /*
+        let storeURL = appSupport.appendingPathComponent("default.store")
+        
+        let config = ModelConfiguration(url: storeURL)
+        
+        sharedModelContainer = try! ModelContainer(for: Item.self, Medicine.self, Ingredient.self, AdverseEffect.self, User.self, configurations: config)
+        */
+        let fileManager = FileManager.default
+        
+        let appSupport = try! fileManager.url(
+            for: .applicationSupportDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: true
+        )
+        
+        let storeURL = appSupport.appendingPathComponent("default.store")
+
+        let config = ModelConfiguration(url: storeURL)
+
+        sharedModelContainer = try! ModelContainer(
+            for: Item.self, Medicine.self, Ingredient.self, AdverseEffect.self, User.self,
+            configurations: config
+        )
+        
         print("Disk storage path: ", URL.applicationSupportDirectory.path(percentEncoded: false))
+        
+        print(Bundle.main.bundlePath)
+        
+        let files = try? FileManager.default.contentsOfDirectory(atPath: Bundle.main.bundlePath)
+        
+        sharedModelContainer = try! ModelContainer(
+            for: Medicine.self, Ingredient.self, AdverseEffect.self,
+            configurations: ModelConfiguration()
+        )
+        
+        print(files ?? [])
     }
 }
 
 // MARK: - Loading View progress bar
+/* UNUSED with external DB import
 private struct LoadingView: View {
     @ObservedObject var progress: DataImportModel
     
@@ -109,10 +152,12 @@ private struct LoadingView: View {
         .padding()
     }
 }
+ */
 
 // MARK: - CSV Import Helpers
 private extension HealthPointApp {
     //Calls importing functions for database
+    /*
     func prepopulateIfNeeded() async {
         guard didPrepopulate else {
             // Already imported on a previous launch
@@ -141,5 +186,33 @@ private extension HealthPointApp {
             print("Prepopulation failed: \(error)")
         }
         isLoading = false
+    }
+     */
+}
+
+func preloadStoreIfNeeded() {
+    let fm = FileManager.default
+    
+    let appSupport = try! fm.url(
+        for: .applicationSupportDirectory,
+        in: .userDomainMask,
+        appropriateFor: nil,
+        create: true
+    )
+    
+    let storeURL = appSupport.appendingPathComponent("default.store")
+    
+    // If main file exists, assume all are present
+    guard !fm.fileExists(atPath: storeURL.path) else { return }
+    
+    let files = ["default.store", "default.store-wal", "default.store-shm"]
+    
+    for file in files {
+        guard let src = Bundle.main.url(forResource: file, withExtension: nil) else {
+            fatalError("Missing \(file)")
+        }
+        
+        let dst = appSupport.appendingPathComponent(file)
+        try! fm.copyItem(at: src, to: dst)
     }
 }
