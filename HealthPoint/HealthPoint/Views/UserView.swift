@@ -7,6 +7,9 @@
 import SwiftUI
 import SwiftData
 
+///WARNINGS
+///- In dropdown view, add and delete options are not linked or fact checked with the database, fix or disable function
+
 struct SearchableDropdownMenu: View {
   @State private var isExpanded = false
   @State private var selectedOption = "Select an Option"
@@ -99,7 +102,12 @@ struct SearchableDropdownMenu: View {
 struct UserView: View {
     @Environment(\.modelContext) private var modelContext
     
-    @EnvironmentObject private var currentUser: UserSettings
+    @Bindable var currentUser: User
+    
+    //@State private var localUser: User?
+    
+    @State private var newUser: Bool = false
+    @State private var saveChanges: Bool = false
     
     @State var name: String
     @State var apellidos: String
@@ -107,50 +115,67 @@ struct UserView: View {
     @State var gender: String
     
     @State var medicineAllergy: [Medicine]
+    @State var ingredientAllergy: [Ingredient]
+    
     @State private var unwantedMedicineNames: [String] = []
+    @State private var unwantedAllergy : [String] = []
     
-    init() {
-        self.name = ""
-        self.apellidos = ""
-        self.fechaNacimiento = Date()
-        self.gender = ""
+    @State private var userNames: [String] = []
+    
+    init(selectedUser: User) {
         
-        self.medicineAllergy = []
-    }
-    
-    init(selectedUser: User? = nil) {
-        if let provided = selectedUser {
-            self.name = provided.name
-            self.apellidos = provided.apellidos
-            self.fechaNacimiento = provided.birthDate
-            self.gender = provided.gender
-            self.medicineAllergy = provided.publicUnwantedMedicine
-        } else {
+            _currentUser = Bindable(selectedUser)
+            
+            self.name = selectedUser.name
+            self.apellidos = selectedUser.apellidos
+            self.fechaNacimiento = selectedUser.birthDate
+            self.gender = selectedUser.gender
+            self.medicineAllergy = selectedUser.publicUnwantedMedicine
+            self.ingredientAllergy = selectedUser.publicIngredientAllergies
+        /*} else {
+            self.currentUser = User()
+            
+            self.newUser = true
+            
             self.name = ""
             self.apellidos = ""
             self.fechaNacimiento = Date()
             self.gender = ""
             
             self.medicineAllergy = []
+            self.ingredientAllergy = []
         }
+         */
+    }
+    
+    func userList() {
+        let context = modelContext
+        let fetch = FetchDescriptor<User>()
+        let users = (try? context.fetch(fetch)) ?? []
+        let names = users.map { $0.name }
+        self.userNames = names
     }
     
     var body: some View {
         ScrollView {
             VStack {
+                Text("Users")
+                    .bold(true)
+                SearchableDropdownMenu(options: $userNames)
+                
                 Text("Nombre(s)")
                     .bold(true)
-                TextField("Apellidos", text: $currentUser.user.name)
+                TextField("Apellidos", text: $currentUser.name)
                 
                 Text("Apellidos")
                     .bold(true)
-                TextField("Apellidos", text: $currentUser.user.apellidos)
+                TextField("Apellidos", text: $currentUser.apellidos)
                 
                 Text("Fecha nacimiento")
                     .bold(true)
                 DatePicker(
                     "Fecha de nacimiento",
-                    selection: $currentUser.user.birthDate,
+                    selection: $currentUser.birthDate,
                     displayedComponents: [.date]
                 )
                 
@@ -164,12 +189,15 @@ struct UserView: View {
                 
                 Button("Save") {
                     Task {
-                        let context = modelContext
+                        self.saveChanges = true
+                        //let context = modelContext
                         // Fetch existing medicines by name
+                        /*
                         let fetch = FetchDescriptor<Medicine>()
                         let meds = (try? context.fetch(fetch)) ?? []
                         var byName: [String: Medicine] = [:]
                         for m in meds { byName[m.getName()] = m }
+                        
                         
                         // Build final list from names
                         var newList: [Medicine] = []
@@ -184,18 +212,56 @@ struct UserView: View {
                             }
                         }
                         currentUser.user.publicUnwantedMedicine = newList
-                        try? context.save()
+                         */
+                        //try? context.save()
                     }
                 }
             }
+            .onAppear() {
+                userList()
+            }
         }
         .onAppear() {
-            if currentUser.user.id != -1 {
+            /*
+            if currentUser.id != -1 {
                 self.name = currentUser.user.name
                 self.gender = currentUser.user.gender
                 self.apellidos = currentUser.user.apellidos
                 
                 unwantedMedicineNames = currentUser.user.publicUnwantedMedicine.map { $0.getName() }
+                unwantedAllergy = currentUser.user.publicIngredientAllergies.map { $0.getName() }
+            }
+             */
+        }
+        .onDisappear() {
+            
+            if saveChanges {
+                /*
+                currentUser.user.name = self.name
+                currentUser.user.apellidos = self.apellidos
+                currentUser.user.birthDate = self.fechaNacimiento
+                currentUser.user.gender = self.gender
+                
+                currentUser.user.publicUnwantedMedicine = self.medicineAllergy
+                currentUser.user.publicIngredientAllergies = self.ingredientAllergy
+                 */
+                
+                currentUser.name = self.name
+                currentUser.apellidos = self.apellidos
+                currentUser.birthDate = self.fechaNacimiento
+                currentUser.gender = self.gender
+                
+                currentUser.publicUnwantedMedicine = self.medicineAllergy
+                currentUser.publicIngredientAllergies = self.ingredientAllergy
+                
+                modelContext.insert(currentUser)
+
+            }
+            
+            do {
+                try modelContext.save()
+            } catch {
+                print("Error saving user information: \(error)")
             }
         }
     }

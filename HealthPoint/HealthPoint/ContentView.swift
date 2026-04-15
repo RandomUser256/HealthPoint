@@ -17,7 +17,8 @@ struct ContentView: View {
 
     var body: some View {
         //MedicineExplorer()
-        UserView()
+        //UserView()
+        MainMenuView()
     }
 }
 

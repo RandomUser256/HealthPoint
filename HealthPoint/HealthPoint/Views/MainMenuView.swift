@@ -1,0 +1,51 @@
+//
+//  MainMenuView.swift
+//  HealthPoint
+//
+//  Created by CETYS Universidad  on 14/04/26.
+//
+import SwiftUI
+
+struct MainMenuView: View {
+    @EnvironmentObject private var currentUser: UserSettings
+    
+    //@State var selectedScreen: String = 
+    
+    var body: some View {
+        NavigationStack {
+            VStack {
+                Spacer()
+                Text("HealthPoint")
+                    .font(.largeTitle)
+                    .bold()
+                    .padding(.bottom, 8)
+                Text("Main Menu")
+                    .foregroundStyle(.secondary)
+                
+                Spacer()
+                
+                NavigationLink (destination: UserView(selectedUser: currentUser.user) ,label: {
+                    Label("Open Chatbot", systemImage: "message.fill")
+                        .font(.title2)
+                        .padding(.vertical, 12)
+                        .frame(maxWidth: .infinity)
+                })
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
+                .padding(.horizontal)
+                
+                Spacer()
+                
+                NavigationLink (destination: MedicineExplorer(), label: {
+                    Label("Open Medicines List", systemImage: "pills.fill")
+                        .font(.headline)
+                        .padding(.vertical, 10)
+                        .frame(maxWidth: .infinity)
+                })
+                .buttonStyle(.bordered)
+                .padding(.horizontal)
+                .padding(.bottom, 24)
+            }
+        }
+    }
+}

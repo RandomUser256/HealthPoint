@@ -6,13 +6,12 @@
 //
 
 ///TODO:
-///- Attend vulnerabilities in MedicineExplorer view
 ///- Check if app is not reloading data each boot up
+///NEXT TODO NOW
+///- Check if user is being saved correctly in the default.store
+///     - Add option to swifth between stored users
 
 ///ERRORS:
-/// - Does not list medicine ingredients
-///     - When checking if ingredient list is empty, it shows up as empty when it shouldnt
-///     - Have not checked if medicine.ingredients is populated correctly
 /// - Paging is not working, all the medicine load at once
 /// - When changing alphabetical order of listed items, the app does not load back to main list
 
