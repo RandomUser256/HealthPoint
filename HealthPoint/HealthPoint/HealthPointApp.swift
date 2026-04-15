@@ -39,7 +39,7 @@ class UserSettings: ObservableObject {
 struct HealthPointApp: App {
     //Persisted storage indicator if dataset has previously been loaded
     @AppStorage("didPrepopulateStore") private var didPrepopulate: Bool = false
-    @State private var isLoading: Bool = false
+    @State private var isReadyToBoot: Bool = false
     
     //Message for debugging purposes
     @State private var loadingMessage: String = "Preparing data…"
@@ -72,14 +72,17 @@ struct HealthPointApp: App {
     var body: some Scene {
         WindowGroup {
             Group {
-                //Loading progress var view for processing dataset
-                if isLoading {
-                    //LoadingView(progress: dataImporter)
-                } else {
-                    //main content view
+                ContentView()
+                    .environmentObject(UserSettings())
+                // Loading progress view while preparing data
+                /*
+                if isReadyToBoot {
                     ContentView()
                         .environmentObject(UserSettings())
+                } else {
+                    startScreen()
                 }
+                 */
             }
             .task {
                 //No longer loads data, uses a prebuilt default.store file
@@ -95,7 +98,7 @@ struct HealthPointApp: App {
         preloadStoreIfNeeded()
         
         let fileManager = FileManager.default
-        
+                
         let appSupport = try! fileManager.url(
             for: .applicationSupportDirectory,
             in: .userDomainMask,
@@ -124,6 +127,20 @@ struct HealthPointApp: App {
         )
         
         print(files ?? [])
+        
+        // Signal readiness after initialization completes
+        /*DispatchQueue.main.async { [weak self] in
+            if let boot = self?.isReadyToBoot {
+                self?.isReadyToBoot = true
+            }
+        }*/
+        
+        // Signal readiness after initialization completes
+        /*
+        DispatchQueue.main.async { [weak self] in
+            self?.isReadyToBoot = true
+        }
+         */
     }
 }
 
@@ -210,3 +227,4 @@ func preloadStoreIfNeeded() {
         try! fm.copyItem(at: src, to: dst)
     }
 }
+

@@ -1,17 +1,8 @@
-//
-//  MedicineExplorerViewModel.swift
-//  HealthPoint
-//
-//  Created by Máximo on 4/11/26.
-//
-
-/*
+import SwiftUI
 import SwiftData
-internal import Combine
 import Foundation
+internal import Combine
 
-
-// View model derives dynamic content, keeps source immutable via fetched cache
 @MainActor
 final class MedicineExplorerViewModel: ObservableObject {
     // Immutable cache of fetched results (treated as source snapshot)
@@ -26,46 +17,42 @@ final class MedicineExplorerViewModel: ObservableObject {
     // User-based filters
     @Published var filterByUserPreferences: Bool = false { didSet { recompute() } }
     
+    var currentUser: UserSettings?
     
-    //private var user: UserModel?
-    //@EnvironmentObject private var currentUser: UserSettings
+    //SwiftData related function and variable
+    private var context: ModelContext!
+    func setContext(_ context: ModelContext) { self.context = context }
 
-    /*
-    func setUser(_ user: User?) {
-        self.user = user
-        recompute()
-    }
-     */
-    
-    init(source: [Medicine], query: String, sortAscending: Bool, pageSize: Int, displayed: [Medicine], filterByUserPreferences: Bool) {
-        self.source = source
-        self.query = query
-        self.sortAscending = sortAscending
-        self.pageSize = pageSize
-        self.displayed = displayed
-        self.filterByUserPreferences = filterByUserPreferences
+    init() { }
+
+    func medicineLookupMap() throws -> [Int: Medicine] {
+        let meds = try context.fetch(FetchDescriptor<Medicine>())
+        return Dictionary(uniqueKeysWithValues: meds.map { ($0.id, $0) })
     }
     
-    func buildLookupMaps(context: ModelContext) throws -> (
-        medicines: [Int: Medicine],
-        ingredients: [Int: Ingredient],
-        effects: [Int: AdverseEffect]
-    ) {
-        let medicines = try context.fetch(FetchDescriptor<Medicine>())
-        let ingredients = try context.fetch(FetchDescriptor<Ingredient>())
-        let effects = try context.fetch(FetchDescriptor<AdverseEffect>())
-
-        return (
-            Dictionary(uniqueKeysWithValues: medicines.map { ($0.id, $0) }),
-            Dictionary(uniqueKeysWithValues: ingredients.map { ($0.id, $0) }),
-            Dictionary(uniqueKeysWithValues: effects.map { ($0.id, $0) })
-        )
-    }
-
     func loadFromStore(_ items: [Medicine]) {
-        // Treat the fetched items as immutable source for this session
         self.source = items
         recompute()
+    }
+    
+    func loadFromStore() {
+        refreshFromStore()
+    }
+
+    func refreshFromStore() {
+        do {
+            var fetch = FetchDescriptor<Medicine>(
+                predicate: nil,
+                sortBy: [SortDescriptor(\.normalizedName, order: sortAscending ? .forward : .reverse)],
+            )
+            fetch.fetchLimit = pageSize
+            let items = try context.fetch(fetch)
+            self.source = items
+            self.displayed = items
+        } catch {
+            self.displayed = []
+            self.source = []
+        }
     }
 
     func loadMoreIfNeeded(current item: Medicine?) {
@@ -75,7 +62,20 @@ final class MedicineExplorerViewModel: ObservableObject {
     }
 
     func increasePage() {
-        pageSize = min(pageSize + 50, source.count)
+        let newSize = min(pageSize + 50, (try? context.fetchCount(FetchDescriptor<Medicine>())) ?? pageSize)
+        pageSize = newSize
+        do {
+            var fetch = FetchDescriptor<Medicine>(
+                predicate: nil,
+                sortBy: [SortDescriptor(\.normalizedName, order: sortAscending ? .forward : .reverse)],
+            )
+            fetch.fetchLimit = pageSize
+            let items = try context.fetch(fetch)
+            self.source = items
+            recompute()
+        } catch {
+            // ignore errors
+        }
     }
 
     private func recompute() {
@@ -86,32 +86,22 @@ final class MedicineExplorerViewModel: ObservableObject {
                 med.getName().localizedCaseInsensitiveContains(trimmed) || med.getDescriptionText().localizedCaseInsensitiveContains(trimmed)
             }
         }
-        if filterByUserPreferences {
-            // Exclude medicines containing any of the user's ingredient allergies or unwanted medicines by name
-            let allergySet = Set($currentUser.publicIngredientAllergies.map { $0.lowercased })
-            let unwantedSet = Set($currentUser.publicUnwantedMedicine.map { $0.lowercased })
+        if filterByUserPreferences, let currentUser {
+            let allergySet = Set(currentUser.user.publicIngredientAllergies.map { $0.getName().lowercased() })
+            let unwantedSet = Set(currentUser.user.publicUnwantedMedicine.map { $0.getName().lowercased() })
             result = result.filter { med in
                 let medIngredients = Set(med.ingredients.map { $0.getName().lowercased() })
-                
-                //Checks if result contains allergic components. True if no value in common.
                 let hasAllergy = !allergySet.isDisjoint(with: medIngredients)
-                
-                //
-                let isUnwantedByName = unwantedSet.contains(med.name.lowercased())
-                
-                
+                let isUnwantedByName = unwantedSet.contains(med.getName().lowercased())
                 return !hasAllergy && !isUnwantedByName
             }
         }
-        //Change sorting to ascending or descending
         result.sort { lhs, rhs in
             sortAscending ? lhs.getName().localizedCaseInsensitiveCompare(rhs.getName()) == .orderedAscending : lhs.getName().localizedCaseInsensitiveCompare(rhs.getName()) == .orderedDescending
         }
-        // Apply paging
         displayed = Array(result.prefix(pageSize))
     }
 
-    // Sectioning by first letter of name
     var sectioned: [(key: String, items: [Medicine])] {
         let groups = Dictionary(grouping: displayed) { med in
             String(med.getName().prefix(1)).uppercased()
@@ -121,4 +111,3 @@ final class MedicineExplorerViewModel: ObservableObject {
         }
     }
 }
-*/

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D6016172F9035BF006E5588 /* TranscriptionKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2D6016162F9035BF006E5588 /* TranscriptionKit */; };
 		88C6A70F2F8F581C006DC017 /* TranscriptionKit in Frameworks */ = {isa = PBXBuildFile; productRef = 88C6A70E2F8F581C006DC017 /* TranscriptionKit */; };
 		88C6A7122F8F5832006DC017 /* TimerKit in Frameworks */ = {isa = PBXBuildFile; productRef = 88C6A7112F8F5832006DC017 /* TimerKit */; };
 /* End PBXBuildFile section */
@@ -42,6 +43,7 @@
 			files = (
 				88C6A70F2F8F581C006DC017 /* TranscriptionKit in Frameworks */,
 				88C6A7122F8F5832006DC017 /* TimerKit in Frameworks */,
+				2D6016172F9035BF006E5588 /* TranscriptionKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +89,7 @@
 			packageProductDependencies = (
 				88C6A70E2F8F581C006DC017 /* TranscriptionKit */,
 				88C6A7112F8F5832006DC017 /* TimerKit */,
+				2D6016162F9035BF006E5588 /* TranscriptionKit */,
 			);
 			productName = HealthPoint;
 			productReference = 88DFC25E2F89AAC3009C2E2E /* HealthPoint.app */;
@@ -117,8 +120,8 @@
 			mainGroup = 88DFC2552F89AAC3009C2E2E;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				88C6A70D2F8F581C006DC017 /* XCLocalSwiftPackageReference "../../../../Downloads/TranscribingSpeechToText/Complete/TutorialResources/TranscriptionKit" */,
 				88C6A7102F8F5832006DC017 /* XCLocalSwiftPackageReference "../../../../Downloads/TranscribingSpeechToText/Complete/TutorialResources/TimerKit" */,
+				2D6016152F9035BF006E5588 /* XCLocalSwiftPackageReference "../../../../Downloads/TranscribingSpeechToText/Complete/TutorialResources/TranscriptionKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 88DFC25F2F89AAC3009C2E2E /* Products */;
@@ -366,7 +369,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		88C6A70D2F8F581C006DC017 /* XCLocalSwiftPackageReference "../../../../Downloads/TranscribingSpeechToText/Complete/TutorialResources/TranscriptionKit" */ = {
+		2D6016152F9035BF006E5588 /* XCLocalSwiftPackageReference "../../../../Downloads/TranscribingSpeechToText/Complete/TutorialResources/TranscriptionKit" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../../../../Downloads/TranscribingSpeechToText/Complete/TutorialResources/TranscriptionKit;
 		};
@@ -377,6 +380,10 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2D6016162F9035BF006E5588 /* TranscriptionKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TranscriptionKit;
+		};
 		88C6A70E2F8F581C006DC017 /* TranscriptionKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TranscriptionKit;
