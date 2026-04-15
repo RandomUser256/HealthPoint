@@ -17,17 +17,17 @@ class Ingredient: Identifiable {
     
     //Stores related medicine, and updates corresponding medicine register
     @Relationship(inverse: \Medicine.ingredients)
-    var medicines: [Medicine] = []
+    var medicines: [Medicine]
     
     //Used to link to a user if listed in allergy list
     //A single ingredient can be linked to multiple users
     var user: [User] = []
     
-    init(id: Int, name: String, medicines: [Medicine] = []) {
+    init(id: Int, name: String) {
         self.id = id
         self.name = name
         self.normalizedName = name.lowercased()
-        self.medicines = medicines
+        self.medicines = []
     }
     
     func getName() -> String {

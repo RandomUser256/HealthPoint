@@ -197,6 +197,7 @@ func preloadStoreIfNeeded() {
     let storeURL = appSupport.appendingPathComponent("default.store")
     
     // If main file exists, assume all are present
+    // ACTIVATE FOR FINAL VERSION!!!!!!!!
     guard !fm.fileExists(atPath: storeURL.path) else { return }
     
     let files = ["default.store", "default.store-wal", "default.store-shm"]

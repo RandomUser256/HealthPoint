@@ -13,6 +13,7 @@ class User {
     @Attribute(.unique) var id: Int
 
     var name: String
+    var apellidos: String
     var birthDate: Date
     var gender: String
     
@@ -27,11 +28,12 @@ class User {
     //String to sotre medical conditions, in support is added later
     var medicalCondition: [String] = []
     
-    init(id: Int, name: String, birthDate: Date = Date(), gender: String = "N", ingredientAllergies: [Ingredient] = [], unwantedMedicine: [Medicine] = [], medicalCondition: [String] = []) {
+    init(id: Int, name: String, birthDate: Date = Date(), gender: String = "N", apellidos: String, ingredientAllergies: [Ingredient] = [], unwantedMedicine: [Medicine] = [], medicalCondition: [String] = []) {
         self.id = id
         self.name = name
         self.birthDate = birthDate
         self.gender = gender
+        self.apellidos = apellidos
         self.publicIngredientAllergies = ingredientAllergies
         self.publicUnwantedMedicine = unwantedMedicine
         self.medicalCondition = medicalCondition
@@ -45,6 +47,7 @@ class User {
         self.publicIngredientAllergies = []
         self.publicUnwantedMedicine = []
         self.medicalCondition = []
+        self.apellidos = "placeholder"
     }
 }
 

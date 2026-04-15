@@ -19,13 +19,6 @@ final class Medicine: Identifiable {
     
     private var descriptionText: String
     
-    /* MARKED ERRORS WHEN COMPILING
-    var publicName: String {
-        get { name }
-        set {name = newValue}
-    }
-     */
-    
     //Array to reference ingredients and adverseEffects related to this medicine
     var ingredients: [Ingredient]
     var adverseEffects: [AdverseEffect]

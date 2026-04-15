@@ -105,9 +105,11 @@ class DataImportModel: ObservableObject {
         var batchCount = 0
         let batchSize = 500
         
+        var processed = 0
+        
         try streamCSV(named: "medicine_ingredients") { row in
             //Creates inmutable vraiables for target id (medicine and ingredient), extracts the corresponding object for each
-            guard let medId = Int(row["rxnorm_id"] ?? ""),
+            guard let medId = Int(row["rxnorm_id_product"] ?? ""),
                   let ingId = Int(row["rxnorm_id_ingredient"] ?? ""),
                   let medicine = maps.medicines[medId],
                   let ingredient = maps.ingredients[ingId]
@@ -120,11 +122,15 @@ class DataImportModel: ObservableObject {
             
             //Indicator for loading batch, when module is cero then all entries have been processed
             batchCount += 1
+            processed += 1
+            
             if batchCount % batchSize == 0 {
                 //Saves changes to disk
                 try context.save()
             }
         }
+        
+        print("[Linking] Ingredients linked: \(processed)")
         
         try context.save()
         
@@ -141,6 +147,7 @@ class DataImportModel: ObservableObject {
         
         var batchCount = 0
         let batchSize = 500
+        var processed = 0
         
         try streamCSV(named: "medicine_adverse_effects") { row in
             //Creates inmutable vraiables for target id (medicine and adverseEffect), extracts the corresponding object for each
@@ -156,10 +163,14 @@ class DataImportModel: ObservableObject {
             
             //Indicator for loading batch, when module is cero then all entries have been processed
             batchCount += 1
+            processed += 1
+            
             if batchCount % batchSize == 0 {
                 try context.save()
             }
         }
+        
+        print("[Linking] Adverse effects linked: \(processed)")
         
         try context.save()
         

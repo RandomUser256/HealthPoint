@@ -16,7 +16,8 @@ struct ContentView: View {
     @EnvironmentObject var currentUser: UserSettings
 
     var body: some View {
-        MedicineExplorer()
+        //MedicineExplorer()
+        UserView()
     }
 }
 

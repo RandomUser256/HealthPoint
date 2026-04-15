@@ -36,7 +36,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "YES"
-      customWorkingDirectory = "/Users/maximo/Documents/GitHub/HealthPoint/Database/SaludPuntual_DatabaseTool/SaludPuntual_DatabaseTool"
+      customWorkingDirectory = "/Users/curso/Documents/GitHub/HealthPoint/Database/SaludPuntual_DatabaseTool/SaludPuntual_DatabaseTool"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"

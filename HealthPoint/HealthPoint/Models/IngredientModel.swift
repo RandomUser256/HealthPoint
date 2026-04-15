@@ -23,11 +23,11 @@ class Ingredient: Identifiable {
     //A single ingredient can be linked to multiple users
     var user: [User]
     
-    init(id: Int, name: String, medicines: [Medicine] = []) {
+    init(id: Int, name: String) {
         self.id = id
         self.name = name
         self.normalizedName = name.lowercased()
-        self.medicines = medicines
+        self.medicines = []
         self.medicines = []
         self.user = []
     }
