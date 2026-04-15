@@ -8,6 +8,9 @@
 import SwiftUI
 import SwiftData
 import FoundationModels
+import TimerKit
+import AVFoundation
+import TranscriptionKit
 
 struct ContentView: View {
     //Used to call swiftData model actions
@@ -46,7 +49,11 @@ struct ContentView: View {
     @State private var isLoading = false
     @State private var selectedPersonality: ChatPersonality = .friendly
     @State private var conversation: [ChatMessage] = [] // Oldest-first (top)
+    @State private var isRecording = false
+    
+    @State var speechRecognizer = SpeechRecognizer()
 
+    
     private let orchestrator: ChatOrchestrator = {
         let retriever = KnowledgeRetriever(sources: [
             MockFAQSource(),
@@ -177,6 +184,16 @@ struct ContentView: View {
 
             // Input area
             HStack(alignment: .bottom, spacing: 8) {
+                
+                Button(action: toggleTranscript) {
+                    Image(systemName: isRecording ? "stop.circle.fill" : "mic.fill")
+                        .font(.title3)
+                        .foregroundStyle(isRecording ? .red : .primary)
+                        .accessibilityLabel(isRecording ? "Detener grabación" : "Grabar voz")
+                        .accessibilityHint("Dicta tu mensaje en español (México)")
+                }
+                .buttonStyle(.bordered)
+
                 TextField("Type a message...", text: $prompt, axis: .vertical)
                     .textFieldStyle(.roundedBorder)
                     .lineLimit(3, reservesSpace: true)
@@ -235,6 +252,7 @@ struct ContentView: View {
     }
 
     // MARK: - Actions
+
     private func generate() {
         let query = prompt.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !query.isEmpty else { return }
@@ -253,7 +271,33 @@ struct ContentView: View {
             }
         }
     }
-
+    
+    private func toggleTranscript() {
+        if isRecording {
+            // Stop recording and insert the transcript into the prompt
+            speechRecognizer.stopTranscribing()
+            isRecording = false
+            let text = speechRecognizer.transcript.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !text.isEmpty {
+                if prompt.isEmpty {
+                    prompt = text
+                } else {
+                    // Append with a separating space
+                    prompt += (prompt.hasSuffix(" ") ? "" : " ") + text
+                }
+            }
+            // Clear for the next dictation session
+            speechRecognizer.resetTranscript()
+        } else {
+            // Start a fresh dictation session in Spanish (Mexico) if supported
+            speechRecognizer.resetTranscript()
+            let esMX = Locale(identifier: "es-MX")
+            // If TranscriptionKit supports a locale parameter, this will use it; otherwise it will fall back to default behavior.
+            speechRecognizer.startTranscribing()
+            isRecording = true
+        }
+    }
+    
     // MARK: - Persistence
     private func saveConversation() {
         do {

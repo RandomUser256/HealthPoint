@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		885CAE452F8F229700BAEDD5 /* TranscriptionKit in Frameworks */ = {isa = PBXBuildFile; productRef = 885CAE442F8F229700BAEDD5 /* TranscriptionKit */; };
+		885CAE482F8F22BA00BAEDD5 /* TimerKit in Frameworks */ = {isa = PBXBuildFile; productRef = 885CAE472F8F22BA00BAEDD5 /* TimerKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		8862F2DC2F8E0E7D00F68533 /* LocalAIPlayground_Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocalAIPlayground_Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +28,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				885CAE452F8F229700BAEDD5 /* TranscriptionKit in Frameworks */,
+				885CAE482F8F22BA00BAEDD5 /* TimerKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,6 +64,8 @@
 			);
 			name = LocalAIPlayground_Test;
 			packageProductDependencies = (
+				885CAE442F8F229700BAEDD5 /* TranscriptionKit */,
+				885CAE472F8F22BA00BAEDD5 /* TimerKit */,
 			);
 			productName = LocalAIPlayground_Test;
 			productReference = 8862F2DC2F8E0E7D00F68533 /* LocalAIPlayground_Test.app */;
@@ -86,6 +95,10 @@
 			);
 			mainGroup = 882F995A2F8B1A2900E7D2D4;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				885CAE432F8F229700BAEDD5 /* XCLocalSwiftPackageReference "../../../../Downloads/TranscribingSpeechToText/StartingProject/TutorialResources/TranscriptionKit" */,
+				885CAE462F8F22BA00BAEDD5 /* XCLocalSwiftPackageReference "../../../../Downloads/TranscribingSpeechToText/StartingProject/TutorialResources/TimerKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 882F995A2F8B1A2900E7D2D4;
 			projectDirPath = "";
@@ -248,6 +261,8 @@
 				DEVELOPMENT_TEAM = 245Z8W3NK4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Permite usar el microfono";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Permite procesar su voz";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -280,6 +295,8 @@
 				DEVELOPMENT_TEAM = 245Z8W3NK4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Permite usar el microfono";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Permite procesar su voz";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -324,6 +341,28 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		885CAE432F8F229700BAEDD5 /* XCLocalSwiftPackageReference "../../../../Downloads/TranscribingSpeechToText/StartingProject/TutorialResources/TranscriptionKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../../../Downloads/TranscribingSpeechToText/StartingProject/TutorialResources/TranscriptionKit;
+		};
+		885CAE462F8F22BA00BAEDD5 /* XCLocalSwiftPackageReference "../../../../Downloads/TranscribingSpeechToText/StartingProject/TutorialResources/TimerKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../../../Downloads/TranscribingSpeechToText/StartingProject/TutorialResources/TimerKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		885CAE442F8F229700BAEDD5 /* TranscriptionKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TranscriptionKit;
+		};
+		885CAE472F8F22BA00BAEDD5 /* TimerKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TimerKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 882F995B2F8B1A2900E7D2D4 /* Project object */;
 }
