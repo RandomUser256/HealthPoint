@@ -24,8 +24,8 @@ struct MainMenuView: View {
                 
                 Spacer()
                 
-                NavigationLink (destination: UserView(selectedUser: currentUser.user) ,label: {
-                    Label("Open Chatbot", systemImage: "message.fill")
+                NavigationLink (destination: chatScreen() ,label: {
+                    Label("Open chatbot", systemImage: "message.fill")
                         .font(.title2)
                         .padding(.vertical, 12)
                         .frame(maxWidth: .infinity)
@@ -33,6 +33,16 @@ struct MainMenuView: View {
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
                 .padding(.horizontal)
+                
+                NavigationLink (destination: UserView(selectedUser: currentUser.user) ,label: {
+                    Label("Open User settings", systemImage: "pills.fill")
+                        .font(.headline)
+                        .padding(.vertical, 10)
+                        .frame(maxWidth: .infinity)
+                })
+                .buttonStyle(.bordered)
+                .padding(.horizontal)
+                .padding(.bottom, 24)
                 
                 Spacer()
                 
