@@ -99,10 +99,40 @@ struct SearchableDropdownMenu: View {
   }
 }
 
+struct UserPickerView: View {
+    @EnvironmentObject var currentUser: UserSettings
+    @Environment(\.modelContext) private var modelContext
+
+    @Query(sort: \User.name) private var users: [User] // SwiftData query for all users
+
+    var body: some View {
+        List {
+            ForEach(users, id: \.id) { user in
+                HStack {
+                    Text(user.name)
+                    Spacer()
+                    if user.id == currentUser.user.id {
+                        Image(systemName: "checkmark")
+                            .foregroundStyle(.accent)
+                    }
+                }
+                .contentShape(Rectangle()) // Makes the whole row tappable
+                .onTapGesture {
+                    // Update the environment object
+                    currentUser.user = user
+                }
+            }
+        }
+        .navigationTitle("Choose User")
+    }
+}
+
 struct UserView: View {
     @Environment(\.modelContext) private var modelContext
     
-    @Bindable var currentUser: User
+    //@Bindable var currentUser: User
+    
+    @EnvironmentObject var currentUser: UserSettings
     
     //@State private var localUser: User?
     
@@ -122,103 +152,107 @@ struct UserView: View {
     
     @State private var userNames: [String] = []
     
+    @State private var selectingUser: Bool = false
+    
+    @State private var usrList: [User]
+    
     init(selectedUser: User) {
-        
-            _currentUser = Bindable(selectedUser)
-            
-            self.name = selectedUser.name
-            self.apellidos = selectedUser.apellidos
-            self.fechaNacimiento = selectedUser.birthDate
-            self.gender = selectedUser.gender
-            self.medicineAllergy = selectedUser.publicUnwantedMedicine
-            self.ingredientAllergy = selectedUser.publicIngredientAllergies
-        /*} else {
-            self.currentUser = User()
-            
-            self.newUser = true
-            
-            self.name = ""
-            self.apellidos = ""
-            self.fechaNacimiento = Date()
-            self.gender = ""
-            
-            self.medicineAllergy = []
-            self.ingredientAllergy = []
-        }
-         */
+        self._name = State(initialValue: selectedUser.name)
+        self._apellidos = State(initialValue: selectedUser.apellidos)
+        self._fechaNacimiento = State(initialValue: selectedUser.birthDate)
+        self._gender = State(initialValue: selectedUser.gender)
+        self._medicineAllergy = State(initialValue: selectedUser.publicUnwantedMedicine)
+        self._ingredientAllergy = State(initialValue: selectedUser.publicIngredientAllergies)
+        self._usrList = State(initialValue: [])
     }
     
     func userList() {
         let context = modelContext
         let fetch = FetchDescriptor<User>()
         let users = (try? context.fetch(fetch)) ?? []
-        let names = users.map { $0.name }
-        self.userNames = names
+        //let names = users.map { $0.name }
+        //self.userNames = names
     }
     
     var body: some View {
         ScrollView {
             VStack {
-                Text("Users")
-                    .bold(true)
+                Button(action: {
+                    selectingUser.toggle()
+                }) {
+                    Text("Users")
+                        .bold(true)
+                }
                 SearchableDropdownMenu(options: $userNames)
                 
-                Text("Nombre(s)")
-                    .bold(true)
-                TextField("Apellidos", text: $currentUser.name)
-                
-                Text("Apellidos")
-                    .bold(true)
-                TextField("Apellidos", text: $currentUser.apellidos)
-                
-                Text("Fecha nacimiento")
-                    .bold(true)
-                DatePicker(
-                    "Fecha de nacimiento",
-                    selection: $currentUser.birthDate,
-                    displayedComponents: [.date]
-                )
-                
-                Text("Unwanted Medicines").bold(true)
-                SearchableDropdownMenu(options: $unwantedMedicineNames)
-                
-                Text("Alllergic components").bold(true)
-                SearchableDropdownMenu(options: $unwantedMedicineNames)
-                
-                
-                
-                Button("Save") {
-                    Task {
-                        self.saveChanges = true
-                        //let context = modelContext
-                        // Fetch existing medicines by name
-                        /*
-                        let fetch = FetchDescriptor<Medicine>()
-                        let meds = (try? context.fetch(fetch)) ?? []
-                        var byName: [String: Medicine] = [:]
-                        for m in meds { byName[m.getName()] = m }
-                        
-                        
-                        // Build final list from names
-                        var newList: [Medicine] = []
-                        for name in unwantedMedicineNames {
-                            if let existing = byName[name] {
-                                newList.append(existing)
-                            } else {
-                                // Create a placeholder medicine with id -1 if missing; adjust as needed for your schema
-                                let med = Medicine(id: -1, name: name, descriptionText: "")
-                                context.insert(med)
-                                newList.append(med)
-                            }
+                if selectingUser {
+                    List () {
+                        ForEach(usrList, id: \.id) { usr in
+                            Text(usr.name)
+                                .onTapGesture {
+                                    currentUser.user = usr
+                                }
                         }
-                        currentUser.user.publicUnwantedMedicine = newList
-                         */
-                        //try? context.save()
+                    }
+                    
+                } else {
+                    Text("Nombre(s)")
+                        .bold(true)
+                    TextField("Nombre(s)", text: $name)
+                    
+                    Text("Apellidos")
+                        .bold(true)
+                    TextField("Apellidos", text: $apellidos)
+                    
+                    Text("Fecha nacimiento")
+                        .bold(true)
+                    DatePicker(
+                        "Fecha de nacimiento",
+                        selection: $fechaNacimiento,
+                        displayedComponents: [.date]
+                    )
+                    
+                    Text("Unwanted Medicines").bold(true)
+                    SearchableDropdownMenu(options: $unwantedMedicineNames)
+                    
+                    Text("Alllergic components").bold(true)
+                    SearchableDropdownMenu(options: $unwantedAllergy)
+                    
+                    
+                    
+                    Button("Save") {
+                        Task {
+                            self.saveChanges = true
+                            //let context = modelContext
+                            // Fetch existing medicines by name
+                            /*
+                             let fetch = FetchDescriptor<Medicine>()
+                             let meds = (try? context.fetch(fetch)) ?? []
+                             var byName: [String: Medicine] = [:]
+                             for m in meds { byName[m.getName()] = m }
+                             
+                             
+                             // Build final list from names
+                             var newList: [Medicine] = []
+                             for name in unwantedMedicineNames {
+                             if let existing = byName[name] {
+                             newList.append(existing)
+                             } else {
+                             // Create a placeholder medicine with id -1 if missing; adjust as needed for your schema
+                             let med = Medicine(id: -1, name: name, descriptionText: "")
+                             context.insert(med)
+                             newList.append(med)
+                             }
+                             }
+                             currentUser.user.publicUnwantedMedicine = newList
+                             */
+                            //try? context.save()
+                        }
                     }
                 }
             }
             .onAppear() {
-                userList()
+                
             }
         }
         .onAppear() {
@@ -234,30 +268,15 @@ struct UserView: View {
              */
         }
         .onDisappear() {
-            
             if saveChanges {
-                /*
                 currentUser.user.name = self.name
                 currentUser.user.apellidos = self.apellidos
                 currentUser.user.birthDate = self.fechaNacimiento
                 currentUser.user.gender = self.gender
-                
                 currentUser.user.publicUnwantedMedicine = self.medicineAllergy
                 currentUser.user.publicIngredientAllergies = self.ingredientAllergy
-                 */
-                
-                currentUser.name = self.name
-                currentUser.apellidos = self.apellidos
-                currentUser.birthDate = self.fechaNacimiento
-                currentUser.gender = self.gender
-                
-                currentUser.publicUnwantedMedicine = self.medicineAllergy
-                currentUser.publicIngredientAllergies = self.ingredientAllergy
-                
-                modelContext.insert(currentUser)
-
+                modelContext.insert(currentUser.user)
             }
-            
             do {
                 try modelContext.save()
             } catch {

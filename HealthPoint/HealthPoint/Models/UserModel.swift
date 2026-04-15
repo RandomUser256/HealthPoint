@@ -11,7 +11,7 @@ import Foundation
 @Model
 class User {
     @Attribute(.unique) var id: Int
-
+    
     var name: String
     var apellidos: String
     var birthDate: Date
@@ -49,5 +49,12 @@ class User {
         self.medicalCondition = []
         self.apellidos = "placeholder"
     }
+    
+    func getName() -> String {
+        return name
+    }
+    
+    func getApellidos() -> String {
+        return apellidos
+    }
 }
-
