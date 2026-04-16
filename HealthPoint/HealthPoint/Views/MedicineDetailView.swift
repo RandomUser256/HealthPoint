@@ -10,6 +10,8 @@ import SwiftUI
 struct MedicineDetailView: View {
     //Medicine to display
     let medicine: Medicine
+    
+    @EnvironmentObject private var currentUser: UserSettings
 
     var body: some View {
         ScrollView {
@@ -24,7 +26,20 @@ struct MedicineDetailView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Ingredients").font(.headline)
                         ForEach(medicine.ingredients, id: \.self) { ing in
-                            Text(ing.getName())
+                            HStack {
+                                
+                                Text(ing.getName())
+                                
+                                Button(action: {
+                                    currentUser.user.publicIngredientAllergies.append(ing)
+                                }) {
+                                    if (currentUser.user.publicUnwantedMedicine.contains {$0.id == ing.id }) {
+                                        Image(systemName: "checkmar.circle.fill")
+                                    } else {
+                                        Image(systemName: "plus")
+                                    }
+                                }
+                            }
                         }
                     }
                 }
