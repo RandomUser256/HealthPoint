@@ -44,9 +44,6 @@ struct HealthPointApp: App {
     //Message for debugging purposes
     @State private var loadingMessage: String = "Preparing data…"
     
-    //Handles csv reading and maping to SwiftData objects
-    //@State private var dataImporter: DataImportModel = DataImportModel()
-    
     //Loads different SwiftData schema
     var sharedModelContainer: ModelContainer
     
@@ -109,10 +106,10 @@ struct HealthPointApp: App {
         let storeURL = appSupport.appendingPathComponent("default.store")
 
         let config = ModelConfiguration(url: storeURL)
-
+        
         sharedModelContainer = try! ModelContainer(
-            for: Item.self, Medicine.self, Ingredient.self, AdverseEffect.self, User.self,
-            configurations: config
+            for: Medicine.self, Ingredient.self, AdverseEffect.self,
+            configurations: ModelConfiguration()
         )
         
         print("Disk storage path: ", URL.applicationSupportDirectory.path(percentEncoded: false))
@@ -122,8 +119,8 @@ struct HealthPointApp: App {
         let files = try? FileManager.default.contentsOfDirectory(atPath: Bundle.main.bundlePath)
         
         sharedModelContainer = try! ModelContainer(
-            for: Medicine.self, Ingredient.self, AdverseEffect.self,
-            configurations: ModelConfiguration()
+            for: Item.self, Medicine.self, Ingredient.self, AdverseEffect.self, User.self,
+            configurations: config
         )
         
         print(files ?? [])
@@ -142,62 +139,6 @@ struct HealthPointApp: App {
         }
          */
     }
-}
-
-// MARK: - Loading View progress bar
-/* UNUSED with external DB import
-private struct LoadingView: View {
-    @ObservedObject var progress: DataImportModel
-    
-    var body: some View {
-        VStack(spacing: 20) {
-            Text(progress.message)
-                .font(.headline)
-            
-            ProgressView(value: progress.progress)
-                .progressViewStyle(.linear)
-            
-            Text("\(Int(progress.progress * 100))%")
-        }
-        .padding()
-    }
-}
- */
-
-// MARK: - CSV Import Helpers
-private extension HealthPointApp {
-    //Calls importing functions for database
-    /*
-    func prepopulateIfNeeded() async {
-        guard didPrepopulate else {
-            // Already imported on a previous launch
-            isLoading = false
-            return
-        }
-        do {
-            loadingMessage = "Importing medicines…"
-            try await dataImporter.importMedicines()
-            
-            loadingMessage = "Importing ingredients…"
-            try await dataImporter.importIngredients()
-            
-            loadingMessage = "Importing adverse effects…"
-            try await dataImporter.importAdverseEffects()
-            
-            loadingMessage = "Linking medicine to ingredients…"
-            try await dataImporter.linkMedicineIngredients()
-            
-            loadingMessage = "Linking medicine to adverse effects…"
-            try await dataImporter.linkMedicineAdverseEffects()
-            
-            didPrepopulate = true
-        } catch {
-            // You may want to present an error UI and/or reset the store
-            print("Prepopulation failed: \(error)")
-        }
-        isLoading = false
-    }
-     */
 }
 
 func preloadStoreIfNeeded() {

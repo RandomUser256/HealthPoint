@@ -28,6 +28,10 @@ class User {
     //String to sotre medical conditions, in support is added later
     var medicalCondition: [String] = []
     
+    private func userCount() {
+        
+    }
+    
     init(id: Int, name: String, birthDate: Date = Date(), gender: String = "N", apellidos: String, ingredientAllergies: [Ingredient] = [], unwantedMedicine: [Medicine] = [], medicalCondition: [String] = []) {
         self.id = id
         self.name = name
@@ -40,7 +44,7 @@ class User {
     }
     
     init() {
-        self.id = -1
+        self.id = Int.random(in: 1...1000)
         self.name = "placeholder"
         self.birthDate = Date()
         self.gender = "N"

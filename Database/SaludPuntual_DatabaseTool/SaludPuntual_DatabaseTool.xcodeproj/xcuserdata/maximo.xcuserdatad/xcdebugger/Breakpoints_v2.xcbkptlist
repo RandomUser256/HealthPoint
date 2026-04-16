@@ -82,36 +82,6 @@
             endingLineNumber = "108"
             landmarkName = "linkMedicineIngredients()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "7AFCA1AE-B9AA-4344-A012-8D3464067260 - 4b5e1f6db7950203"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for SaludPuntual_DatabaseTool.DataImportModel.linkMedicineIngredients() async throws -&gt; ()"
-                  moduleName = "SaludPuntual_DatabaseTool"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/maximo/Documents/GitHub/HealthPoint/Database/SaludPuntual_DatabaseTool/SaludPuntual_DatabaseTool/DataImporModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "108"
-                  endingLineNumber = "108">
-               </Location>
-               <Location
-                  uuid = "7AFCA1AE-B9AA-4344-A012-8D3464067260 - 14bfa7790eea40ee"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Dictionary&lt;Swift.String, Swift.String&gt;) throws -&gt; () in SaludPuntual_DatabaseTool.DataImportModel.linkMedicineIngredients() async throws -&gt; ()"
-                  moduleName = "SaludPuntual_DatabaseTool"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/maximo/Documents/GitHub/HealthPoint/Database/SaludPuntual_DatabaseTool/SaludPuntual_DatabaseTool/DataImporModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "110"
-                  endingLineNumber = "110">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -224,36 +194,6 @@
             endingLineNumber = "153"
             landmarkName = "linkMedicineAdverseEffects()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "6CEEDCDA-8C4B-4B9B-B39F-F5AB7184D1A6 - fbefe528b3d2c70a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Dictionary&lt;Swift.String, Swift.String&gt;) throws -&gt; () in SaludPuntual_DatabaseTool.DataImportModel.linkMedicineAdverseEffects() async throws -&gt; ()"
-                  moduleName = "SaludPuntual_DatabaseTool"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/maximo/Documents/GitHub/HealthPoint/Database/SaludPuntual_DatabaseTool/SaludPuntual_DatabaseTool/DataImporModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "153"
-                  endingLineNumber = "153">
-               </Location>
-               <Location
-                  uuid = "6CEEDCDA-8C4B-4B9B-B39F-F5AB7184D1A6 - da95e153389414ce"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (SaludPuntual_DatabaseTool.AdverseEffect) -&gt; Swift.Bool in closure #1 (Swift.Dictionary&lt;Swift.String, Swift.String&gt;) throws -&gt; () in SaludPuntual_DatabaseTool.DataImportModel.linkMedicineAdverseEffects() async throws -&gt; ()"
-                  moduleName = "SaludPuntual_DatabaseTool"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/maximo/Documents/GitHub/HealthPoint/Database/SaludPuntual_DatabaseTool/SaludPuntual_DatabaseTool/DataImporModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "153"
-                  endingLineNumber = "153">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -270,36 +210,6 @@
             endingLineNumber = "117"
             landmarkName = "linkMedicineIngredients()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "C969740B-4D51-4469-A2E0-6F688454384C - 14bfa7790eea43d7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Dictionary&lt;Swift.String, Swift.String&gt;) throws -&gt; () in SaludPuntual_DatabaseTool.DataImportModel.linkMedicineIngredients() async throws -&gt; ()"
-                  moduleName = "SaludPuntual_DatabaseTool"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/maximo/Documents/GitHub/HealthPoint/Database/SaludPuntual_DatabaseTool/SaludPuntual_DatabaseTool/DataImporModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "117"
-                  endingLineNumber = "117">
-               </Location>
-               <Location
-                  uuid = "C969740B-4D51-4469-A2E0-6F688454384C - 2d8625acc1410743"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (SaludPuntual_DatabaseTool.Ingredient) -&gt; Swift.Bool in closure #1 (Swift.Dictionary&lt;Swift.String, Swift.String&gt;) throws -&gt; () in SaludPuntual_DatabaseTool.DataImportModel.linkMedicineIngredients() async throws -&gt; ()"
-                  moduleName = "SaludPuntual_DatabaseTool"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/maximo/Documents/GitHub/HealthPoint/Database/SaludPuntual_DatabaseTool/SaludPuntual_DatabaseTool/DataImporModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "117"
-                  endingLineNumber = "117">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

@@ -98,47 +98,64 @@ struct SearchableDropdownMenu: View {
     .padding()
   }
 }
-
+/*
 struct UserPickerView: View {
     @EnvironmentObject var currentUser: UserSettings
-    @Environment(\.modelContext) private var modelContext
 
-    @Query(sort: \User.name) private var users: [User] // SwiftData query for all users
+    @Bindable var users: [User]
+    
+    @Query
+    
+    init(users: [User]? = nil) {
+        if let provided = users {
+            _users = Bindable(provided)
+        } else {
+            _users = Bindable([])
+        }
+    }
 
     var body: some View {
         List {
-            ForEach(users, id: \.id) { user in
+            ForEach(users, id: \.id) { usr in
                 HStack {
-                    Text(user.name)
-                    Spacer()
-                    if user.id == currentUser.user.id {
-                        Image(systemName: "checkmark")
-                            .foregroundStyle(.accent)
+                    Text(usr.name)
+                        .padding(.horizontal, 10)
+                    if currentUser.user.id == usr.id {
+                        Image(systemName: "circle")
+                    } else {
+                        Image(systemName: "circle.fill")
                     }
                 }
-                .contentShape(Rectangle()) // Makes the whole row tappable
+                .contentShape(Rectangle())
                 .onTapGesture {
-                    // Update the environment object
-                    currentUser.user = user
+                    currentUser.user = usr
                 }
             }
         }
         .navigationTitle("Choose User")
     }
 }
-
+*/
 struct UserView: View {
     @Environment(\.modelContext) private var modelContext
     
     //@Bindable var currentUser: User
     
-    @EnvironmentObject var currentUser: UserSettings
+    @EnvironmentObject private var currentUser: UserSettings
+
+    @Bindable var selectedUser: User
+    
+    @Query var userList: [User]
+    
+    //@Query(sort: \User.name) var users: [User] // SwiftData query for all users
     
     //@State private var localUser: User?
     
-    @State private var newUser: Bool = false
+    @State private var newUser: Bool
     @State private var saveChanges: Bool = false
+    @State private var deleteUser: Bool = false
     
+  /*
     @State var name: String
     @State var apellidos: String
     @State var fechaNacimiento: Date
@@ -149,14 +166,18 @@ struct UserView: View {
     
     @State private var unwantedMedicineNames: [String] = []
     @State private var unwantedAllergy : [String] = []
+   */
     
     @State private var userNames: [String] = []
     
     @State private var selectingUser: Bool = false
     
-    @State private var usrList: [User]
+    //@State private var usrList: [User]
     
-    init(selectedUser: User) {
+    @Environment(\.dismiss) var dismiss
+    
+    init(selectedUser: User? = nil) {
+        /*
         self._name = State(initialValue: selectedUser.name)
         self._apellidos = State(initialValue: selectedUser.apellidos)
         self._fechaNacimiento = State(initialValue: selectedUser.birthDate)
@@ -164,15 +185,25 @@ struct UserView: View {
         self._medicineAllergy = State(initialValue: selectedUser.publicUnwantedMedicine)
         self._ingredientAllergy = State(initialValue: selectedUser.publicIngredientAllergies)
         self._usrList = State(initialValue: [])
+         */
+        
+        if let provided = selectedUser {
+            _selectedUser = Bindable(provided)
+            self.newUser = false
+        } else {
+            let newUser = User()
+            _selectedUser = Bindable(newUser)
+            self.newUser = true
+        }
     }
     
-    func userList() {
+    /*func userList() {
         let context = modelContext
         let fetch = FetchDescriptor<User>()
-        let users = (try? context.fetch(fetch)) ?? []
+        self.usrList = (try? context.fetch(fetch)) ?? []
         //let names = users.map { $0.name }
         //self.userNames = names
-    }
+    }*/
     
     var body: some View {
         ScrollView {
@@ -183,91 +214,110 @@ struct UserView: View {
                     Text("Users")
                         .bold(true)
                 }
-                SearchableDropdownMenu(options: $userNames)
                 
-                if selectingUser {
-                    List () {
-                        ForEach(usrList, id: \.id) { usr in
-                            Text(usr.name)
-                                .onTapGesture {
-                                    currentUser.user = usr
-                                }
-                        }
-                    }
-                    
-                } else {
-                    Text("Nombre(s)")
-                        .bold(true)
-                    TextField("Nombre(s)", text: $name)
-                    
-                    Text("Apellidos")
-                        .bold(true)
-                    TextField("Apellidos", text: $apellidos)
-                    
-                    Text("Fecha nacimiento")
-                        .bold(true)
-                    DatePicker(
-                        "Fecha de nacimiento",
-                        selection: $fechaNacimiento,
-                        displayedComponents: [.date]
-                    )
-                    
-                    Text("Unwanted Medicines").bold(true)
-                    SearchableDropdownMenu(options: $unwantedMedicineNames)
-                    
-                    Text("Alllergic components").bold(true)
-                    SearchableDropdownMenu(options: $unwantedAllergy)
-                    
-                    
-                    
-                    Button("Save") {
-                        Task {
-                            self.saveChanges = true
-                            //let context = modelContext
-                            // Fetch existing medicines by name
+                Text("Nombre(s)")
+                    .bold(true)
+                TextField("Nombre(s)", text: $selectedUser.name)
+                
+                Text("Apellidos")
+                    .bold(true)
+                TextField("Apellidos", text: $selectedUser.apellidos)
+                
+                Text("Fecha nacimiento")
+                    .bold(true)
+                DatePicker(
+                    "Fecha de nacimiento",
+                    selection: $selectedUser.birthDate,
+                    displayedComponents: [.date]
+                )
+                /*
+                Text("Unwanted Medicines").bold(true)
+                SearchableDropdownMenu(options: $currentUser.user.publicUnwantedMedicine)
+                
+                Text("Alllergic components").bold(true)
+                SearchableDropdownMenu(options: $currentUser.user.unwantedAllergy)
+                */
+                
+                
+                Button("Save") {
+                    Task {
+                        do {
+                            
+                            // Insert only if new
+                            if self.newUser {
+                                modelContext.insert(selectedUser)
+                            }
                             /*
-                             let fetch = FetchDescriptor<Medicine>()
-                             let meds = (try? context.fetch(fetch)) ?? []
-                             var byName: [String: Medicine] = [:]
-                             for m in meds { byName[m.getName()] = m }
-                             
-                             
-                             // Build final list from names
-                             var newList: [Medicine] = []
-                             for name in unwantedMedicineNames {
-                             if let existing = byName[name] {
-                             newList.append(existing)
-                             } else {
-                             // Create a placeholder medicine with id -1 if missing; adjust as needed for your schema
-                             let med = Medicine(id: -1, name: name, descriptionText: "")
-                             context.insert(med)
-                             newList.append(med)
-                             }
-                             }
-                             currentUser.user.publicUnwantedMedicine = newList
-                             */
-                            //try? context.save()
+                            // Apply edits
+                            currentUser.user.name = name
+                            currentUser.user.apellidos = apellidos
+                            currentUser.user.birthDate = fechaNacimiento
+                            currentUser.user.gender = gender
+                            currentUser.user.publicUnwantedMedicine = medicineAllergy
+                            currentUser.user.publicIngredientAllergies = ingredientAllergy
+                            */
+                            try modelContext.save()
+                        } catch {
+                            print("Error saving user: \(error)")
                         }
+                        
+                        dismiss()
                     }
                 }
-            }
-            .onAppear() {
                 
+                Button("Delete") {
+                    Task {
+                        modelContext.delete(selectedUser)
+                        
+                        do {
+                            try modelContext.save()
+                        } catch {
+                            print("Error saving user: \(error)")
+                        }
+                        
+                        dismiss()
+                    }
+                }
+                /*
+                if selectingUser {
+                    List {
+                        ForEach(userList, id: \.id) { usr in
+                            HStack {
+                                Text(usr.name)
+                                    .padding(.horizontal, 10)
+                                if currentUser.user.id == usr.id {
+                                    Image(systemName: "circle")
+                                } else {
+                                    Image(systemName: "circle.fill")
+                                }
+                            }
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                currentUser.user = usr
+                            }
+                        }
+                    }
+                } else {
+                    
+                }
+                 */
             }
+                
+            
         }
         .onAppear() {
-            /*
-            if currentUser.id != -1 {
-                self.name = currentUser.user.name
-                self.gender = currentUser.user.gender
-                self.apellidos = currentUser.user.apellidos
-                
-                unwantedMedicineNames = currentUser.user.publicUnwantedMedicine.map { $0.getName() }
-                unwantedAllergy = currentUser.user.publicIngredientAllergies.map { $0.getName() }
+            if newUser {
+                modelContext.insert(currentUser.user)
+                // If the currentUser.user is not yet managed, insert it now
+                /*
+                 if modelContext.model(for: currentUser.user) == nil {
+                    modelContext.insert(currentUser.user)
+                }
+                 */
             }
-             */
         }
         .onDisappear() {
+            /*
             if saveChanges {
                 currentUser.user.name = self.name
                 currentUser.user.apellidos = self.apellidos
@@ -277,11 +327,18 @@ struct UserView: View {
                 currentUser.user.publicIngredientAllergies = self.ingredientAllergy
                 modelContext.insert(currentUser.user)
             }
-            do {
-                try modelContext.save()
-            } catch {
-                print("Error saving user information: \(error)")
+            else if deleteUser {
+                modelContext.delete(currentUser.user)
             }
+            
+            do {
+                if saveChanges {
+                    try modelContext.save()
+                }
+            } catch {
+                print("Error saving/deleteing user information: \(error)")
+            }
+             */
         }
     }
 }

@@ -5,9 +5,12 @@
 //  Created by CETYS Universidad  on 14/04/26.
 //
 import SwiftUI
+import SwiftData
 
 struct MainMenuView: View {
     @EnvironmentObject private var currentUser: UserSettings
+    
+    @Query var userList: [User]
     
     //@State var selectedScreen: String = 
     
@@ -33,6 +36,34 @@ struct MainMenuView: View {
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
                 .padding(.horizontal)
+                
+                List {
+                    ForEach(userList, id: \.id) { usr in
+                        HStack {
+                            Text(usr.name)
+                                .padding(.horizontal, 10)
+                            if currentUser.user.id == usr.id {
+                                Image(systemName: "circle")
+                            } else {
+                                Image(systemName: "circle.fill")
+                            }
+                        }
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            currentUser.user = usr
+                        }
+                    }
+                }
+                
+                NavigationLink (destination: UserView() ,label: {
+                    Label("Crear nuevo usuario", systemImage: "pills.fill")
+                        .font(.headline)
+                        .padding(.vertical, 10)
+                        .frame(maxWidth: .infinity)
+                })
+                .buttonStyle(.bordered)
+                .padding(.horizontal)
+                .padding(.bottom, 24)
                 
                 NavigationLink (destination: UserView(selectedUser: currentUser.user) ,label: {
                     Label("Open User settings", systemImage: "pills.fill")

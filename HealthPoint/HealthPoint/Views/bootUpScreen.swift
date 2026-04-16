@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct startScreen: View {
+struct bootUpScreen: View {
     var body: some View {
         VStack {
             Text("Start screen")
