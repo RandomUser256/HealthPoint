@@ -217,6 +217,12 @@ struct UserView: View {
         self._usrList = State(initialValue: [])
          */
         
+        //let provided = currentUser.user
+        
+        //_selectedUser = Bindable(currentUser.user)
+        
+        
+        
         if let provided = selectedUser {
             _selectedUser = Bindable(provided)
             self.newUser = false
@@ -225,6 +231,7 @@ struct UserView: View {
             _selectedUser = Bindable(newUser)
             self.newUser = true
         }
+        
     }
     
     /*func userList() {

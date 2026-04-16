@@ -126,7 +126,7 @@ extension MainMenuView {
     var header: some View {
             HStack {
                 // Left button (navigation)
-                NavigationLink(destination: UserView()) {
+                NavigationLink(destination: UserView(selectedUser: currentUser.user)) {
                     CircleIcon(systemName: "circle.fill")
                 }
                 

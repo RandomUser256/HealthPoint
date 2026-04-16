@@ -107,10 +107,11 @@ struct HealthPointApp: App {
 
         let config = ModelConfiguration(url: storeURL)
         
+        /*
         sharedModelContainer = try! ModelContainer(
             for: Medicine.self, Ingredient.self, AdverseEffect.self,
             configurations: ModelConfiguration()
-        )
+        )*/
         
         print("Disk storage path: ", URL.applicationSupportDirectory.path(percentEncoded: false))
         
