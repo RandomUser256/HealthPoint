@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>HealthPoint.xcscheme_^#shared#^_</key>
+		<key>SaludPuntual_DatabaseTool.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -12,7 +12,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>88DFC25D2F89AAC3009C2E2E</key>
+		<key>8863190B2F8DC7C000A4AC25</key>
 		<dict>
 			<key>primary</key>
 			<true/>
