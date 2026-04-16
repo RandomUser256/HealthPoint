@@ -271,6 +271,7 @@ extension UserView {
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Fecha de nacimiento")
                         .font(.headline)
+                        .foregroundStyle(.universalAccent)
                     
                     DatePicker(
                         "",
