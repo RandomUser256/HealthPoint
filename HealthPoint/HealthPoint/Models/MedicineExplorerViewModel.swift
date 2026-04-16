@@ -106,8 +106,18 @@ final class MedicineExplorerViewModel: ObservableObject {
         let groups = Dictionary(grouping: displayed) { med in
             String(med.getName().prefix(1)).uppercased()
         }
-        return groups.keys.sorted().map { key in
-            (key, groups[key]!.sorted { $0.getName().localizedCaseInsensitiveCompare($1.getName()) == .orderedAscending })
+        let sortedKeys = groups.keys.sorted { lhs, rhs in
+            sortAscending
+                ? lhs.localizedCaseInsensitiveCompare(rhs) == .orderedAscending
+                : lhs.localizedCaseInsensitiveCompare(rhs) == .orderedDescending
+        }
+        return sortedKeys.map { key in
+            let items = groups[key]!.sorted { lhs, rhs in
+                sortAscending
+                    ? lhs.getName().localizedCaseInsensitiveCompare(rhs.getName()) == .orderedAscending
+                    : lhs.getName().localizedCaseInsensitiveCompare(rhs.getName()) == .orderedDescending
+            }
+            return (key, items)
         }
     }
 }

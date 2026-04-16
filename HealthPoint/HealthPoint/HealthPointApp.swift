@@ -40,6 +40,8 @@ struct HealthPointApp: App {
     //Persisted storage indicator if dataset has previously been loaded
     @AppStorage("didPrepopulateStore") private var didPrepopulate: Bool = false
     @State private var isReadyToBoot: Bool = false
+    @State private var shouldShowMainMenu: Bool = false
+    @StateObject private var userSettings = UserSettings()
     
     //Message for debugging purposes
     @State private var loadingMessage: String = "Preparing data…"
@@ -69,22 +71,22 @@ struct HealthPointApp: App {
     var body: some Scene {
         WindowGroup {
             Group {
-                ContentView()
-                    .environmentObject(UserSettings())
-                // Loading progress view while preparing data
-                /*
-                if isReadyToBoot {
+                if shouldShowMainMenu {
                     ContentView()
-                        .environmentObject(UserSettings())
+                        .environmentObject(userSettings)
                 } else {
-                    startScreen()
+                    bootUpScreen(
+                        isDataReady: isReadyToBoot,
+                        loadingMessage: loadingMessage,
+                        onContinue: {
+                            guard isReadyToBoot else { return }
+                            shouldShowMainMenu = true
+                        }
+                    )
                 }
-                 */
             }
             .task {
-                //No longer loads data, uses a prebuilt default.store file
-                //await prepopulateIfNeeded()
-                
+                await prepareBoot()
             }
         }
         .modelContainer(sharedModelContainer)
@@ -140,6 +142,22 @@ struct HealthPointApp: App {
         }
          */
     }
+
+    @MainActor
+    private func prepareBoot() async {
+        guard !isReadyToBoot else { return }
+
+        loadingMessage = "Verificando la base local de medicamentos…"
+        await Task.yield()
+
+        let context = ModelContext(sharedModelContainer)
+        let medicineCount = (try? context.fetchCount(FetchDescriptor<Medicine>())) ?? 0
+
+        loadingMessage = medicineCount > 0
+            ? "Base de datos lista. Puedes continuar."
+            : "No se encontraron medicamentos en la base local."
+        isReadyToBoot = true
+    }
 }
 
 func preloadStoreIfNeeded() {
@@ -169,4 +187,3 @@ func preloadStoreIfNeeded() {
         try! fm.copyItem(at: src, to: dst)
     }
 }
-

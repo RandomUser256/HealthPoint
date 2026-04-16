@@ -26,9 +26,10 @@ struct MainMenuView: View {
                 VStack(spacing: 24) {
                     
                     header
+                        //.padding(.top, 30)
                     
                     welcomeText
-                        .padding(.vertical)
+                        //.padding(.vertical)
                     
                     Divider()
                         .overlay(Color.gray.opacity(0.4))
@@ -52,37 +53,46 @@ struct MainMenuView: View {
 
 extension MainMenuView {
     var header: some View {
-            HStack {
-                // Left button (navigation)
-                NavigationLink(destination: UserView(selectedUser: currentUser.user)) {
-                    CircleIcon(systemName: "person.fill", paddingSize: 14)
-                }
-                
-                // Dropdown name
-                Menu {
-                    ForEach(users, id: \.self) { user in
-                        Button(action: {
-                            currentUser.user = user
-                        }) {
-                            Text(user.getName())
-                        }
-                    }
-                } label: {
-                    HStack(spacing: 4) {
-                        Text(currentUser.user.name)
-                            .font(.headline)
-                        
-                        Image(systemName: "chevron.down")
-                            .font(.caption)
-                    }
-                    .foregroundColor(.primary)
-                }
-                
-                Spacer()
-                
-                CircleIcon(systemName: "gearshape.fill", paddingSize: 14)
+        HStack {
+            // Left button (navigation)
+            NavigationLink(destination: UserView(selectedUser: currentUser.user)) {
+                CircleIcon(systemName: "person.fill", paddingSize: 20)
             }
+            
+            // Dropdown name
+            Menu {
+                Button(action: {
+                    currentUser.user = User()
+                }) {
+                    Text("New User")
+                        .font(.system(size: 20))
+                }
+                
+                ForEach(users, id: \.self) { user in
+                    Button(action: {
+                        currentUser.user = user
+                    }) {
+                        Text(user.getName())
+                            .font(.system(size: 20))
+                    }
+                }
+            } label: {
+                HStack(spacing: 4) {
+                    Text(currentUser.user.name)
+                        .font(.system(size: 20, weight: .semibold))
+                    
+                    Image(systemName: "chevron.down")
+                        .font(.caption)
+                }
+                .foregroundColor(.primary)
+                .contentShape(Rectangle())
+            }
+            
+            Spacer()
+            
+            CircleIcon(systemName: "gearshape.fill", paddingSize: 20)
         }
+    }
     
     var welcomeText: some View {
             Text("""
@@ -91,9 +101,13 @@ extension MainMenuView {
     siguientes modos para
     realizar tu consulta:
     """)
-            .multilineTextAlignment(.center)
-            .font(.headline)
-            .foregroundStyle(.universalAccent)
+        .multilineTextAlignment(.center)
+        .font(.system(size: 22, weight: .semibold, design: .default))
+        .lineSpacing(6)
+        .minimumScaleFactor(0.9)
+        .foregroundStyle(.universalAccent)
+        .padding(.horizontal)
+        .fixedSize(horizontal: false, vertical: true)
     }
     
     var cardsSection: some View {
@@ -107,18 +121,12 @@ extension MainMenuView {
                 .padding(.top)
                 
                 ModeCard(
-                    title: "Bot de Voz",
-                    description: "Consulta a tu Bot de Charla para consultar información de tus medicamentos",
-                    selectedOption: $selectedOption
-                )
-                .padding(.vertical)
-                
-                ModeCard(
                     title: "Base de Datos",
                     description: "Haz una búsqueda de información farmacéutica en formato tabular sin interacción directa con un Bot",
                     selectedOption: $selectedOption,
                     showSelectors: false
                 )
+                .padding(.top, 30)
             }
         }
 }
@@ -130,20 +138,23 @@ struct ModeCard: View {
     
     var showSelectors: Bool = true
     
+    @State private var dummyTapBlocker: Bool = false
+    @State private var go: Bool = false
+    
     var body: some View {
         HStack {
             
             VStack(alignment: .leading, spacing: 10) {
                 
                 Text(title)
-                    .font(.headline)
+                    .font(.system(size: 20, weight: .semibold))
                     .foregroundStyle(.universalAccent)
                 
                 Text(description)
-                    .font(.caption)
+                    .font(.system(size: 17))
                     .foregroundColor(.black)
                     .fixedSize(horizontal: false, vertical: true)
-                    .lineLimit(nil) // or a small number like 3 if you want to cap height
+                    .lineSpacing(4)
                 
                 if showSelectors {
                     Picker("", selection: $selectedOption) {
@@ -152,23 +163,33 @@ struct ModeCard: View {
                     }
                     .pickerStyle(.segmented)
                     .tint(Color.green)
+                    .frame(maxWidth: 350)
+                    .allowsHitTesting(true)
+                    .highPriorityGesture(TapGesture().onEnded { _ in })
                 }
             }
             
             Spacer()
             
             switch title {
-            case "Bot de Charla":// Navigation button
-                NavigationLink(destination: chatScreen()) {
+            case "Bot de Charla":
+                ZStack {
+                    NavigationLink(destination: chatScreen(), isActive: $go) { EmptyView() }
+                        .hidden()
                     CircleIcon(systemName: "chevron.right")
                 }
                 
-            case "Bot de Texto":// Navigation button
-                NavigationLink(destination: chatScreen()) {
+            case "Bot de Texto":
+                ZStack {
+                    NavigationLink(destination: chatScreen(), isActive: $go) { EmptyView() }
+                        .hidden()
                     CircleIcon(systemName: "chevron.right")
                 }
+                
             case "Base de Datos":
-                NavigationLink(destination: MedicineExplorer()) {
+                ZStack {
+                    NavigationLink(destination: MedicineExplorer(), isActive: $go) { EmptyView() }
+                        .hidden()
                     CircleIcon(systemName: "chevron.right")
                 }
             default:
@@ -176,6 +197,7 @@ struct ModeCard: View {
             }
         }
         .padding()
+        .padding(.vertical, 6)
         .background(
             RoundedRectangle(cornerRadius: 18)
                 .fill(Color(.foreground).opacity(0.4))
@@ -184,5 +206,20 @@ struct ModeCard: View {
                         .stroke(Color(.universalAccent), lineWidth: 1.5)
                 )
         )
+        .frame(maxWidth: .infinity)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            // Only trigger navigation if tap not on picker (picker consumes taps)
+            switch title {
+            case "Bot de Charla":
+                go = true
+            case "Bot de Texto":
+                go = true
+            case "Base de Datos":
+                go = true
+            default:
+                break
+            }
+        }
     }
 }

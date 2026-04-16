@@ -223,6 +223,8 @@ struct UserView: View {
                 HStack {
                     saveButton
                     
+                        .padding(.trailing, 60)
+                    
                     deleteButton
                 }
             }
@@ -251,6 +253,7 @@ extension UserView {
                 .font(.largeTitle)
                 .bold()
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .foregroundStyle(.universalAccent)
         }
     
     var datosPersonalesCard: some View {
@@ -285,6 +288,7 @@ extension UserView {
         VStack(alignment: .leading, spacing: 12) {
             Text("Género biológico")
                 .font(.headline)
+                .foregroundStyle(.universalAccent)
             
             Picker("Gender", selection: $selectedUser.gender) {
                 Text("Masculino")
@@ -297,6 +301,7 @@ extension UserView {
             }
             .pickerStyle(.segmented)
             .tint(Color(.universalAccent)) // accent color of the selected segment capsule
+            .foregroundStyle(.universalAccent)
         }
     }
     
@@ -316,16 +321,21 @@ extension UserView {
                 dismiss()
             }
         }) {
-            Image(systemName: "checkmark")
-                .foregroundColor(.green)
-                .padding()
-                .background(.universalAccent)
-                .clipShape(Circle())
+            VStack {
+                Image(systemName: "checkmark")
+                    .foregroundColor(.green)
+                    .padding(25)
+                    .background(.universalAccent)
+                    .clipShape(Circle())
+                Text("Save")
+                    .font(.subheadline)
+                    .foregroundStyle(.universalAccent)
+            }
         }
     }
     
     var deleteButton: some View {
-        Button("Delete") {
+        Button(action: {
             Task {
                 modelContext.delete(selectedUser)
                 
@@ -337,11 +347,18 @@ extension UserView {
                 
                 dismiss()
             }
+        }) {
+            VStack {
+                Image(systemName: "trash.fill")
+                    .foregroundColor(.green)
+                    .padding(25)
+                    .background(.universalAccent)
+                    .clipShape(Circle())
+                Text("Save")
+                    .font(.subheadline)
+                    .foregroundStyle(.universalAccent)
+            }
         }
-        .foregroundColor(.green)
-        .padding(30)
-        .background(Color.green.opacity(0.15))
-        .clipShape(Circle())
         
     }
     
@@ -350,6 +367,7 @@ extension UserView {
                 
                 Text("Otras configuraciones...")
                     .font(.headline)
+                    .foregroundStyle(.universalAccent)
                 /*
                 ExpandableCard(
                     title: "Diagnósticos médicos",
@@ -483,6 +501,7 @@ struct CustomTextField: View {
             TextField("", text: $text)
                 .padding()
                 .background(Color(.background).opacity(0.5))
+                .foregroundStyle(.black)
                 .cornerRadius(10)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)

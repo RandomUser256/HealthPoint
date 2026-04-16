@@ -4,6 +4,7 @@
 //
 //  Created by CETYS Universidad  on 15/04/26.
 //
+/*
 import SwiftUI
 
 //Expanded view when clicking on a medicine item
@@ -60,3 +61,4 @@ struct MedicineDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 }
+*/

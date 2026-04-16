@@ -94,8 +94,10 @@
             filePath = "HealthPoint/Views/MedicineExplorer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "273"
-            endingLineNumber = "273">
+            startingLineNumber = "289"
+            endingLineNumber = "289"
+            landmarkName = "detailSection(title:content:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -108,8 +110,10 @@
             filePath = "HealthPoint/Views/MedicineExplorer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "276"
-            endingLineNumber = "276">
+            startingLineNumber = "292"
+            endingLineNumber = "292"
+            landmarkName = "detailSection(title:content:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -122,8 +126,10 @@
             filePath = "HealthPoint/Views/MedicineExplorer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274">
+            startingLineNumber = "290"
+            endingLineNumber = "290"
+            landmarkName = "detailSection(title:content:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -136,8 +142,10 @@
             filePath = "HealthPoint/Views/MedicineExplorer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "275"
-            endingLineNumber = "275">
+            startingLineNumber = "291"
+            endingLineNumber = "291"
+            landmarkName = "detailSection(title:content:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -150,8 +158,8 @@
             filePath = "HealthPoint/Views/UserView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "259"
-            endingLineNumber = "259"
+            startingLineNumber = "262"
+            endingLineNumber = "262"
             landmarkName = "datosPersonalesCard"
             landmarkType = "24">
          </BreakpointContent>
