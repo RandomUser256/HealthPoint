@@ -18,108 +18,36 @@ struct MainMenuView: View {
     //@State var selectedScreen: String = 
     
     var body: some View {
-        /*
         NavigationStack {
-            VStack {
-                Spacer()
-                Text("HealthPoint")
-                    .font(.largeTitle)
-                    .bold()
-                    .padding(.bottom, 8)
-                Text("Main Menu")
-                    .foregroundStyle(.secondary)
+            ZStack {
+                Color(.systemGroupedBackground)
+                    .ignoresSafeArea()
                 
-                Spacer()
-                
-                NavigationLink (destination: chatScreen() ,label: {
-                    Label("Open chatbot", systemImage: "message.fill")
-                        .font(.title2)
-                        .padding(.vertical, 12)
-                        .frame(maxWidth: .infinity)
-                })
-                .buttonStyle(.borderedProminent)
-                .controlSize(.large)
-                .padding(.horizontal)
-                
-                List {
-                    ForEach(userList, id: \.id) { usr in
-                        HStack {
-                            Text(usr.name)
-                                .padding(.horizontal, 10)
-                            if currentUser.user.id == usr.id {
-                                Image(systemName: "circle")
-                            } else {
-                                Image(systemName: "circle.fill")
-                            }
-                        }
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            currentUser.user = usr
-                        }
-                    }
+                VStack(spacing: 24) {
+                    
+                    header
+                    
+                    welcomeText
+                        .padding(.vertical)
+                    
+                    Divider()
+                        .overlay(Color.gray.opacity(0.4))
+                    
+                    cardsSection
+                    
+                    Spacer()
                 }
-                
-                NavigationLink (destination: UserView() ,label: {
-                    Label("Crear nuevo usuario", systemImage: "pills.fill")
-                        .font(.headline)
-                        .padding(.vertical, 10)
-                        .frame(maxWidth: .infinity)
-                })
-                .buttonStyle(.bordered)
-                .padding(.horizontal)
-                .padding(.bottom, 24)
-                
-                NavigationLink (destination: UserView(selectedUser: currentUser.user) ,label: {
-                    Label("Open User settings", systemImage: "pills.fill")
-                        .font(.headline)
-                        .padding(.vertical, 10)
-                        .frame(maxWidth: .infinity)
-                })
-                .buttonStyle(.bordered)
-                .padding(.horizontal)
-                .padding(.bottom, 24)
-                
-                Spacer()
-                
-                NavigationLink (destination: MedicineExplorer(), label: {
-                    Label("Open Medicines List", systemImage: "pills.fill")
-                        .font(.headline)
-                        .padding(.vertical, 10)
-                        .frame(maxWidth: .infinity)
-                })
-                .buttonStyle(.bordered)
-                .padding(.horizontal)
-                .padding(.bottom, 24)
+                .padding()
             }
         }
-        .tint(.green)
-         */
-        NavigationStack {
-                    ZStack {
-                        Color(.systemGroupedBackground)
-                            .ignoresSafeArea()
-                        
-                        VStack(spacing: 24) {
-                            
-                            header
-                            
-                            welcomeText
-                            
-                            Divider()
-                                .overlay(Color.gray.opacity(0.4))
-                            
-                            cardsSection
-                            
-                            Spacer()
-                        }
-                        .padding()
-                    }
-                }
+        .foregroundStyle(Color(.background))
     }
 }
 
 #Preview {
     MainMenuView()
+        .environmentObject(UserSettings()) // Provide a preview instance
+        //.modelContainer(for: Item.self, inMemory: true)
 }
 
 extension MainMenuView {
@@ -127,7 +55,7 @@ extension MainMenuView {
             HStack {
                 // Left button (navigation)
                 NavigationLink(destination: UserView(selectedUser: currentUser.user)) {
-                    CircleIcon(systemName: "circle.fill")
+                    CircleIcon(systemName: "person.fill", paddingSize: 14)
                 }
                 
                 // Dropdown name
@@ -152,7 +80,7 @@ extension MainMenuView {
                 
                 Spacer()
                 
-                CircleIcon(systemName: "gearshape")
+                CircleIcon(systemName: "gearshape.fill", paddingSize: 14)
             }
         }
     
@@ -164,8 +92,9 @@ extension MainMenuView {
     realizar tu consulta:
     """)
             .multilineTextAlignment(.center)
-            .font(.subheadline)
-        }
+            .font(.headline)
+            .foregroundStyle(.universalAccent)
+    }
     
     var cardsSection: some View {
             VStack(spacing: 16) {
@@ -175,12 +104,14 @@ extension MainMenuView {
                     description: "Consulta a tu Bot de Charla para recibir información de tus medicamentos",
                     selectedOption: $selectedOption
                 )
+                .padding(.top)
                 
                 ModeCard(
                     title: "Bot de Voz",
                     description: "Consulta a tu Bot de Charla para consultar información de tus medicamentos",
                     selectedOption: $selectedOption
                 )
+                .padding(.vertical)
                 
                 ModeCard(
                     title: "Base de Datos",
@@ -193,7 +124,6 @@ extension MainMenuView {
 }
 
 struct ModeCard: View {
-    
     var title: String
     var description: String
     @Binding var selectedOption: String
@@ -207,10 +137,13 @@ struct ModeCard: View {
                 
                 Text(title)
                     .font(.headline)
+                    .foregroundStyle(.universalAccent)
                 
                 Text(description)
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.black)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(nil) // or a small number like 3 if you want to cap height
                 
                 if showSelectors {
                     Picker("", selection: $selectedOption) {
@@ -229,6 +162,7 @@ struct ModeCard: View {
                 NavigationLink(destination: chatScreen()) {
                     CircleIcon(systemName: "chevron.right")
                 }
+                
             case "Bot de Texto":// Navigation button
                 NavigationLink(destination: chatScreen()) {
                     CircleIcon(systemName: "chevron.right")
@@ -244,10 +178,10 @@ struct ModeCard: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 18)
-                .fill(Color(.secondarySystemGroupedBackground))
+                .fill(Color(.foreground).opacity(0.4))
                 .overlay(
                     RoundedRectangle(cornerRadius: 18)
-                        .stroke(Color.green.opacity(0.4), lineWidth: 1.5)
+                        .stroke(Color(.universalAccent), lineWidth: 1.5)
                 )
         )
     }

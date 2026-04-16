@@ -128,44 +128,6 @@ struct DropdownMenuDisclosureGroup: View {
   }
 }
 
-/*
-struct UserPickerView: View {
-    @EnvironmentObject var currentUser: UserSettings
-
-    @Bindable var users: [User]
-    
-    @Query
-    
-    init(users: [User]? = nil) {
-        if let provided = users {
-            _users = Bindable(provided)
-        } else {
-            _users = Bindable([])
-        }
-    }
-
-    var body: some View {
-        List {
-            ForEach(users, id: \.id) { usr in
-                HStack {
-                    Text(usr.name)
-                        .padding(.horizontal, 10)
-                    if currentUser.user.id == usr.id {
-                        Image(systemName: "circle")
-                    } else {
-                        Image(systemName: "circle.fill")
-                    }
-                }
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    currentUser.user = usr
-                }
-            }
-        }
-        .navigationTitle("Choose User")
-    }
-}
-*/
 struct UserView: View {
     @Environment(\.modelContext) private var modelContext
     
@@ -243,242 +205,6 @@ struct UserView: View {
     }*/
     
     var body: some View {
-        /*
-         ScrollView {
-         VStack {
-         Button(action: {
-         selectingUser.toggle()
-         }) {
-         Text("Users")
-         .bold(true)
-         }
-         
-         Text("Nombre(s)")
-         .bold(true)
-         TextField("Nombre(s)", text: $selectedUser.name)
-         
-         Text("Apellidos")
-         .bold(true)
-         TextField("Apellidos", text: $selectedUser.apellidos)
-         
-         Text("Fecha nacimiento")
-         .bold(true)
-         DatePicker(
-         "Fecha de nacimiento",
-         selection: $selectedUser.birthDate,
-         displayedComponents: [.date]
-         )
-         
-         /*
-          Text("Unwanted Medicines").bold(true)
-          SearchableDropdownMenu(options: $currentUser.user.publicUnwantedMedicine)
-          
-          */
-         
-         Text("Alergias").bold(true)
-         SearchableDropdownMenu(options: $currentUser.user.publicIngredientAllergies)
-         
-         
-         
-         Button("Save") {
-         Task {
-         do {
-         
-         // Insert only if new
-         if self.newUser {
-         modelContext.insert(selectedUser)
-         }
-         /*
-          // Apply edits
-          currentUser.user.name = name
-          currentUser.user.apellidos = apellidos
-          currentUser.user.birthDate = fechaNacimiento
-          currentUser.user.gender = gender
-          currentUser.user.publicUnwantedMedicine = medicineAllergy
-          currentUser.user.publicIngredientAllergies = ingredientAllergy
-          */
-         try modelContext.save()
-         } catch {
-         print("Error saving user: \(error)")
-         }
-         
-         dismiss()
-         }
-         }
-         
-         Button("Delete") {
-         Task {
-         modelContext.delete(selectedUser)
-         
-         do {
-         try modelContext.save()
-         } catch {
-         print("Error saving user: \(error)")
-         }
-         
-         dismiss()
-         }
-         }
-         /*
-          if selectingUser {
-          List {
-          ForEach(userList, id: \.id) { usr in
-          HStack {
-          Text(usr.name)
-          .padding(.horizontal, 10)
-          if currentUser.user.id == usr.id {
-          Image(systemName: "circle")
-          } else {
-          Image(systemName: "circle.fill")
-          }
-          }
-          .contentShape(Rectangle())
-          .onTapGesture {
-          currentUser.user = usr
-          }
-          }
-          }
-          } else {
-          
-          }
-          */
-         }
-         
-         
-         }
-         .onAppear() {
-         if newUser {
-         modelContext.insert(currentUser.user)
-         // If the currentUser.user is not yet managed, insert it now
-         /*
-          if modelContext.model(for: currentUser.user) == nil {
-          modelContext.insert(currentUser.user)
-          }
-          */
-         }
-         }
-         .onDisappear() {
-         /*
-          if saveChanges {
-          currentUser.user.name = self.name
-          currentUser.user.apellidos = self.apellidos
-          currentUser.user.birthDate = self.fechaNacimiento
-          currentUser.user.gender = self.gender
-          currentUser.user.publicUnwantedMedicine = self.medicineAllergy
-          currentUser.user.publicIngredientAllergies = self.ingredientAllergy
-          modelContext.insert(currentUser.user)
-          }
-          else if deleteUser {
-          modelContext.delete(currentUser.user)
-          }
-          
-          do {
-          if saveChanges {
-          try modelContext.save()
-          }
-          } catch {
-          print("Error saving/deleteing user information: \(error)")
-          }
-          */
-         }*/
-        /*
-         ScrollView {
-         VStack(alignment: .leading, spacing: 20) {
-         
-         // Header
-         HStack {
-         Button(action: {}) {
-         Image(systemName: "square.grid.2x2")
-         .padding()
-         .background(Color.green.opacity(0.2))
-         .clipShape(Circle())
-         }
-         
-         Spacer()
-         
-         Button(action: {}) {
-         Image(systemName: "gearshape")
-         .padding()
-         .background(Color.green.opacity(0.2))
-         .clipShape(Circle())
-         }
-         }
-         
-         Text("Perfil")
-         .font(.largeTitle)
-         .bold()
-         
-         // Inputs
-         Group {
-         CustomTextField(title: "Nombre(s)", text: $selectedUser.name)
-         CustomTextField(title: "Apellido Paterno", text: $selectedUser.apellidos)
-         //CustomTextField(title: "Apellido Materno", text: $apellidoMaterno)
-         }
-         
-         // Fecha de nacimiento
-         
-         VStack(alignment: .leading, spacing: 10) {
-         Text("Fecha de nacimiento")
-         .font(.headline)
-         
-         HStack {
-         Picker("Día", selection: $selectingUser.birthdate) {
-         ForEach(dias, id: \.self) { Text("\($0)") }
-         }
-         .pickerStyle(MenuPickerStyle())
-         
-         Picker("Mes", selection: $mes) {
-         ForEach(meses, id: \.self) { Text("\($0)") }
-         }
-         .pickerStyle(MenuPickerStyle())
-         
-         Picker("Año", selection: $anio) {
-         ForEach(anios, id: \.self) { Text("\($0)") }
-         }
-         .pickerStyle(MenuPickerStyle())
-         }
-         
-         }
-         VStack {
-         Text("Fecha de nacimiento")
-         .font(.headline)
-         
-         DatePicker(
-         "",
-         selection: $selectedUser.birthDate,
-         displayedComponents: [.date]
-         )
-         .datePickerStyle(.wheel)
-         }
-         
-         // Género
-         VStack(alignment: .leading, spacing: 10) {
-         Text("Género biológico")
-         .font(.headline)
-         
-         Picker("", selection: $selectedUser.gender) {
-         Text("Masculino").tag("M")
-         Text("Femenino").tag("F")
-         }
-         .pickerStyle(SegmentedPickerStyle())
-         }
-         
-         // Otras configuraciones
-         VStack(alignment: .leading, spacing: 10) {
-         Text("Otras configuraciones...")
-         .font(.headline)
-         
-         NavigationRow(title: "Diagnósticos médicos")
-         NavigationRow(title: "Alergias")
-         NavigationRow(title: "Configuración de Bots")
-         }
-         
-         }
-         .padding()
-         }
-         .background(Color(.systemGray6))
-         */
-        
         ScrollView {
             VStack(spacing: 24) {
                 
@@ -502,7 +228,7 @@ struct UserView: View {
             }
             .padding()
         }
-        .background(Color(.systemGroupedBackground))
+        .background(Color(.background).opacity(0.4))
     }
          
 }
@@ -556,23 +282,26 @@ extension UserView {
         }
     
     var generoCard: some View {
-            //CardView {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Género biológico")
-                        .font(.headline)
-                    
-                    Picker("", selection: $selectedUser.gender) {
-                        Text("Masculino").tag("M")
-                        Text("Femenino").tag("F")
-                    }
-                    .pickerStyle(.segmented)
-                    .tint(Color.green)
-                }
-           // }
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Género biológico")
+                .font(.headline)
+            
+            Picker("Gender", selection: $selectedUser.gender) {
+                Text("Masculino")
+                    .foregroundStyle(selectedUser.gender == "M" ? .white : .primary)
+                    .tag("M")
+                
+                Text("Femenino")
+                    .foregroundStyle(selectedUser.gender == "F" ? .white : .primary)
+                    .tag("F")
+            }
+            .pickerStyle(.segmented)
+            .tint(Color(.universalAccent)) // accent color of the selected segment capsule
         }
+    }
     
     var saveButton: some View {
-        Button("Save") {
+        Button(action: {
             Task {
                 do {
                     // Insert only if new
@@ -586,11 +315,13 @@ extension UserView {
                 
                 dismiss()
             }
+        }) {
+            Image(systemName: "checkmark")
+                .foregroundColor(.green)
+                .padding()
+                .background(.universalAccent)
+                .clipShape(Circle())
         }
-        .foregroundColor(.green)
-        .padding(30)
-        .background(Color.green.opacity(0.15))
-        .clipShape(Circle())
     }
     
     var deleteButton: some View {
@@ -726,12 +457,13 @@ struct ExpandableCard<Content: View>: View {
 
 struct CircleIcon: View {
     var systemName: String
+    var paddingSize: Double = 20
     
     var body: some View {
         Image(systemName: systemName)
             .foregroundColor(.green)
-            .padding()
-            .background(Color.green.opacity(0.15))
+            .padding(paddingSize)
+            .background(.universalAccent)
             .clipShape(Circle())
     }
 }
@@ -746,14 +478,15 @@ struct CustomTextField: View {
         VStack(alignment: .leading, spacing: 5) {
             Text(title)
                 .font(.headline)
+                .foregroundStyle(.universalAccent)
             
             TextField("", text: $text)
                 .padding()
-                .background(Color.white)
+                .background(Color(.background).opacity(0.5))
                 .cornerRadius(10)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.gray.opacity(0.3))
+                        .stroke(Color(.universalAccent).opacity(0.8))
                 )
         }
     }

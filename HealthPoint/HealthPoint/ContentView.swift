@@ -23,6 +23,12 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    /*ContentView()
         .modelContainer(for: Item.self, inMemory: true)
+     */
+
+    ContentView()
+        .environmentObject(UserSettings()) // Provide a preview instance
+        .modelContainer(for: Item.self, inMemory: true)
+
 }

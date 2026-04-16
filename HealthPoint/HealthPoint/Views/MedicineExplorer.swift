@@ -14,7 +14,7 @@ struct MedicineExplorer: View {
     @State private var allMedicines: Int = 0
 
     var body: some View {
-        
+        /*
             Group {
                 //When no registered medicines
                 if model.sectioned.isEmpty {
@@ -100,12 +100,133 @@ struct MedicineExplorer: View {
             .navigationDestination(for: Medicine.self) { medicine in
                 MedicineDetailView(medicine: medicine)
             }
+         */
+            
+            Group {
+                // When no registered medicines
+                if model.sectioned.isEmpty {
+                    ContentUnavailableView(
+                        "No results",
+                        systemImage: "pills",
+                        description: Text("Try adjusting your search or filters.")
+                    )
+                } else {
+                    List {
+                        
+                        ForEach(model.sectioned, id: \.key) { section in
+                            
+                            Section {
+                                ForEach(section.items) { item in
+                                    
+                                    NavigationLink(destination: MedicineDetailView(medicine: item)) {
+                                        
+                                        VStack(alignment: .leading, spacing: 6) {
+                                            
+                                            Text(item.getName())
+                                                .font(.headline)
+                                                .foregroundStyle(.primary)
+                                            
+                                            Text(item.getDescriptionText())
+                                                .font(.subheadline)
+                                                .foregroundStyle(.secondary)
+                                                .lineLimit(2)
+                                        }
+                                        .padding(12)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 14)
+                                                .fill(Color(.secondarySystemGroupedBackground))
+                                                .overlay(
+                                                    RoundedRectangle(cornerRadius: 14)
+                                                        .stroke(Color.green.opacity(0.25), lineWidth: 1)
+                                                )
+                                        )
+                                        .task {
+                                            model.loadMoreIfNeeded(current: item)
+                                        }
+                                    }
+                                    .listRowBackground(Color.clear)
+                                }
+                            } header: {
+                                Text(section.key)
+                                    .font(.subheadline.weight(.semibold))
+                                    .foregroundStyle(.secondary)
+                                    .textCase(nil)
+                            }
+                        }
+                        
+                        // Pagination loader
+                        if model.displayed.count < allMedicines {
+                            HStack {
+                                Spacer()
+                                ProgressView()
+                                    .tint(.green)
+                                    .onAppear { model.increasePage() }
+                                Spacer()
+                            }
+                            .listRowBackground(Color.clear)
+                        }
+                    }
+                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
+                    .background(Color(.systemGroupedBackground))
+                }
+            }
+            .navigationTitle("Explore Medicines")
+            
+            .searchable(
+                text: $model.query,
+                placement: .navigationBarDrawer(displayMode: .always),
+                prompt: "Search medicines"
+            )
+            
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Menu {
+                        Picker("Sort order", selection: $model.sortAscending) {
+                            Text("Name A–Z").tag(true)
+                            Text("Name Z–A").tag(false)
+                        }
+                        .pickerStyle(.inline)
+                        
+                        Toggle(isOn: $model.filterByUserPreferences) {
+                            Label(
+                                "Respect user allergies & unwanted",
+                                systemImage: "line.3.horizontal.decrease.circle"
+                            )
+                        }
+                        
+                    } label: {
+                        Image(systemName: "arrow.up.arrow.down.circle")
+                            .foregroundStyle(.green)
+                    }
+                }
+            }
+            
+            .onAppear {
+                model.setContext(modelContext)
+                model.currentUser = currentUser
+                model.loadFromStore()
+                
+                let descriptor = FetchDescriptor<Medicine>()
+                allMedicines = (try? modelContext.fetchCount(descriptor)) ?? 0
+            }
+            
+            .onChange(of: allMedicines) { _, _ in
+                model.loadFromStore()
+            }
+            
+            .navigationDestination(for: Medicine.self) { medicine in
+                MedicineDetailView(medicine: medicine)
+            }
+
         }
     
 }
 
 
-#Preview {
-    // Preview without a user
+#Preview("Medicine Explorer") {
     MedicineExplorer()
+        .environmentObject(UserSettings())
+        .modelContainer(for: Item.self, inMemory: true)
 }
