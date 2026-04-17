@@ -6,6 +6,24 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		2D6016172F9035BF006E5588 /* TranscriptionKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2D6016162F9035BF006E5588 /* TranscriptionKit */; };
+		88C6A70F2F8F581C006DC017 /* TranscriptionKit in Frameworks */ = {isa = PBXBuildFile; productRef = 88C6A70E2F8F581C006DC017 /* TranscriptionKit */; };
+		88C6A7122F8F5832006DC017 /* TimerKit in Frameworks */ = {isa = PBXBuildFile; productRef = 88C6A7112F8F5832006DC017 /* TimerKit */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8863195F2F8DE5F200A4AC25 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		88DFC25E2F89AAC3009C2E2E /* HealthPoint.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HealthPoint.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +41,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88C6A70F2F8F581C006DC017 /* TranscriptionKit in Frameworks */,
+				88C6A7122F8F5832006DC017 /* TimerKit in Frameworks */,
+				2D6016172F9035BF006E5588 /* TranscriptionKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,6 +76,7 @@
 				88DFC25A2F89AAC3009C2E2E /* Sources */,
 				88DFC25B2F89AAC3009C2E2E /* Frameworks */,
 				88DFC25C2F89AAC3009C2E2E /* Resources */,
+				8863195F2F8DE5F200A4AC25 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -65,6 +87,9 @@
 			);
 			name = HealthPoint;
 			packageProductDependencies = (
+				88C6A70E2F8F581C006DC017 /* TranscriptionKit */,
+				88C6A7112F8F5832006DC017 /* TimerKit */,
+				2D6016162F9035BF006E5588 /* TranscriptionKit */,
 			);
 			productName = HealthPoint;
 			productReference = 88DFC25E2F89AAC3009C2E2E /* HealthPoint.app */;
@@ -94,6 +119,10 @@
 			);
 			mainGroup = 88DFC2552F89AAC3009C2E2E;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				88C6A7102F8F5832006DC017 /* XCLocalSwiftPackageReference "../../../../Downloads/TranscribingSpeechToText/Complete/TutorialResources/TimerKit" */,
+				2D6016152F9035BF006E5588 /* XCLocalSwiftPackageReference "../../../../Downloads/TranscribingSpeechToText/Complete/TutorialResources/TranscriptionKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 88DFC25F2F89AAC3009C2E2E /* Products */;
 			projectDirPath = "";
@@ -249,10 +278,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 245Z8W3NK4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Uses microphone for voice controlled chat assistant";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Uses speech recognition for voice controlled chat assistant";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -265,6 +298,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "-A-Ipaths.HealthPoint";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -280,10 +314,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 245Z8W3NK4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Uses microphone for voice controlled chat assistant";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Uses speech recognition for voice controlled chat assistant";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -296,6 +334,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "-A-Ipaths.HealthPoint";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -328,6 +367,32 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		2D6016152F9035BF006E5588 /* XCLocalSwiftPackageReference "../../../../Downloads/TranscribingSpeechToText/Complete/TutorialResources/TranscriptionKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../../../Downloads/TranscribingSpeechToText/Complete/TutorialResources/TranscriptionKit;
+		};
+		88C6A7102F8F5832006DC017 /* XCLocalSwiftPackageReference "../../../../Downloads/TranscribingSpeechToText/Complete/TutorialResources/TimerKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../../../Downloads/TranscribingSpeechToText/Complete/TutorialResources/TimerKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2D6016162F9035BF006E5588 /* TranscriptionKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TranscriptionKit;
+		};
+		88C6A70E2F8F581C006DC017 /* TranscriptionKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TranscriptionKit;
+		};
+		88C6A7112F8F5832006DC017 /* TimerKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TimerKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 88DFC2562F89AAC3009C2E2E /* Project object */;
 }
