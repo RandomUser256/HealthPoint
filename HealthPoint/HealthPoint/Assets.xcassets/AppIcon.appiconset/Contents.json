@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "SP_ICON_DARK.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

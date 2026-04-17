@@ -15,105 +15,118 @@ struct MedicineExplorer: View {
     
     @State private var expandedMedicineID: Int? = nil
 
+    private var headerBar: some View {
+        HStack(alignment: .top) {
+            Text("Explorar medicamentos")
+                .font(.largeTitle.bold())
+                .foregroundStyle(.universalAccent)
+
+            Spacer()
+
+            Menu {
+                Picker("Sort order", selection: $model.sortAscending) {
+                    Text("Name A–Z").tag(true)
+                    Text("Name Z–A").tag(false)
+                }
+                .pickerStyle(.inline)
+
+                Toggle(isOn: $model.filterByUserPreferences) {
+                    Label(
+                        "Respect user allergies & unwanted",
+                        systemImage: "line.3.horizontal.decrease.circle"
+                    )
+                }
+            } label: {
+                VStack(spacing: 6) {
+                    CircleIcon(systemName: "arrow.up.arrow.down", paddingSize: 16)
+                    Text("Filtros")
+                        .font(.caption)
+                        .foregroundStyle(.universalAccent)
+                }
+            }
+            .accessibilityLabel("Ordenar y filtrar medicamentos")
+            .accessibilityHint("Abre las opciones de orden y filtros")
+        }
+        .padding(.horizontal)
+    }
+
     var body: some View {
         ZStack {
             Color(.systemGroupedBackground)
                 .ignoresSafeArea()
 
-            Group {
-                // When no registered medicines
-                if model.sectioned.isEmpty {
-                    ContentUnavailableView(
-                        "No results",
-                        systemImage: "pills",
-                        description: Text("Try adjusting your search or filters.")
-                    )
-                } else {
-                    List {
-                        ForEach(model.sectioned, id: \.key) { section in
-                            Section {
-                                ForEach(section.items) { item in
-                                    MedicineExplorerCard(
-                                        item: item,
-                                        isExpanded: expandedMedicineID == item.id,
-                                        currentUser: currentUser,
-                                        toggleExpansion: {
-                                            withAnimation(.easeInOut) {
-                                                if expandedMedicineID == item.id {
-                                                    expandedMedicineID = nil
-                                                } else {
-                                                    expandedMedicineID = item.id
+            VStack(spacing: 12) {
+                headerBar
+
+                Group {
+                    // When no registered medicines
+                    if model.sectioned.isEmpty {
+                        ContentUnavailableView(
+                            "No results",
+                            systemImage: "pills",
+                            description: Text("Try adjusting your search or filters.")
+                        )
+                    } else {
+                        List {
+                            ForEach(model.sectioned, id: \.key) { section in
+                                Section {
+                                    ForEach(section.items) { item in
+                                        MedicineExplorerCard(
+                                            item: item,
+                                            isExpanded: expandedMedicineID == item.id,
+                                            currentUser: currentUser,
+                                            toggleExpansion: {
+                                                withAnimation(.easeInOut) {
+                                                    if expandedMedicineID == item.id {
+                                                        expandedMedicineID = nil
+                                                    } else {
+                                                        expandedMedicineID = item.id
+                                                    }
                                                 }
                                             }
+                                        )
+                                        .task {
+                                            model.loadMoreIfNeeded(current: item)
                                         }
-                                    )
-                                    .task {
-                                        model.loadMoreIfNeeded(current: item)
+                                        .padding(.vertical, 6)
+                                        .listRowBackground(Color.clear)
+                                        .listRowSeparator(.hidden)
                                     }
-                                    .padding(.vertical, 6)
-                                    .listRowBackground(Color.clear)
-                                    .listRowSeparator(.hidden)
+                                }
+                                header: {
+                                    Text(section.key)
+                                        .font(.system(size: 18, weight: .semibold))
+                                        .foregroundStyle(.universalAccent)
+                                        .padding(.leading, 4)
+                                        .padding(.top, 12)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .textCase(nil)
                                 }
                             }
-                            header: {
-                                Text(section.key)
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundStyle(.universalAccent)
-                                    .padding(.leading, 4)
-                                    .padding(.top, 12)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .textCase(nil)
+
+                            if model.displayed.count < allMedicines {
+                                HStack {
+                                    Spacer()
+                                    ProgressView()
+                                        .tint(.universalAccent)
+                                        .onAppear { model.increasePage() }
+                                    Spacer()
+                                }
+                                .listRowBackground(Color.clear)
+                                .listRowSeparator(.hidden)
                             }
                         }
-                        
-                        
-                        // Pagination loader
-                        if model.displayed.count < allMedicines {
-                            HStack {
-                                Spacer()
-                                ProgressView()
-                                    .tint(.universalAccent)
-                                    .onAppear { model.increasePage() }
-                                Spacer()
-                            }
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                        }
+                        .listStyle(.plain)
+                        .scrollContentBackground(.hidden)
+                        .background(Color.clear)
                     }
-                    .listStyle(.plain)
-                    .scrollContentBackground(.hidden)
-                    .background(Color.clear)
                 }
             }
-            .navigationTitle("Explore Medicines")
-            .navigationBarTitleDisplayMode(.large)
             .searchable(
                 text: $model.query,
                 placement: .navigationBarDrawer(displayMode: .always),
                 prompt: "Search medicines"
             )
-            
-            .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Menu {
-                        Picker("Sort order", selection: $model.sortAscending) {
-                            Text("Name A–Z").tag(true)
-                            Text("Name Z–A").tag(false)
-                        }
-                        .pickerStyle(.inline)
-
-                        Toggle(isOn: $model.filterByUserPreferences) {
-                            Label(
-                                "Respect user allergies & unwanted",
-                                systemImage: "line.3.horizontal.decrease.circle"
-                            )
-                        }
-                        
-                    } label: {
-                        CircleIcon(systemName: "arrow.up.arrow.down", paddingSize: 14)
-                    }
-                }
-            }
             .onAppear {
                 model.setContext(modelContext)
                 model.currentUser = currentUser
@@ -177,6 +190,8 @@ private struct MedicineExplorerCard: View {
                 .padding(18)
             }
             .buttonStyle(.plain)
+            .accessibilityLabel("\(isExpanded ? "Ocultar" : "Mostrar") detalles de \(item.getName())")
+            .accessibilityHint("Expande o contrae la tarjeta del medicamento")
 
             if isExpanded {
                 Divider()
@@ -246,6 +261,8 @@ struct MedicineDetailView: View {
                                 .font(.system(size: 22, weight: .semibold))
                                 .foregroundStyle(.green)
                             }
+                            .accessibilityLabel("Agregar \(ing.getName()) a alergias")
+                            .accessibilityHint("Vincula este ingrediente a las alergias del usuario actual")
                         }
                         .padding(.horizontal, 14)
                         .padding(.vertical, 12)

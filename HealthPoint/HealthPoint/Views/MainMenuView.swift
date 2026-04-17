@@ -10,7 +10,7 @@ import SwiftData
 struct MainMenuView: View {
     @EnvironmentObject private var currentUser: UserSettings
     
-    @Query var users: [User]
+    @Query(sort: \User.name) var users: [User]
     
     @State private var showUserMenu = false
     @State private var selectedOption = "Ahorro"
@@ -58,6 +58,8 @@ extension MainMenuView {
             NavigationLink(destination: UserView(selectedUser: currentUser.user)) {
                 CircleIcon(systemName: "person.fill", paddingSize: 20)
             }
+            .accessibilityLabel("Abrir perfil")
+            .accessibilityHint("Muestra la información del usuario actual")
             
             // Dropdown name
             Menu {
@@ -67,6 +69,7 @@ extension MainMenuView {
                     Text("Nuevo Usuario")
                         .font(.system(size: 20))
                 }
+                .accessibilityLabel("Crear nuevo usuario")
                 
                 ForEach(users, id: \.self) { user in
                     Button(action: {
@@ -75,6 +78,7 @@ extension MainMenuView {
                         Text(user.getName())
                             .font(.system(size: 20))
                     }
+                    .accessibilityLabel("Seleccionar usuario \(user.getName())")
                 }
             } label: {
                 HStack(spacing: 4) {
@@ -87,6 +91,9 @@ extension MainMenuView {
                 .foregroundColor(.primary)
                 .contentShape(Rectangle())
             }
+            .accessibilityLabel("Seleccionar usuario")
+            .accessibilityValue(currentUser.user.name)
+            .accessibilityHint("Abre la lista de usuarios disponibles")
             
             Spacer()
             
@@ -140,6 +147,28 @@ struct ModeCard: View {
     
     @State private var dummyTapBlocker: Bool = false
     @State private var go: Bool = false
+
+    private var accessibilityLabelText: String {
+        "\(title). \(description)"
+    }
+
+    private var accessibilityHintText: String {
+        switch title {
+        case "Base de Datos":
+            return "Abre el explorador de medicamentos"
+        default:
+            return "Abre el chat farmacéutico"
+        }
+    }
+
+    private func triggerNavigation() {
+        switch title {
+        case "Bot de Charla", "Bot de Texto", "Base de Datos":
+            go = true
+        default:
+            break
+        }
+    }
     
     var body: some View {
         HStack {
@@ -155,7 +184,7 @@ struct ModeCard: View {
                     .foregroundColor(.black)
                     .fixedSize(horizontal: false, vertical: true)
                     .lineSpacing(4)
-                
+                /*
                 if showSelectors {
                     Picker("", selection: $selectedOption) {
                         Text("Amaro").tag("Amaro")
@@ -167,6 +196,7 @@ struct ModeCard: View {
                     .allowsHitTesting(true)
                     .highPriorityGesture(TapGesture().onEnded { _ in })
                 }
+                 */
             }
             
             Spacer()
@@ -209,17 +239,14 @@ struct ModeCard: View {
         .frame(maxWidth: .infinity)
         .contentShape(Rectangle())
         .onTapGesture {
-            // Only trigger navigation if tap not on picker (picker consumes taps)
-            switch title {
-            case "Bot de Charla":
-                go = true
-            case "Bot de Texto":
-                go = true
-            case "Base de Datos":
-                go = true
-            default:
-                break
-            }
+            triggerNavigation()
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isButton)
+        .accessibilityLabel(accessibilityLabelText)
+        .accessibilityHint(accessibilityHintText)
+        .accessibilityAction {
+            triggerNavigation()
         }
     }
 }

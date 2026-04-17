@@ -31,6 +31,9 @@ struct chatScreen: View {
 
     @State var speechRecognizer = SpeechRecognizer()
 
+    private let chatBackground = Color(.systemGroupedBackground)
+    private let cardFill = Color(.foreground).opacity(0.4)
+
     // Storage key per current user
     private func conversationStorageKey() -> String {
         "chat.conversation.\(currentUser.user.getName()).v1"
@@ -68,11 +71,72 @@ struct chatScreen: View {
         let isUser = (role == .user)
         return Text(text)
             .font(.system(size: textSize))
-            .padding(10)
-            .background(isUser ? Color.accentColor.opacity(0.2) : Color(.secondarySystemBackground))
-            .foregroundStyle(.primary)
-            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .foregroundStyle(isUser ? .universalAccent : .black)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
+            .background(
+                RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    .fill(isUser ? Color(.background).opacity(0.55) : cardFill)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 18, style: .continuous)
+                            .stroke(Color(.universalAccent).opacity(isUser ? 0.9 : 0.55), lineWidth: 1.5)
+                    )
+            )
             .frame(maxWidth: .infinity, alignment: isUser ? .trailing : .leading)
+            .accessibilityLabel("\(isUser ? "Tu mensaje" : "Respuesta del asistente"): \(text)")
+    }
+
+    private func circularActionButton(systemName: String, label: String, isLoading: Bool = false) -> some View {
+        ZStack {
+            Circle()
+                .fill(.universalAccent)
+                .overlay(Circle().stroke(Color(.universalAccent), lineWidth: 1.5))
+
+            if isLoading {
+                ProgressView()
+                    .tint(.green)
+            } else {
+                Image(systemName: systemName)
+                    .font(.system(size: 22, weight: .semibold))
+                    .foregroundStyle(.green)
+            }
+        }
+        .frame(width: 58, height: 58)
+        .accessibilityLabel(label)
+    }
+
+    private var inputContainer: some ShapeStyle {
+        cardFill
+    }
+
+    private var headerBar: some View {
+        HStack {
+            Text("Chat")
+                .font(.largeTitle.bold())
+                .foregroundStyle(.universalAccent)
+
+            Spacer()
+
+            NavigationLink {
+                ChatSettingsView(
+                    selectedPersonality: Binding(get: { selectedPersonality }, set: { selectedPersonality = $0 }),
+                    isDetailed: $isDetailed,
+                    textSize: $textSize,
+                    onDeleteConversation: { clearConversation() }
+                )
+            } label: {
+                VStack(spacing: 6) {
+                    CircleIcon(systemName: "gearshape.fill", paddingSize: 16)
+                    Text("Ajustes")
+                        .font(.caption)
+                        .foregroundStyle(.universalAccent)
+                }
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Abrir ajustes del chat")
+            .accessibilityHint("Muestra la configuración de personalidad, detalle y tamaño de texto")
+        }
+        .padding(.horizontal)
     }
 
     private func scrollToBottom(_ proxy: ScrollViewProxy) {
@@ -154,7 +218,12 @@ struct chatScreen: View {
 
     var body: some View {
         ZStack {
+            chatBackground
+                .ignoresSafeArea()
+
             VStack(spacing: 12) {
+                headerBar
+
                 // Conversation view (oldest messages at the top, newest at the bottom)
                 ScrollViewReader { proxy in
                     ScrollView {
@@ -189,33 +258,42 @@ struct chatScreen: View {
                 // Input area
                 HStack(alignment: .bottom, spacing: 8) {
                     Button(action: toggleTranscript) {
-                        Image(systemName: isRecording ? "stop.circle.fill" : "mic.fill")
-                            .font(.system(size: 28, weight: .semibold))
-                            .foregroundStyle(isRecording ? .red : .primary)
-                            .accessibilityLabel(isRecording ? "Detener grabación" : "Grabar voz")
-                            .accessibilityHint("Dicta tu mensaje en español (México)")
-                            .buttonSizing(.automatic)
+                        circularActionButton(
+                            systemName: isRecording ? "stop.fill" : "mic.fill",
+                            label: isRecording ? "Detener grabación" : "Iniciar grabación"
+                        )
                     }
-                    .buttonStyle(.bordered)
-                    .controlSize(.large)
-                    .contentShape(Circle())
+                    .buttonStyle(.plain)
+                    .accessibilityHint("Dicta tu mensaje en español")
 
                     TextField("Escribe un mensaje...", text: $prompt, axis: .vertical)
                         .font(.system(size: textSize))
-                        .textFieldStyle(.roundedBorder)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 14)
+                        .background(
+                            RoundedRectangle(cornerRadius: 18)
+                                .fill(inputContainer)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 18)
+                                        .stroke(Color(.universalAccent), lineWidth: 1.5)
+                                )
+                        )
                         .lineLimit(3, reservesSpace: true)
+                        .foregroundStyle(.black)
+                        .tint(.universalAccent)
+                        .accessibilityLabel("Campo de mensaje")
+                        .accessibilityHint("Escribe la consulta que quieres enviar")
 
                     Button(action: generate) {
-                        if isLoading {
-                            ProgressView().progressViewStyle(.circular)
-                        } else {
-                            Image(systemName: "paperplane.fill")
-                                .font(.system(size: 28, weight: .semibold))
-                        }
+                        circularActionButton(
+                            systemName: "paperplane.fill",
+                            label: "Enviar mensaje",
+                            isLoading: isLoading
+                        )
                     }
                     .disabled(prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isLoading)
-                    .buttonStyle(.borderedProminent)
-                    .controlSize(.large)
+                    .buttonStyle(.plain)
+                    .accessibilityHint("Envía tu mensaje al asistente")
                 }
                 .padding(.horizontal)
                 .padding(.bottom)
@@ -229,20 +307,6 @@ struct chatScreen: View {
                     .tint(.universalAccent)
             }
         }
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                NavigationLink {
-                    ChatSettingsView(
-                        selectedPersonality: Binding(get: { selectedPersonality }, set: { selectedPersonality = $0 }),
-                        isDetailed: $isDetailed,
-                        textSize: $textSize,
-                        onDeleteConversation: { clearConversation() }
-                    )
-                } label: {
-                    Image(systemName: "gearshape")
-                }
-            }
-        }
+        .navigationBarBackButtonHidden(false)
     }
 }
-

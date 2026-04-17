@@ -29,7 +29,7 @@ struct bootUpScreen: View {
                                     .stroke(Color(.universalAccent), lineWidth: 2)
                             )
 
-                        Image(systemName: "cross.case.fill")
+                        Image("Logo")
                             .font(.system(size: 52, weight: .semibold))
                             .foregroundStyle(.green)
                     }
@@ -70,6 +70,8 @@ struct bootUpScreen: View {
                     .disabled(!isDataReady)
                     .buttonStyle(.plain)
                     .foregroundStyle(isDataReady ? .universalAccent : .secondary)
+                    .accessibilityLabel(isDataReady ? "Continuar" : "Carga de datos en progreso")
+                    .accessibilityHint(isDataReady ? "Abre el menú principal" : "Espera a que la base de datos termine de cargarse")
 
                     Text(loadingMessage)
                         .font(.system(size: 15, weight: .medium))

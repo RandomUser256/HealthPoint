@@ -43,6 +43,9 @@ struct SearchableDropdownMenu: View {
         .background(Color.blue.opacity(0.1))
         .cornerRadius(8)
       }
+      .accessibilityLabel("Seleccionar opción")
+      .accessibilityValue(selectedOption)
+      .accessibilityHint("Abre la lista de opciones disponibles")
 
       if isExpanded {
         VStack {
@@ -167,6 +170,15 @@ struct UserView: View {
     //@State private var usrList: [User]
     
     @Environment(\.dismiss) var dismiss
+
+    private var allergyItems: [Ingredient] {
+        selectedUser.publicIngredientAllergies
+            .sorted { $0.getName().localizedCaseInsensitiveCompare($1.getName()) == .orderedAscending }
+    }
+
+    private func nextUserID() -> Int {
+        (userList.map(\.id).max() ?? 0) + 1
+    }
     
     init(selectedUser: User? = nil) {
         /*
@@ -232,6 +244,26 @@ struct UserView: View {
         }
         .background(Color(.background).opacity(0.4))
     }
+
+    private func removeIngredientAllergy(_ ingredient: Ingredient) {
+        selectedUser.publicIngredientAllergies.removeAll { $0.id == ingredient.id }
+        currentUser.user.publicIngredientAllergies.removeAll { $0.id == ingredient.id }
+    }
+
+    private func persistUser() {
+        do {
+            if newUser {
+                selectedUser.id = nextUserID()
+                modelContext.insert(selectedUser)
+            }
+
+            try modelContext.save()
+            currentUser.user = selectedUser
+            dismiss()
+        } catch {
+            print("Error saving user: \(error)")
+        }
+    }
          
 }
 
@@ -276,6 +308,7 @@ extension UserView {
                     DatePicker(
                         "",
                         selection: $selectedUser.birthDate,
+                        in: ...Date.now,
                         displayedComponents: .date
                     )
                     .datePickerStyle(.wheel)
@@ -308,19 +341,7 @@ extension UserView {
     
     var saveButton: some View {
         Button(action: {
-            Task {
-                do {
-                    // Insert only if new
-                    if self.newUser {
-                        modelContext.insert(selectedUser)
-                    }
-                    try modelContext.save()
-                } catch {
-                    print("Error saving user: \(error)")
-                }
-                
-                dismiss()
-            }
+            persistUser()
         }) {
             VStack {
                 Image(systemName: "checkmark")
@@ -333,20 +354,26 @@ extension UserView {
                     .foregroundStyle(.universalAccent)
             }
         }
+        .accessibilityLabel("Guardar perfil")
+        .accessibilityHint("Guarda los cambios del usuario actual")
     }
     
     var deleteButton: some View {
         Button(action: {
-            Task {
-                modelContext.delete(selectedUser)
-                
-                do {
-                    try modelContext.save()
-                } catch {
-                    print("Error saving user: \(error)")
+            let replacementUser = userList.first { $0.id != selectedUser.id }
+
+            modelContext.delete(selectedUser)
+
+            do {
+                try modelContext.save()
+
+                if currentUser.user.id == selectedUser.id {
+                    currentUser.user = replacementUser ?? User()
                 }
-                
+
                 dismiss()
+            } catch {
+                print("Error saving user: \(error)")
             }
         }) {
             VStack {
@@ -355,11 +382,13 @@ extension UserView {
                     .padding(25)
                     .background(.universalAccent)
                     .clipShape(Circle())
-                Text("Save")
+                Text("Delete")
                     .font(.subheadline)
                     .foregroundStyle(.universalAccent)
             }
         }
+        .accessibilityLabel("Eliminar perfil")
+        .accessibilityHint("Elimina este usuario y cierra la pantalla")
         
     }
     
@@ -390,20 +419,44 @@ extension UserView {
                     title: "Alergias",
                     isExpanded: $selectingUser,
                 ) {
-                    Group {
-                        List {
-                            ForEach($selectedUser.publicIngredientAllergies, id: \.self) { ing in
-                                HStack {
-                                    TextField("", text: ing.normalizedName)
+                    VStack(alignment: .leading, spacing: 12) {
+                        if allergyItems.isEmpty {
+                            Text("No hay ingredientes vinculados.")
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                        } else {
+                            ForEach(allergyItems, id: \.id) { ingredient in
+                                HStack(spacing: 12) {
+                                    Text(ingredient.getName())
                                         .font(.subheadline)
-                                    /*
-                                     Button (action: {
-                                     $selectedUser.publicIngredientAllergies
-                                     }) {
-                                     Image(systemName: "minus.circle.fill")
-                                     }
-                                     */
+                                        .foregroundStyle(.black)
+
+                                    Spacer()
+
+                                    Button {
+                                        removeIngredientAllergy(ingredient)
+                                    } label: {
+                                        Image(systemName: "minus.circle.fill")
+                                            .font(.system(size: 20, weight: .semibold))
+                                            .foregroundStyle(.green)
+                                            .padding(12)
+                                            .background(.universalAccent)
+                                            .clipShape(Circle())
+                                    }
+                                    .buttonStyle(.plain)
+                                    .accessibilityLabel("Eliminar alergia a \(ingredient.getName())")
+                                    .accessibilityHint("Quita este ingrediente de la lista de alergias")
                                 }
+                                .padding(.horizontal, 14)
+                                .padding(.vertical, 12)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 14)
+                                        .fill(Color(.background).opacity(0.5))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 14)
+                                                .stroke(Color(.universalAccent).opacity(0.8))
+                                        )
+                                )
                             }
                         }
                     }
@@ -461,6 +514,9 @@ struct ExpandableCard<Content: View>: View {
                 }
                 .padding()
             }
+            .buttonStyle(.plain)
+            .accessibilityLabel("\(title), \(isExpanded ? "expandido" : "contraído")")
+            .accessibilityHint("Activa para \(isExpanded ? "ocultar" : "mostrar") el contenido")
             
             if isExpanded {
                 Divider()
@@ -471,6 +527,7 @@ struct ExpandableCard<Content: View>: View {
         }
         .background(Color(.secondarySystemGroupedBackground))
         .cornerRadius(14)
+        .contentShape(RoundedRectangle(cornerRadius: 14.0))
     }
 }
 
@@ -484,6 +541,7 @@ struct CircleIcon: View {
             .padding(paddingSize)
             .background(.universalAccent)
             .clipShape(Circle())
+            .accessibilityHidden(true)
     }
 }
 
@@ -532,5 +590,7 @@ struct NavigationRow: View {
             .background(Color.white)
             .cornerRadius(12)
         }
+        .accessibilityLabel(title)
+        .accessibilityHint("Abre esta sección")
     }
 }

@@ -45,13 +45,13 @@ class User {
     
     init() {
         self.id = Int.random(in: 1...1000)
-        self.name = "placeholder"
+        self.name = "New User"
         self.birthDate = Date()
         self.gender = "N"
         self.publicIngredientAllergies = []
         self.publicUnwantedMedicine = []
         self.medicalCondition = []
-        self.apellidos = "placeholder"
+        self.apellidos = "New User"
     }
     
     func getName() -> String {
