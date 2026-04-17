@@ -110,7 +110,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 88DFC2592F89AAC3009C2E2E /* Build configuration list for PBXProject "SaludPuntual" */;
+			buildConfigurationList = 88DFC2592F89AAC3009C2E2E /* Build configuration list for PBXProject "Salud Puntual" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -284,7 +284,7 @@
 				DEVELOPMENT_TEAM = 245Z8W3NK4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Salud Puntual";
+				INFOPLIST_KEY_CFBundleDisplayName = SaludPuntual;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Uses microphone for voice controlled chat assistant";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Uses speech recognition for voice controlled chat assistant";
@@ -322,7 +322,7 @@
 				DEVELOPMENT_TEAM = 245Z8W3NK4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Salud Puntual";
+				INFOPLIST_KEY_CFBundleDisplayName = SaludPuntual;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Uses microphone for voice controlled chat assistant";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Uses speech recognition for voice controlled chat assistant";
@@ -352,7 +352,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		88DFC2592F89AAC3009C2E2E /* Build configuration list for PBXProject "SaludPuntual" */ = {
+		88DFC2592F89AAC3009C2E2E /* Build configuration list for PBXProject "Salud Puntual" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				88DFC2692F89AAC5009C2E2E /* Debug */,

@@ -18,7 +18,7 @@
                BlueprintIdentifier = "88DFC25D2F89AAC3009C2E2E"
                BuildableName = "HealthPoint.app"
                BlueprintName = "HealthPoint"
-               ReferencedContainer = "container:SaludPuntual.xcodeproj">
+               ReferencedContainer = "container:Salud Puntual.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -48,7 +48,7 @@
             BlueprintIdentifier = "88DFC25D2F89AAC3009C2E2E"
             BuildableName = "HealthPoint.app"
             BlueprintName = "HealthPoint"
-            ReferencedContainer = "container:SaludPuntual.xcodeproj">
+            ReferencedContainer = "container:Salud Puntual.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -65,7 +65,7 @@
             BlueprintIdentifier = "88DFC25D2F89AAC3009C2E2E"
             BuildableName = "HealthPoint.app"
             BlueprintName = "HealthPoint"
-            ReferencedContainer = "container:SaludPuntual.xcodeproj">
+            ReferencedContainer = "container:Salud Puntual.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
