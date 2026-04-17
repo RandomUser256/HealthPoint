@@ -46,6 +46,7 @@ struct SearchableDropdownMenu: View {
 
       if isExpanded {
         VStack {
+            /*
           TextField("Search...", text: $searchText)
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .padding()
@@ -66,12 +67,14 @@ struct SearchableDropdownMenu: View {
             .disabled(searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
           }
           .padding(.horizontal)
+             */
 
           ForEach(filteredOptions, id: \.self) { option in
             HStack {
               Text(option)
                 .padding(.vertical, 8)
               Spacer()
+                /*
               Button(role: .destructive) {
                 if let idx = options.firstIndex(of: option) {
                   options.remove(at: idx)
@@ -81,6 +84,7 @@ struct SearchableDropdownMenu: View {
                 Image(systemName: "trash")
                   .foregroundStyle(.red)
               }
+                 */
             }
             .padding(.horizontal)
             .contentShape(Rectangle())
@@ -99,16 +103,51 @@ struct SearchableDropdownMenu: View {
   }
 }
 
+struct DropdownMenuDisclosureGroup: View {
+  @State private var isExpanded: Bool = false
+  @State private var message: String = "Alergias"
+    
+    @EnvironmentObject private var currentUser: UserSettings
+
+  var body: some View {
+    DisclosureGroup(message, isExpanded: $isExpanded) {
+      VStack {
+          ForEach(currentUser.user.publicIngredientAllergies, id: \.self) { ing in
+              Text(ing.getName())
+            .padding()
+            .onTapGesture {
+              
+              isExpanded = false
+            }
+        }
+      }
+    }
+    .padding()
+    .background(Color.gray.opacity(0.1))
+    .cornerRadius(8)
+  }
+}
+
 struct UserView: View {
     @Environment(\.modelContext) private var modelContext
     
-    @Bindable var currentUser: User
+    //@Bindable var currentUser: User
+    
+    @EnvironmentObject private var currentUser: UserSettings
+
+    @Bindable var selectedUser: User
+    
+    @Query var userList: [User]
+    
+    //@Query(sort: \User.name) var users: [User] // SwiftData query for all users
     
     //@State private var localUser: User?
     
-    @State private var newUser: Bool = false
+    @State private var newUser: Bool
     @State private var saveChanges: Bool = false
+    @State private var deleteUser: Bool = false
     
+  /*
     @State var name: String
     @State var apellidos: String
     @State var fechaNacimiento: Date
@@ -119,150 +158,379 @@ struct UserView: View {
     
     @State private var unwantedMedicineNames: [String] = []
     @State private var unwantedAllergy : [String] = []
+   */
     
     @State private var userNames: [String] = []
     
-    init(selectedUser: User) {
-        
-            _currentUser = Bindable(selectedUser)
-            
-            self.name = selectedUser.name
-            self.apellidos = selectedUser.apellidos
-            self.fechaNacimiento = selectedUser.birthDate
-            self.gender = selectedUser.gender
-            self.medicineAllergy = selectedUser.publicUnwantedMedicine
-            self.ingredientAllergy = selectedUser.publicIngredientAllergies
-        /*} else {
-            self.currentUser = User()
-            
-            self.newUser = true
-            
-            self.name = ""
-            self.apellidos = ""
-            self.fechaNacimiento = Date()
-            self.gender = ""
-            
-            self.medicineAllergy = []
-            self.ingredientAllergy = []
-        }
+    @State private var selectingUser: Bool = false
+    
+    //@State private var usrList: [User]
+    
+    @Environment(\.dismiss) var dismiss
+    
+    init(selectedUser: User? = nil) {
+        /*
+        self._name = State(initialValue: selectedUser.name)
+        self._apellidos = State(initialValue: selectedUser.apellidos)
+        self._fechaNacimiento = State(initialValue: selectedUser.birthDate)
+        self._gender = State(initialValue: selectedUser.gender)
+        self._medicineAllergy = State(initialValue: selectedUser.publicUnwantedMedicine)
+        self._ingredientAllergy = State(initialValue: selectedUser.publicIngredientAllergies)
+        self._usrList = State(initialValue: [])
          */
+        
+        //let provided = currentUser.user
+        
+        //_selectedUser = Bindable(currentUser.user)
+        
+        
+        
+        if let provided = selectedUser {
+            _selectedUser = Bindable(provided)
+            self.newUser = false
+        } else {
+            let newUser = User()
+            _selectedUser = Bindable(newUser)
+            self.newUser = true
+        }
+        
     }
     
-    func userList() {
+    /*func userList() {
         let context = modelContext
         let fetch = FetchDescriptor<User>()
-        let users = (try? context.fetch(fetch)) ?? []
-        let names = users.map { $0.name }
-        self.userNames = names
-    }
+        self.usrList = (try? context.fetch(fetch)) ?? []
+        //let names = users.map { $0.name }
+        //self.userNames = names
+    }*/
     
     var body: some View {
         ScrollView {
-            VStack {
-                Text("Users")
-                    .bold(true)
-                SearchableDropdownMenu(options: $userNames)
+            VStack(spacing: 24) {
                 
-                Text("Nombre(s)")
-                    .bold(true)
-                TextField("Apellidos", text: $currentUser.name)
+                header
                 
-                Text("Apellidos")
-                    .bold(true)
-                TextField("Apellidos", text: $currentUser.apellidos)
+                title
                 
-                Text("Fecha nacimiento")
-                    .bold(true)
-                DatePicker(
-                    "Fecha de nacimiento",
-                    selection: $currentUser.birthDate,
-                    displayedComponents: [.date]
-                )
+                datosPersonalesCard
                 
-                Text("Unwanted Medicines").bold(true)
-                SearchableDropdownMenu(options: $unwantedMedicineNames)
+                fechaNacimientoCard
                 
-                Text("Alllergic components").bold(true)
-                SearchableDropdownMenu(options: $unwantedMedicineNames)
+                generoCard
                 
+                configuracionesCard
                 
-                
-                Button("Save") {
-                    Task {
-                        self.saveChanges = true
-                        //let context = modelContext
-                        // Fetch existing medicines by name
-                        /*
-                        let fetch = FetchDescriptor<Medicine>()
-                        let meds = (try? context.fetch(fetch)) ?? []
-                        var byName: [String: Medicine] = [:]
-                        for m in meds { byName[m.getName()] = m }
-                        
-                        
-                        // Build final list from names
-                        var newList: [Medicine] = []
-                        for name in unwantedMedicineNames {
-                            if let existing = byName[name] {
-                                newList.append(existing)
-                            } else {
-                                // Create a placeholder medicine with id -1 if missing; adjust as needed for your schema
-                                let med = Medicine(id: -1, name: name, descriptionText: "")
-                                context.insert(med)
-                                newList.append(med)
-                            }
-                        }
-                        currentUser.user.publicUnwantedMedicine = newList
-                         */
-                        //try? context.save()
-                    }
+                HStack {
+                    saveButton
+                    
+                        .padding(.trailing, 60)
+                    
+                    deleteButton
                 }
             }
-            .onAppear() {
-                userList()
+            .padding()
+        }
+        .background(Color(.background).opacity(0.4))
+    }
+         
+}
+
+#Preview {
+    UserView()
+}
+
+extension UserView {
+    var header: some View {
+            HStack {
+                CircleIcon(systemName: "square.grid.2x2")
+                Spacer()
+                CircleIcon(systemName: "gearshape")
             }
         }
-        .onAppear() {
-            /*
-            if currentUser.id != -1 {
-                self.name = currentUser.user.name
-                self.gender = currentUser.user.gender
-                self.apellidos = currentUser.user.apellidos
-                
-                unwantedMedicineNames = currentUser.user.publicUnwantedMedicine.map { $0.getName() }
-                unwantedAllergy = currentUser.user.publicIngredientAllergies.map { $0.getName() }
-            }
-             */
+    
+    var title: some View {
+            Text("Perfil")
+                .font(.largeTitle)
+                .bold()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .foregroundStyle(.universalAccent)
         }
-        .onDisappear() {
+    
+    var datosPersonalesCard: some View {
+            //CardView {
+                VStack(spacing: 16) {
+                    CustomTextField(title: "Nombre(s)", text: $selectedUser.name)
+                    CustomTextField(title: "Apellidos", text: $selectedUser.apellidos)
+                    //CustomTextField(title: "Apellido Materno", text: $apellidoMaterno)
+                }
+            //}
+        }
+    
+    var fechaNacimientoCard: some View {
+            //CardView {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Fecha de nacimiento")
+                        .font(.headline)
+                        .foregroundStyle(.universalAccent)
+                    
+                    DatePicker(
+                        "",
+                        selection: $selectedUser.birthDate,
+                        displayedComponents: .date
+                    )
+                    .datePickerStyle(.wheel)
+                    .labelsHidden()
+                    .frame(maxWidth: .infinity)
+                }
+            //}
+        }
+    
+    var generoCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Género biológico")
+                .font(.headline)
+                .foregroundStyle(.universalAccent)
             
-            if saveChanges {
-                /*
-                currentUser.user.name = self.name
-                currentUser.user.apellidos = self.apellidos
-                currentUser.user.birthDate = self.fechaNacimiento
-                currentUser.user.gender = self.gender
+            Picker("Gender", selection: $selectedUser.gender) {
+                Text("Masculino")
+                    .foregroundStyle(selectedUser.gender == "M" ? .white : .primary)
+                    .tag("M")
                 
-                currentUser.user.publicUnwantedMedicine = self.medicineAllergy
-                currentUser.user.publicIngredientAllergies = self.ingredientAllergy
+                Text("Femenino")
+                    .foregroundStyle(selectedUser.gender == "F" ? .white : .primary)
+                    .tag("F")
+            }
+            .pickerStyle(.segmented)
+            .tint(Color(.universalAccent)) // accent color of the selected segment capsule
+            .foregroundStyle(.universalAccent)
+        }
+    }
+    
+    var saveButton: some View {
+        Button(action: {
+            Task {
+                do {
+                    // Insert only if new
+                    if self.newUser {
+                        modelContext.insert(selectedUser)
+                    }
+                    try modelContext.save()
+                } catch {
+                    print("Error saving user: \(error)")
+                }
+                
+                dismiss()
+            }
+        }) {
+            VStack {
+                Image(systemName: "checkmark")
+                    .foregroundColor(.green)
+                    .padding(25)
+                    .background(.universalAccent)
+                    .clipShape(Circle())
+                Text("Save")
+                    .font(.subheadline)
+                    .foregroundStyle(.universalAccent)
+            }
+        }
+    }
+    
+    var deleteButton: some View {
+        Button(action: {
+            Task {
+                modelContext.delete(selectedUser)
+                
+                do {
+                    try modelContext.save()
+                } catch {
+                    print("Error saving user: \(error)")
+                }
+                
+                dismiss()
+            }
+        }) {
+            VStack {
+                Image(systemName: "trash.fill")
+                    .foregroundColor(.green)
+                    .padding(25)
+                    .background(.universalAccent)
+                    .clipShape(Circle())
+                Text("Save")
+                    .font(.subheadline)
+                    .foregroundStyle(.universalAccent)
+            }
+        }
+        
+    }
+    
+    var configuracionesCard: some View {
+            VStack(alignment: .leading, spacing: 12) {
+                
+                Text("Otras configuraciones...")
+                    .font(.headline)
+                    .foregroundStyle(.universalAccent)
+                /*
+                ExpandableCard(
+                    title: "Diagnósticos médicos",
+                    isExpanded: $showDiagnosticos
+                ) {
+                    Text("Aquí puedes agregar diagnósticos")
+                }
+                 
+                 
+                 ExpandableCard(
+                     title: "Configuración de Bots",
+                     isExpanded: $showBots
+                 ) {
+                     Text("Preferencias del chatbot médico")
+                 }
                  */
                 
-                currentUser.name = self.name
-                currentUser.apellidos = self.apellidos
-                currentUser.birthDate = self.fechaNacimiento
-                currentUser.gender = self.gender
+                ExpandableCard(
+                    title: "Alergias",
+                    isExpanded: $selectingUser,
+                ) {
+                    Group {
+                        List {
+                            ForEach($selectedUser.publicIngredientAllergies, id: \.self) { ing in
+                                HStack {
+                                    TextField("", text: ing.normalizedName)
+                                        .font(.subheadline)
+                                    /*
+                                     Button (action: {
+                                     $selectedUser.publicIngredientAllergies
+                                     }) {
+                                     Image(systemName: "minus.circle.fill")
+                                     }
+                                     */
+                                }
+                            }
+                        }
+                    }
+                }
                 
-                currentUser.publicUnwantedMedicine = self.medicineAllergy
-                currentUser.publicIngredientAllergies = self.ingredientAllergy
-                
-                modelContext.insert(currentUser)
+            }
+        }
+}
 
+struct CardView<Content: View>: View {
+    let content: Content
+    
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+    
+    var body: some View {
+        VStack {
+            content
+        }
+        .padding()
+        .background(Color(.secondarySystemGroupedBackground))
+        .cornerRadius(16)
+    }
+}
+
+struct ExpandableCard<Content: View>: View {
+    var title: String
+    @Binding var isExpanded: Bool
+    var content: Content
+    
+    init(title: String, isExpanded: Binding<Bool>, @ViewBuilder content: () -> Content) {
+        self.title = title
+        self._isExpanded = isExpanded
+        self.content = content()
+    }
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            
+            Button(action: {
+                withAnimation {
+                    isExpanded.toggle()
+                }
+            }) {
+                HStack {
+                    Text(title)
+                        .foregroundColor(.primary)
+                    
+                    Spacer()
+                    
+                    Image(systemName: "chevron.down")
+                        .rotationEffect(.degrees(isExpanded ? 180 : 0))
+                        .foregroundColor(.gray)
+                }
+                .padding()
             }
             
-            do {
-                try modelContext.save()
-            } catch {
-                print("Error saving user information: \(error)")
+            if isExpanded {
+                Divider()
+                content
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
+        }
+        .background(Color(.secondarySystemGroupedBackground))
+        .cornerRadius(14)
+    }
+}
+
+struct CircleIcon: View {
+    var systemName: String
+    var paddingSize: Double = 20
+    
+    var body: some View {
+        Image(systemName: systemName)
+            .foregroundColor(.green)
+            .padding(paddingSize)
+            .background(.universalAccent)
+            .clipShape(Circle())
+    }
+}
+
+
+
+struct CustomTextField: View {
+    var title: String
+    @Binding var text: String
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text(title)
+                .font(.headline)
+                .foregroundStyle(.universalAccent)
+            
+            TextField("", text: $text)
+                .padding()
+                .background(Color(.background).opacity(0.5))
+                .foregroundStyle(.black)
+                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color(.universalAccent).opacity(0.8))
+                )
+        }
+    }
+}
+
+struct NavigationRow: View {
+    var title: String
+    
+    var body: some View {
+        Button(action: {
+            // Navigate later
+        }) {
+            HStack {
+                Text(title)
+                    .foregroundColor(.primary)
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.gray)
+            }
+            .padding()
+            .background(Color.white)
+            .cornerRadius(12)
         }
     }
 }

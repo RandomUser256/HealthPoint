@@ -15,7 +15,7 @@ actor ChatOrchestrator {
         let usedContext: [String]
     }
 
-    func answer(userQuery: String, personality: ChatPersonality) async -> Answer {
+    func answer(userQuery: String, personality: ChatPersonality, detailed: Bool) async -> Answer {
         guard model.availability == .available else {
             return Answer(content: "Apple Intelligence is not available on this device.", usedContext: [])
         }
@@ -24,10 +24,15 @@ actor ChatOrchestrator {
         let contextSnippets = await retriever.retrieveContext(for: userQuery)
 
         // 2) Build instructions combining personality and retrieval guidance
+        let verbosityInstruction = detailed
+            ? "Provide a thorough, step-by-step explanation when helpful. Prefer complete details."
+            : "Be concise. Prefer short, direct answers."
+
         let systemInstructions = await [
             personality.systemInstructions,
             "Use the provided CONTEXT when relevant. If information is missing, say so briefly.",
             "Cite data by referencing 'Context' rather than fabricating sources.",
+            verbosityInstruction
         ].joined(separator: "\n\n")
 
         // 3) Build a lightweight context preamble for the model
