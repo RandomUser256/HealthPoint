@@ -22,8 +22,13 @@ public struct ChatSettingsView: View {
     public var body: some View {
         ScrollView {
             VStack(spacing: 24) {
-                header
-                title
+                HStack  {
+                    title
+                        .frame(alignment: .leading)
+                    Spacer()
+                    header
+                        .frame(alignment: .trailing)
+                }
                 personalityCard
                 responseStyleCard
                 textSizeCard
@@ -39,7 +44,7 @@ public struct ChatSettingsView: View {
         HStack {
             CircleIcon(systemName: "bubble.left.and.bubble.right.fill")
             Spacer()
-            CircleIcon(systemName: "slider.horizontal.3")
+            //CircleIcon(systemName: "slider.horizontal.3")
         }
     }
 
@@ -49,6 +54,8 @@ public struct ChatSettingsView: View {
             .bold()
             .frame(maxWidth: .infinity, alignment: .leading)
             .foregroundStyle(.universalAccent)
+            .fixedSize(horizontal: true, vertical: true)
+
     }
 
     private var personalityCard: some View {

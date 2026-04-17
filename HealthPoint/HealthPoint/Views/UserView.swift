@@ -274,9 +274,9 @@ struct UserView: View {
 extension UserView {
     var header: some View {
             HStack {
-                CircleIcon(systemName: "square.grid.2x2")
+                //CircleIcon(systemName: "square.grid.2x2")
                 Spacer()
-                CircleIcon(systemName: "gearshape")
+                //CircleIcon(systemName: "gearshape")
             }
         }
     

@@ -97,7 +97,7 @@ extension MainMenuView {
             
             Spacer()
             
-            CircleIcon(systemName: "gearshape.fill", paddingSize: 20)
+            //CircleIcon(systemName: "gearshape.fill", paddingSize: 20)
         }
     }
     

@@ -15,6 +15,12 @@ actor ChatOrchestrator {
         let usedContext: [String]
     }
 
+    private func sanitizeResponse(_ text: String) -> String {
+        text
+            .replacingOccurrences(of: "**", with: "")
+            .replacingOccurrences(of: "*", with: "")
+    }
+
     func answer(userQuery: String, personality: ChatPersonality, detailed: Bool) async -> Answer {
         guard model.availability == .available else {
             return Answer(content: "Apple Intelligence is not available on this device.", usedContext: [])
@@ -32,6 +38,7 @@ actor ChatOrchestrator {
             personality.systemInstructions,
             "Use the provided CONTEXT when relevant. If information is missing, say so briefly.",
             "Cite data by referencing 'Context' rather than fabricating sources.",
+            "Do not use markdown formatting. Do not surround words or key points with asterisks.",
             verbosityInstruction
         ].joined(separator: "\n\n")
 
@@ -51,7 +58,7 @@ actor ChatOrchestrator {
             \(contextBlock)
             """
             let output = try await session.respond(to: compositePrompt)
-            return Answer(content: output.content, usedContext: contextSnippets)
+            return Answer(content: sanitizeResponse(output.content), usedContext: contextSnippets)
         } catch {
             return Answer(content: "Error: \(error.localizedDescription)", usedContext: contextSnippets)
         }

@@ -35,7 +35,7 @@ struct bootUpScreen: View {
                     }
 
                     VStack(spacing: 8) {
-                        Text("HealthPoint")
+                        Text("Salud Puntual")
                             .font(.system(size: 30, weight: .bold))
                             .foregroundStyle(.universalAccent)
 
