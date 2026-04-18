@@ -1,0 +1,28 @@
+Health Point - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+Health Point is an app designed specifically for people with visual empairment as an informational tool for medicines, their ingredients, and their side effects.
+Additionally, the app contains an Apple Foundation Model as a chatbot, where users can interact with it to get information on the medicines they wish to know. It
+contains a database that a Chatbot can access to for the user to get better information. Additionally, the Chatbot can be communicated using Voice to Text technology.
+
+FOLDER CONTENTS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+The code is divided into 3 main segments, ChatBotDir, Models, and Views.
+
+The ChatBotDir contains most of the configuration for the chatbot itself, this includes it's personality prompts, how it contsults information from the database,
+and how it manages the chats.
+
+The Models folder contains most of the Backend of the code, focusing on transferring the information from databases into information that the users can access or
+talk through with the chatbot.
+
+Finally, the Views folder contains most of the code. Here is where most of the views are designed, and how most of the functionality as to how everything is displayed
+and threaded together is. 
+
+EXTERNAL IMPORTS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+For the voice to text function, we used a TranscriptionKit, ThemeKit and TimerKit to make it work. To download these packages, head to:
+https://developer.apple.com/tutorials/app-dev-training/transcribing-speech-to-text
+
+APP USAGE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+To use the app, simply make sure that the packages are included. Once these are ready, you can launch the app on any device that contains Apple Inteligence, and feel
+free to use any function.
+
+APP STATUS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Currently the app is ready for usage, but there is still room to add many new features and improvements.
