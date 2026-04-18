@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 
+/// Hosts the app's primary root screen once boot preparation has completed.
 struct ContentView: View {
     //Used to call swiftData model actions
     @Environment(\.modelContext) private var modelContext

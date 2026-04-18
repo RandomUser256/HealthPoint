@@ -10,6 +10,7 @@ import SwiftData
 ///WARNINGS
 ///- In dropdown view, add and delete options are not linked or fact checked with the database, fix or disable function
 
+/// Reusable dropdown component for selecting from a simple string list.
 struct SearchableDropdownMenu: View {
   @State private var isExpanded = false
   @State private var selectedOption = "Select an Option"
@@ -23,6 +24,7 @@ struct SearchableDropdownMenu: View {
     self.searchText = searchText
   }
   
+  /// Filters the available options using the current search text.
   var filteredOptions: [String] {
     if searchText.isEmpty {
       return options
@@ -106,6 +108,7 @@ struct SearchableDropdownMenu: View {
   }
 }
 
+/// Simple disclosure group that lists the active user's ingredient allergies.
 struct DropdownMenuDisclosureGroup: View {
   @State private var isExpanded: Bool = false
   @State private var message: String = "Alergias"
@@ -131,6 +134,7 @@ struct DropdownMenuDisclosureGroup: View {
   }
 }
 
+/// Lets the user create, edit, save, and delete local user profiles and preference data.
 struct UserView: View {
     @Environment(\.modelContext) private var modelContext
     
@@ -171,11 +175,13 @@ struct UserView: View {
     
     @Environment(\.dismiss) var dismiss
 
+    /// Keeps allergy items alphabetized before rendering them in the expandable preferences section.
     private var allergyItems: [Ingredient] {
         selectedUser.publicIngredientAllergies
             .sorted { $0.getName().localizedCaseInsensitiveCompare($1.getName()) == .orderedAscending }
     }
 
+    /// Generates the next local user identifier based on the current stored profiles.
     private func nextUserID() -> Int {
         (userList.map(\.id).max() ?? 0) + 1
     }
@@ -245,11 +251,13 @@ struct UserView: View {
         .background(Color(.background).opacity(0.4))
     }
 
+    /// Removes an ingredient from both the edited profile and the active in-memory session.
     private func removeIngredientAllergy(_ ingredient: Ingredient) {
         selectedUser.publicIngredientAllergies.removeAll { $0.id == ingredient.id }
         currentUser.user.publicIngredientAllergies.removeAll { $0.id == ingredient.id }
     }
 
+    /// Saves the edited user profile and promotes it to the active session if persistence succeeds.
     private func persistUser() {
         do {
             if newUser {
@@ -274,9 +282,9 @@ struct UserView: View {
 extension UserView {
     var header: some View {
             HStack {
-                CircleIcon(systemName: "square.grid.2x2")
+                //CircleIcon(systemName: "square.grid.2x2")
                 Spacer()
-                CircleIcon(systemName: "gearshape")
+                //CircleIcon(systemName: "gearshape")
             }
         }
     
@@ -466,6 +474,7 @@ extension UserView {
         }
 }
 
+/// Wraps arbitrary content in a lightweight rounded card container.
 struct CardView<Content: View>: View {
     let content: Content
     
@@ -483,6 +492,7 @@ struct CardView<Content: View>: View {
     }
 }
 
+/// Shows a tappable section header that expands or collapses additional content.
 struct ExpandableCard<Content: View>: View {
     var title: String
     @Binding var isExpanded: Bool
@@ -531,6 +541,7 @@ struct ExpandableCard<Content: View>: View {
     }
 }
 
+/// Draws a circular SF Symbol icon used across the app's navigation and action affordances.
 struct CircleIcon: View {
     var systemName: String
     var paddingSize: Double = 20
@@ -547,6 +558,7 @@ struct CircleIcon: View {
 
 
 
+/// Applies the app's shared form styling to a labeled text input.
 struct CustomTextField: View {
     var title: String
     @Binding var text: String
@@ -570,6 +582,7 @@ struct CustomTextField: View {
     }
 }
 
+/// Reusable row style for future navigable settings sections.
 struct NavigationRow: View {
     var title: String
     

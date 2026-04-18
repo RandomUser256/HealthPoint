@@ -1,11 +1,13 @@
 import Foundation
 
+/// Defines the available assistant personas and the system instructions that constrain each one.
 enum ChatPersonality: String, CaseIterable, Identifiable {
     case amaro
     case hilda
 
     var id: String { rawValue }
 
+    /// User-facing name shown in the chat settings picker.
     var displayName: String {
         switch self {
         case .amaro: return "Amaro"
@@ -13,6 +15,7 @@ enum ChatPersonality: String, CaseIterable, Identifiable {
         }
     }
 
+    /// Base prompt injected into the language model session for this persona.
     var systemInstructions: String {
         switch self {
         case .amaro:

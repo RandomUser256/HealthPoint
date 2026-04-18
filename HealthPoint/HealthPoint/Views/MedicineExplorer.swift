@@ -4,6 +4,7 @@ import Foundation
 internal import Combine
 
 
+/// Presents a searchable, paginated medicine catalog with optional filtering by the active user's preferences.
 struct MedicineExplorer: View {
     @Environment(\.modelContext) private var modelContext
     
@@ -15,6 +16,7 @@ struct MedicineExplorer: View {
     
     @State private var expandedMedicineID: Int? = nil
 
+    /// Shows the explorer title and exposes sorting and filtering controls.
     private var headerBar: some View {
         HStack(alignment: .top) {
             Text("Explorar medicamentos")
@@ -157,6 +159,7 @@ struct MedicineExplorer: View {
         .modelContainer(for: Item.self, inMemory: true)
 }
 
+/// Renders a collapsible medicine card that expands inline to show full details.
 private struct MedicineExplorerCard: View {
     let item: Medicine
     let isExpanded: Bool
@@ -208,6 +211,7 @@ private struct MedicineExplorerCard: View {
         .background(cardBackground)
     }
 
+    /// Supplies the shared visual styling for each medicine result card.
     private var cardBackground: some View {
         RoundedRectangle(cornerRadius: 18)
             .fill(Color(.foreground).opacity(0.4))
@@ -222,6 +226,7 @@ private struct MedicineExplorerCard: View {
         .environmentObject(UserSettings())
 }
 
+/// Displays the selected medicine's description, ingredients, and adverse effects inside an expanded card.
 struct MedicineDetailView: View {
     let medicine: Medicine
 
@@ -302,6 +307,7 @@ struct MedicineDetailView: View {
         .padding(18)
     }
 
+    /// Wraps a detail subsection with a shared title style and vertical spacing.
     private func detailSection<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {
         VStack(alignment: .leading, spacing: 14) {
             Text(title)

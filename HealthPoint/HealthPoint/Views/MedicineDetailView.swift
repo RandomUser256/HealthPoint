@@ -4,6 +4,7 @@
 //
 //  Created by CETYS Universidad  on 15/04/26.
 //
+// Legacy standalone medicine detail implementation kept as reference after the inline detail redesign.
 /*
 import SwiftUI
 

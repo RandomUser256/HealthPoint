@@ -4,6 +4,7 @@
 //
 //  Created by Máximo on 4/12/26.
 //
+// Legacy CSV import implementation kept as reference while the app uses a bundled prebuilt store.
 /* UNUSED with external DB import
 import SwiftData
 import Foundation

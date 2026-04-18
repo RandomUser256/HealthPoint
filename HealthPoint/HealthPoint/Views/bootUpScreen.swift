@@ -6,6 +6,7 @@
 //
 import SwiftUI
 
+/// Shows the app's launch state while the local medicine database is being prepared.
 struct bootUpScreen: View {
     let isDataReady: Bool
     let loadingMessage: String
@@ -35,7 +36,7 @@ struct bootUpScreen: View {
                     }
 
                     VStack(spacing: 8) {
-                        Text("HealthPoint")
+                        Text("Salud Puntual")
                             .font(.system(size: 30, weight: .bold))
                             .foregroundStyle(.universalAccent)
 
