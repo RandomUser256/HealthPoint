@@ -8,6 +8,7 @@
 import SwiftData
 import Foundation
 
+/// Stores an ingredient entry and its relationships to medicines and user allergy lists.
 @Model
 class Ingredient: Identifiable {
     @Attribute(.unique) var id: Int
@@ -15,12 +16,12 @@ class Ingredient: Identifiable {
     private var name: String
     var normalizedName: String
     
-    //Stores related medicine, and updates corresponding medicine register
+    /// Stores related medicine, and updates corresponding medicine register
     @Relationship(inverse: \Medicine.ingredients)
     var medicines: [Medicine]
     
-    //Used to link to a user if listed in allergy list
-    //A single ingredient can be linked to multiple users
+    /// Used to link to a user if listed in allergy list
+    /// A single ingredient can be linked to multiple users
     var user: [User]
     
     init(id: Int, name: String) {
@@ -32,6 +33,7 @@ class Ingredient: Identifiable {
         self.user = []
     }
     
+    /// Returns the display name shown in medicine details and user preferences.
     func getName() -> String {
         return name
     }

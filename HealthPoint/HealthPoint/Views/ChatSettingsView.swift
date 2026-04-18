@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Presents chat-specific controls such as persona, response verbosity, text size, and transcript deletion.
 public struct ChatSettingsView: View {
     @Binding var selectedPersonality: ChatPersonality
     @Binding public var isDetailed: Bool
@@ -7,6 +8,7 @@ public struct ChatSettingsView: View {
 
     public var onDeleteConversation: () -> Void
 
+    /// Accepts external bindings so changes made here update the active chat screen immediately.
     init(
         selectedPersonality: Binding<ChatPersonality>,
         isDetailed: Binding<Bool>,
@@ -40,6 +42,7 @@ public struct ChatSettingsView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 
+    /// Renders the decorative header row for the settings screen.
     private var header: some View {
         HStack {
             CircleIcon(systemName: "bubble.left.and.bubble.right.fill")
@@ -48,6 +51,7 @@ public struct ChatSettingsView: View {
         }
     }
 
+    /// Displays the main title for the chat settings screen.
     private var title: some View {
         Text("Ajustes del chat")
             .font(.largeTitle)
@@ -58,6 +62,7 @@ public struct ChatSettingsView: View {
 
     }
 
+    /// Lets the user choose which assistant persona drives the system prompt.
     private var personalityCard: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Personalidad")
@@ -77,6 +82,7 @@ public struct ChatSettingsView: View {
         .background(cardBackground)
     }
 
+    /// Lets the user toggle between concise and detailed responses.
     private var responseStyleCard: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Estilo de respuesta")
@@ -100,6 +106,7 @@ public struct ChatSettingsView: View {
         .background(cardBackground)
     }
 
+    /// Adjusts the font size used when rendering the conversation transcript.
     private var textSizeCard: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Tamaño del texto")
@@ -127,6 +134,7 @@ public struct ChatSettingsView: View {
         .background(cardBackground)
     }
 
+    /// Exposes a destructive action that clears the saved conversation history.
     private var deleteButton: some View {
         Button(role: .destructive) {
             onDeleteConversation()
@@ -149,6 +157,7 @@ public struct ChatSettingsView: View {
         .accessibilityHint("Elimina todo el historial del chat actual")
     }
 
+    /// Provides a consistent card treatment shared across all settings sections.
     private var cardBackground: some View {
         RoundedRectangle(cornerRadius: 16)
             .fill(Color(.background).opacity(0.5))

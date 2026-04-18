@@ -4,6 +4,7 @@
 //
 //  Created by Máximo on 4/12/26.
 //
+// Archived loading prototype kept as reference from the original CSV import workflow.
 /*
 import SwiftUI
 

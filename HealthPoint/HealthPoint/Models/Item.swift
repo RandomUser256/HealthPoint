@@ -8,6 +8,7 @@
 import Foundation
 import SwiftData
 
+/// Minimal sample model preserved from the default SwiftData template.
 @Model
 final class Item {
     var timestamp: Date

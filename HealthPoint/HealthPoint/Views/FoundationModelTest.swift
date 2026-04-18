@@ -4,6 +4,7 @@
 //
 //  Created by Máximo on 4/11/26.
 //
+// Archived experimentation view for checking local Foundation Models availability during development.
 /*
 import SwiftUI
 import FoundationModels

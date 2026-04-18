@@ -11,6 +11,7 @@ import TimerKit
 import AVFoundation
 import TranscriptionKit
 
+/// Presents the pharmacy chat interface, manages transcript state, and bridges UI actions to the chat orchestrator.
 struct chatScreen: View {
     // Used to call swiftData model actions
     @Environment(\.modelContext) private var modelContext
@@ -18,17 +19,25 @@ struct chatScreen: View {
     // References global environmentObject of current user
     @EnvironmentObject var currentUser: UserSettings
 
+    /// Current text waiting to be sent to the assistant.
     @State private var prompt = ""
+    /// Tracks whether the assistant is currently generating a response.
     @State private var isLoading = false
+    /// Selects which system prompt profile will shape the assistant's tone and constraints.
     @State private var selectedPersonality: ChatPersonality = .amaro
+    /// Stores the visible conversation in chronological order for rendering and persistence.
     @State private var conversation: [ChatMessage] = [] // Oldest-first (top)
+    /// Indicates whether live speech transcription is in progress.
     @State private var isRecording = false
+    /// Switches between concise and more detailed assistant responses.
     @State private var isDetailed = false
+    /// User-adjustable font size used for chat bubbles.
     @State private var textSize: Double = 17
 
     // Lazily built on first .onAppear so modelContext is available.
     @State private var orchestrator: ChatOrchestrator?
 
+    /// Handles speech-to-text capture for voice input.
     @State var speechRecognizer = SpeechRecognizer()
 
     private let chatBackground = Color(.systemGroupedBackground)
@@ -67,6 +76,7 @@ struct chatScreen: View {
     }
 
     // MARK: - Components
+    /// Renders a single message bubble with styling based on whether it belongs to the user or assistant.
     private func bubble(text: String, role: ChatMessage.Role) -> some View {
         let isUser = (role == .user)
         return Text(text)
@@ -86,6 +96,7 @@ struct chatScreen: View {
             .accessibilityLabel("\(isUser ? "Tu mensaje" : "Respuesta del asistente"): \(text)")
     }
 
+    /// Builds a reusable circular button for the input toolbar, optionally replacing the icon with a spinner.
     private func circularActionButton(systemName: String, label: String, isLoading: Bool = false) -> some View {
         ZStack {
             Circle()
@@ -109,6 +120,7 @@ struct chatScreen: View {
         cardFill
     }
 
+    /// Displays the screen title and links into the chat configuration controls.
     private var headerBar: some View {
         HStack {
             Text("Chat")
@@ -139,6 +151,7 @@ struct chatScreen: View {
         .padding(.horizontal)
     }
 
+    /// Keeps the newest message visible after loading or appending conversation entries.
     private func scrollToBottom(_ proxy: ScrollViewProxy) {
         guard let lastID = conversation.last?.id else { return }
         withAnimation {
@@ -147,6 +160,7 @@ struct chatScreen: View {
     }
 
     // MARK: - Actions
+    /// Sends the current prompt to the orchestrator, appends both sides of the exchange, and captures retrieved context.
     private func generate() {
         let query = prompt.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !query.isEmpty, let orchestrator else { return }
@@ -158,7 +172,7 @@ struct chatScreen: View {
         Task {
             let answer = await orchestrator.answer(userQuery: query, personality: selectedPersonality, detailed: isDetailed)
 
-            // Append the used context text at the end of the assistant's response for transparency.
+            /// Append the used context text at the end of the assistant's response for transparency.
             var contentWithContext = answer.content
             if !answer.usedContext.isEmpty {
                 let contextBlock = answer.usedContext.enumerated()
@@ -175,6 +189,7 @@ struct chatScreen: View {
         }
     }
 
+    /// Starts or stops voice transcription and merges the recognized text into the current prompt.
     private func toggleTranscript() {
         if isRecording {
             speechRecognizer.stopTranscribing()
@@ -196,6 +211,7 @@ struct chatScreen: View {
     }
 
     // MARK: - Persistence
+    /// Persists the current conversation locally under the active user's storage key.
     private func saveConversation() {
         do {
             let data = try JSONEncoder().encode(conversation)
@@ -203,6 +219,7 @@ struct chatScreen: View {
         } catch { }
     }
 
+    /// Restores the last saved conversation for the active user, if one exists.
     private func loadConversation() {
         guard let data = UserDefaults.standard.data(forKey: conversationStorageKey()) else { return }
         do {
@@ -210,6 +227,7 @@ struct chatScreen: View {
         } catch { }
     }
 
+    /// Clears both the on-screen conversation and its persisted copy.
     private func clearConversation() {
         conversation.removeAll()
         saveConversation()
@@ -224,7 +242,7 @@ struct chatScreen: View {
             VStack(spacing: 12) {
                 headerBar
 
-                // Conversation view (oldest messages at the top, newest at the bottom)
+                /// Conversation view (oldest messages at the top, newest at the bottom)
                 ScrollViewReader { proxy in
                     ScrollView {
                         LazyVStack(alignment: .leading, spacing: 8) {
@@ -255,7 +273,7 @@ struct chatScreen: View {
                     }
                 }
 
-                // Input area
+                /// Input area
                 HStack(alignment: .bottom, spacing: 8) {
                     Button(action: toggleTranscript) {
                         circularActionButton(
@@ -298,7 +316,7 @@ struct chatScreen: View {
                 .padding(.horizontal)
                 .padding(.bottom)
             }
-            // Loading overlay
+            /// Loading overlay
             if isLoading {
                 Color.black.opacity(0.15).ignoresSafeArea()
                 ProgressView("Generando respuesta...")

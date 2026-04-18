@@ -10,10 +10,12 @@ internal import Combine
 
 //CURRENTLY NONE FUNCTIONAL
 
+/// Builds lightweight lookup tables that help the chatbot reason over medicines and ingredient relationships.
 class DataInterface: ObservableObject {
     var medicinesByName: [String: Medicine] = [:]
     var ingredientsToMedicines: [String: [Medicine]] = [:]
 
+    /// Loads medicines from SwiftData and indexes them by medicine name and ingredient name.
     func buildIndex(context: ModelContext) throws -> DataInterface {
         let index = DataInterface()
         
@@ -31,10 +33,12 @@ class DataInterface: ObservableObject {
         return index
     }
     
+    /// Extracts a normalized ingredient set for quick comparisons against user constraints.
     func ingredientNameSet(for medicine: Medicine) -> Set<String> {
         Set(medicine.ingredients.map { $0.getName().lowercased() })
     }
     
+    /// Returns whether the medicine avoids every ingredient listed in the user's allergy set.
     func isMedicineSafe(
         medicine: Medicine,
         userAllergies: Set<String>

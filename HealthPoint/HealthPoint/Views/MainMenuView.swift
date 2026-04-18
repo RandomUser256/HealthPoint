@@ -101,6 +101,7 @@ extension MainMenuView {
         }
     }
     
+    /// Displays the personalized welcome message and preserves its full multiline layout.
     var welcomeText: some View {
             Text("""
     Bienvenida \(currentUser.user.getName()),
@@ -114,6 +115,8 @@ extension MainMenuView {
         .minimumScaleFactor(0.9)
         .foregroundStyle(.universalAccent)
         .padding(.horizontal)
+        // Lets the text wrap within the available width while growing vertically
+        // so no lines are compressed into a smaller height.
         .fixedSize(horizontal: false, vertical: true)
     }
     

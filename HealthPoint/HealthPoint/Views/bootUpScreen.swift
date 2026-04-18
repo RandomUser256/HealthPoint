@@ -6,6 +6,7 @@
 //
 import SwiftUI
 
+/// Shows the app's launch state while the local medicine database is being prepared.
 struct bootUpScreen: View {
     let isDataReady: Bool
     let loadingMessage: String

@@ -1,0 +1,27 @@
+rxnorm_id_product,product_name,rxnorm_id_ingredient,ingredient_name
+1001,Amoxicillin 500mg Capsule,5001,Amoxicillin
+1002,Lisinopril 10mg Tablet,5002,Lisinopril
+1003,Metformin 500mg Tablet,5003,Metformin
+1004,Atorvastatin 20mg Tablet,5004,Atorvastatin
+1005,Hydrochlorothiazide 25mg Tablet,5005,Hydrochlorothiazide
+1006,Albuterol 90mcg Inhaler,5006,Albuterol
+1007,Gabapentin 300mg Capsule,5007,Gabapentin
+1008,Sertraline 50mg Tablet,5008,Sertraline
+1009,Amlodipine 5mg Tablet,5009,Amlodipine
+1010,Omeprazole 20mg Capsule,5010,Omeprazole
+1011,Vicodin,5011,Hydrocodone
+1011,Vicodin,5012,Acetaminophen
+1012,Percocet,5013,Oxycodone
+1012,Percocet,5012,Acetaminophen
+1013,Advil Dual Action,5014,Ibuprofen
+1013,Advil Dual Action,5012,Acetaminophen
+1014,Symbicort,5015,Budesonide
+1014,Symbicort,5016,Formoterol
+1015,Augmentin,5001,Amoxicillin
+1015,Augmentin,5017,Clavulanate
+1016,Excedrin Migraine,5018,Aspirin
+1016,Excedrin Migraine,5012,Acetaminophen
+1016,Excedrin Migraine,5019,Caffeine
+1017,Trelegy Ellipta,5020,Fluticasone
+1017,Trelegy Ellipta,5021,Umeclidinium
+1017,Trelegy Ellipta,5022,Vilanterol

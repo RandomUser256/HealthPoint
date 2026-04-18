@@ -23,6 +23,7 @@ import SwiftData
 internal import Combine
 
 //Structure for storing the user currently in session
+/// Shares the currently active user profile across the SwiftUI environment.
 class UserSettings: ObservableObject {
     @Published var user: User
     
@@ -35,6 +36,7 @@ class UserSettings: ObservableObject {
     }
 }
 
+/// Configures the model container, preloads the bundled store, and switches from boot flow into the main app.
 @main
 struct HealthPointApp: App {
     //Persisted storage indicator if dataset has previously been loaded
@@ -143,6 +145,7 @@ struct HealthPointApp: App {
          */
     }
 
+    /// Verifies that the local medicine store is accessible before enabling the main menu.
     @MainActor
     private func prepareBoot() async {
         guard !isReadyToBoot else { return }
@@ -160,6 +163,7 @@ struct HealthPointApp: App {
     }
 }
 
+/// Copies the bundled SwiftData store into Application Support the first time the app launches.
 func preloadStoreIfNeeded() {
     let fm = FileManager.default
     

@@ -8,6 +8,7 @@
 import SwiftData
 import Foundation
 
+/// Persists profile information and medication-related preferences for an app user.
 @Model
 class User {
     @Attribute(.unique) var id: Int
@@ -21,17 +22,18 @@ class User {
     @Relationship(inverse: \Ingredient.user)
     var publicIngredientAllergies: [Ingredient] = []
     
-    //Array of unwanted/blackliste medicine by user for whatever reason
+    /// Array of unwanted/blackliste medicine by user for whatever reason
     @Relationship(inverse: \Medicine.user)
     var publicUnwantedMedicine: [Medicine] = []
     
-    //String to sotre medical conditions, in support is added later
+    /// String to sotre medical conditions, in support is added later
     var medicalCondition: [String] = []
     
     private func userCount() {
         
     }
     
+    /// Creates a fully configured user record with optional allergies, avoided medicines, and conditions.
     init(id: Int, name: String, birthDate: Date = Date(), gender: String = "N", apellidos: String, ingredientAllergies: [Ingredient] = [], unwantedMedicine: [Medicine] = [], medicalCondition: [String] = []) {
         self.id = id
         self.name = name
@@ -43,6 +45,7 @@ class User {
         self.medicalCondition = medicalCondition
     }
     
+    /// Creates a placeholder profile used when starting a new user flow.
     init() {
         self.id = Int.random(in: 1...1000)
         self.name = "New User"
@@ -54,10 +57,12 @@ class User {
         self.apellidos = "New User"
     }
     
+    /// Returns the user's first-name field for display in the UI.
     func getName() -> String {
         return name
     }
     
+    /// Returns the user's last-name field.
     func getApellidos() -> String {
         return apellidos
     }

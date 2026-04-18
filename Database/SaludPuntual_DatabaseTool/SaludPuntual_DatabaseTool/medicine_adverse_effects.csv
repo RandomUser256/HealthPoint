@@ -1,0 +1,21 @@
+rxnorm_id,rxnorm_name,meddra_id,meddra_name
+1001,Amoxicillin 500mg Capsule,9001,Nausea
+1001,Amoxicillin 500mg Capsule,9002,Diarrhoea
+1002,Lisinopril 10mg Tablet,9003,Dry Cough
+1002,Lisinopril 10mg Tablet,9004,Dizziness
+1003,Metformin 500mg Tablet,9005,Lactic Acidosis
+1004,Atorvastatin 20mg Tablet,9006,Myalgia
+1005,Hydrochlorothiazide 25mg Tablet,9007,Hyperuricemia
+1006,Albuterol 90mcg Inhaler,9008,Tachycardia
+1006,Albuterol 90mcg Inhaler,9009,Tremor
+1010,Omeprazole 20mg Capsule,9010,Headache
+1011,Vicodin,9011,Constipation
+1011,Vicodin,9012,Somnolence
+1011,Vicodin,9013,Respiratory Depression
+1012,Percocet,9004,Dizziness
+1012,Percocet,9014,Pruritus
+1015,Augmentin,9015,Vomiting
+1015,Augmentin,9001,Nausea
+1016,Excedrin Migraine,9016,Gastritis
+1016,Excedrin Migraine,9017,Nervousness
+1017,Trelegy Ellipta,9018,Candidiasis

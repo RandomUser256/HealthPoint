@@ -3,6 +3,7 @@ import Foundation
 internal import Combine
 
 // MARK: - Knowledge Source Protocol
+/// Represents a source capable of returning context snippets relevant to a chat query.
 protocol KnowledgeSource {
     /// A human-readable name for the source (for logging/observability)
     var name: String { get }
@@ -34,7 +35,7 @@ struct MedicineDatabaseSource: KnowledgeSource {
     func fetchRelevantContext(for query: String) async throws -> [String] {
         // ModelContext must be touched on the actor it was created on (MainActor).
         return try await MainActor.run {
-            // --- 1. Tokenise the query ---
+            /// --- 1. Tokenise the query ---
             let tokens = query
                 .lowercased()
                 .components(separatedBy: .whitespacesAndNewlines)
@@ -44,14 +45,14 @@ struct MedicineDatabaseSource: KnowledgeSource {
 
             guard !tokens.isEmpty else { return [] }
 
-            // --- 2. Fetch all medicines, sorted alphabetically (mirrors refreshFromStore) ---
+            /// --- 2. Fetch all medicines, sorted alphabetically (mirrors refreshFromStore) ---
             let descriptor = FetchDescriptor<Medicine>(
                 predicate: nil,
                 sortBy: [SortDescriptor(\.normalizedName, order: .forward)]
             )
             let allMedicines = try context.fetch(descriptor)
 
-            // --- 3. Score each medicine by how many tokens match ---
+            /// --- 3. Score each medicine by how many tokens match ---
             let scored: [(medicine: Medicine, score: Int)] = allMedicines.compactMap { med in
                 let medName        = med.getName().lowercased()
                 let medDescription = med.getDescriptionText().lowercased()
@@ -59,7 +60,7 @@ struct MedicineDatabaseSource: KnowledgeSource {
                     .map { $0.getName().lowercased() }
                     .joined(separator: " ")
 
-                // Count distinct tokens that appear in any searchable field
+                /// Count distinct tokens that appear in any searchable field
                 let matchCount = tokens.filter { token in
                     medName.contains(token)
                     || medDescription.contains(token)
@@ -70,13 +71,13 @@ struct MedicineDatabaseSource: KnowledgeSource {
                 return (med, matchCount)
             }
 
-            // --- 4. Sort by descending relevance, take top N ---
+            /// --- 4. Sort by descending relevance, take top N ---
             let topMatches = scored
                 .sorted { $0.score > $1.score }
                 .prefix(maxResults)
                 .map(\.medicine)
 
-            // --- 5. Format each medicine as a context snippet ---
+            /// --- 5. Format each medicine as a context snippet ---
             return topMatches.map { med in
                 let ingredientList = med.ingredients
                     .map { $0.getName() }
@@ -97,14 +98,14 @@ struct MockFAQSource: KnowledgeSource {
     let name = "Source"
 
     func fetchRelevantContext(for query: String) async throws -> [String] {
-        // Simulate a small delay and return canned snippets.
+        /// Simulate a small delay and return canned snippets.
         try await Task.sleep(nanoseconds: 150_000_000)
         let snippets = [
             "FAQ: Our service syncs data every 15 minutes by default.",
             "FAQ: You can export data as CSV or JSON from the dashboard.",
             "FAQ: Contact support at support@example.com for escalations."
         ]
-        // Naive filtering: include snippets that contain any query word
+        /// Naive filtering: include snippets that contain any query word
         let tokens = Set(query.lowercased().split(separator: " "))
         let filtered = snippets.filter { snippet in
             let sTokens = Set(snippet.lowercased().split(separator: " "))
@@ -128,9 +129,11 @@ struct MockAnalyticsSource: KnowledgeSource {
 }
 
 // MARK: - Knowledge Retriever
+/// Queries all registered knowledge sources and merges their context snippets for the chat model.
 actor KnowledgeRetriever {
     private let sources: [KnowledgeSource]
 
+    /// Stores the retrieval sources that will be queried for each user request.
     init(sources: [KnowledgeSource]) {
         self.sources = sources
     }

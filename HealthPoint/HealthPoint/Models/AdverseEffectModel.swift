@@ -7,6 +7,7 @@
 import SwiftData
 import Foundation
 
+/// Stores an adverse effect entry and its relationships to the medicines that may cause it.
 @Model
 class AdverseEffect: Identifiable {
     @Attribute(.unique) var id: Int
@@ -16,7 +17,7 @@ class AdverseEffect: Identifiable {
     
     private var meddraTermType: String
     
-    //Stores related medicine, and updates corresponding medicine register
+    /// Stores related medicine, and updates corresponding medicine register
     @Relationship(inverse: \Medicine.adverseEffects)
     var medicines: [Medicine]
     
@@ -28,10 +29,12 @@ class AdverseEffect: Identifiable {
         self.medicines = medicines
     }
     
+    /// Returns the display name used throughout the UI.
     func getName() -> String {
         return name
     }
     
+    /// Returns the MedDRA classification type associated with this adverse effect.
     func getMeddraTermType() -> String {
         return meddraTermType
     }
