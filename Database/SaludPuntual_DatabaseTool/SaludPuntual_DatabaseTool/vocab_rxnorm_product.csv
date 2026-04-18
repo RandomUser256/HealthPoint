@@ -1,21 +1,179 @@
 rxnorm_id,rxnorm_name
-1001,Amoxicillin 500mg Capsule
-1002,Lisinopril 10mg Tablet
-1003,Metformin 500mg Tablet
-1004,Atorvastatin 20mg Tablet
-1005,Hydrochlorothiazide 25mg Tablet
-1006,Albuterol 90mcg Inhaler
-1007,Gabapentin 300mg Capsule
-1008,Sertraline 50mg Tablet
-1009,Amlodipine 5mg Tablet
-1010,Omeprazole 20mg Capsule
-1011,Vicodin
-1012,Percocet
-1013,Advil Dual Action
-1014,Symbicort
-1015,Augmentin
-1016,Excedrin Migraine
-1017,Trelegy Ellipta
-1018,Normal Saline
-1019,Placebo A
-1020,Unknown Research Compound
+10039640,Zercepac
+10039641,Nustendi
+1655928,Ivacaftor 125 mg / Lumacaftor 200 mg Oral Tablet
+1745280,Norepinephrine 1 mg/mL Injection
+197785,Hydrocortisone 2.5 % Topical Lotion
+2586433,Eprontia 25 mg/mL Oral Solution
+2608952,Bortezomib 1 mg/mL Injection
+2680364,Ogsiveo 100 mg Tablet 7-Day 14 Count Pack
+880649,Dexamethasone 3 mg/mL Injectable Solution
+897309,Atriplex polycarpa pollen extract 100 mg/mL Injectable Solution
+897612,Verapamil hydrochloride 120 mg 24 HR Extended Release Oral Capsule
+967724,Rhizopus stolonifer extract 0.05 g/mL Injectable Solution
+1006120,Sulfacetamide sodium 100 mg/mL Ophthalmic Solution
+1673373,Varubi 90 mg Oral Tablet
+202109,Lioresal 10 mg Oral Tablet
+2601776,Mounjaro 12.5 mg per 0.5 mL Auto-Injector
+379804,Glipizide 2.5 mg Oral Tablet
+729932,Effexor XR 37.5 mg (as Venlafaxine hydrochloride) 24 HR Extended Release Oral Capsule
+763450,Rilonacept
+966976,Esox lucius allergenic extract 50 mg/mL Injectable Solution
+1495092,Norlyroc 28 Day Pack
+10039633,Onbrez Breezhaler
+10039632,Benylin Children's Chesty Coughs
+10039636,Nurofen Cold and Flu
+211140,Pentosan polysulfate 100 mg Oral Capsule [Elmiron]
+2170262,Onasemnogene abeparvovec-xioi Kit Patient Weight 10.6 - 11.0 kg
+238014,Carboprost 0.25 mg/mL Injection
+2390648,Enzalutamide 80 mg Oral Tablet
+2672922,Ferrous bisglycinate 36.5 mg Oral Tablet
+376615,Coal tar Topical Lotion
+10039631,Luminity
+10039637,Famotidine 40 mg Oral Tablet by Waymade
+10039638,Repaglinide Krka
+10039643,Lanthanum carbonate 1000 mg Chewable Tablet [Fosrenol] by Takeda
+1605437,BenzePro 7 % Medicated Liquid Soap
+209789,Cysteamine 50 mg Oral Capsule [Cystagon]
+220074,Sudafed Sinus
+2630767,Onasemnogene abeparvovec-xioi Kit Patient Weight 15.1 - 15.5 kg
+573961,Ibuprofen 200 mg [Anadin Ibuprofen]
+1358610,Methylprednisolone acetate 40 mg/mL Injectable Suspension
+1718910,Dexmedetomidine 0.004 mg/mL Injection [Precedex]
+1991306,Semaglutide 2 mg per 1.5 mL Pen Injector
+2103177,Lorlatinib 100 mg Oral Tablet
+2168596,Corlanor 5 mg per 5 mL Oral Solution
+2677162,Metformin HCl 1000 mg / Sitagliptin 50 mg Oral Tablet [Zituvimet]
+402943,Starlix
+10039627,Hexyon
+10039628,Epoetin Alfa Hexal
+10039642,Alymsys
+1006374,Mangifera indica pollen extract 0.05 g/mL Injectable Solution
+1037153,Carbetapentane citrate 60 mg / GuaiFENesin 600 mg / Phenylephrine HCl 15 mg 12 HR Extended Release Oral Tablet
+1299994,Siberian elm pollen extract 0.1 g/mL Injectable Solution
+1718906,Dexmedetomidine (as Dexmedetomidine HCl) 200 mcg per 50 mL Injection
+2602774,Treprostinil Inhalation Powder Maintenance Pack
+2641661,Adalimumab-adaz 100 mg/mL Prefilled Syringe [Hyrimoz]
+2641849,Delandistrogene moxeparvovec-rokl Injection [Elevidys] Kit
+1737459,Pamidronate disodium 30 mg Injection
+2053524,Patisiran lipid complex 10 mg per 5 mL Injection
+2602301,Tapinarof 10 mg/mL Topical Cream
+2670300,Adzynma 1500 UNT Injection
+387080,Dexamethasone 8 mg/mL Injectable Solution
+706000,Salicylic acid Topical Solution
+852232,Australian pine pollen extract 50 mg/mL Injectable Solution
+858366,Acuvail 0.45 % Ophthalmic Solution
+993954,Zyban 150 mg Smoking Cessation 12 HR Extended Release Oral Tablet
+1490052,Elosulfase alfa 1 mg/mL Injection [Vimizim]
+1747575,"Venetoclax starter pack (10 mg, 50 mg, 100 mg)"
+1871459,Lisdexamfetamine dimesylate 40 mg Chewable Tablet [Vyvanse]
+198248,Tetracaine HCl 20 mg in 2 mL Injection
+208416,Sulfamethoxazole 400 mg / Trimethoprim 80 mg Oral Tablet
+2630666,Treprostinil Extended Release Oral Tablet Titration Pack
+2642816,Niva Thyroid Oral Tablet
+2682581,Diazepam 7.5 mg Buccal Film
+643488,Isotretinoin 30 mg Oral Capsule [Claravis]
+835829,Testosterone cypionate 100 mg/mL Injectable Solution
+848176,Augmented betamethasone 0.05 % Topical Cream
+897337,Groundsel pollen extract 100 mg/mL Injectable Solution
+901360,House dust allergenic extract 100 mg/mL Injectable Solution
+905482,Shrimp extract 0.05 g/mL Injectable Solution
+992399,Gatifloxacin 5 mg/mL Ophthalmic Solution [Zymaxid]
+1356074,Kurvelo 28 Day Pack
+1730078,Chlorpromazine hydrochloride 25 mg/mL Injection
+2395797,Xaracoll 100 mg Drug Implant
+313988,Furosemide 40 mg Oral Tablet
+483445,Pregabalin 200 mg
+564064,Metyrapone 250 mg [Metopirone]
+758160,Methoxy polyethylene glycol-epoetin beta 150 mcg Prefilled Syringe
+977883,Amiloride HCl 5 mg / HCTZ 50 mg Oral Tablet
+1112250,Clarinex-D 12 HR Extended Release Oral Tablet
+1147228,Zelboraf 240 mg Oral Tablet
+1664456,Tacrolimus 0.75 mg 24 HR Extended Release Oral Tablet
+197734,Gallium nitrate 25 mg/mL Injectable Solution
+205866,Clarithromycin 500 mg Oral Tablet
+312172,Oxygen 99 % Gas for Inhalation
+427538,Clobazam 5 mg Oral Tablet
+476556,Emtricitabine 200 mg / Tenofovir disoproxil fumarate 300 mg Oral Tablet
+752894,Leuprolide acetate 22.5 mg per 0.375 mL Prefilled Syringe
+829877,Trisenox
+831137,Diltiazem hydrochloride 90 mg Oral Tablet [Cardizem]
+896205,Wormwood sage pollen extract 10000 UNT/mL Injectable Solution
+997220,Donepezil HCl 10 mg Disintegrating Oral Tablet
+104385,Altace 5 mg Oral Capsule
+1243346,Viread 40 mg per g Oral Powder
+1298906,Molindone hydrochloride 25 mg Oral Tablet
+1433250,Fetzima Titration Pack (20 mg / 40 mg)
+1716196,Praxbind
+1988308,Diltiazem HCl 120 mg Extended Release Oral Capsule
+2121766,Testosterone undecanoate 158 mg Oral Capsule
+2590748,Tebentafusp-tebn 0.2 mg/mL Injection
+541043,Oxynorm
+749207,Renvela
+831360,Tiazac 420 mg 24 HR Extended Release Oral Capsule
+10039635,Kivexa
+10039639,Pelmeg
+1191256,Fluocinolone acetonide 0.025 % Topical Ointment
+197980,Metyrosine 250 mg Oral Capsule
+991486,Codeine phosphate 10 mg / Promethazine HCl 6.25 mg Oral Solution
+2001506,Lamotrigine 150 mg Oral Tablet
+2571846,Atogepant 30 mg Oral Tablet [Qulipta]
+2639021,Buprenorphine 50 mg/mL Prefilled Syringe
+309686,Dexamethasone 0.5 mg per 5 mL Oral Solution
+313195,Tamoxifen citrate 20 mg Oral Tablet
+859835,Fluphenazine hydrochloride 0.5 mg/mL Oral Solution
+861783,Pioglitazone 15 mg / Metformin 500 mg Oral Tablet
+10039629,Dentinox Medicated Shampoo
+1000395,"Estrogen, conjugated 0.625 mg / Medroxyprogesterone 2.5 mg Tablet"
+106318,Isotretinoin 5 mg Oral Capsule
+197418,Bumetanide 1 mg Oral Tablet
+831391,Miconazole / Petrolatum / Zinc Oxide Topical Ointment
+892345,Morphine sulfate 30 mg Extended Release Oral Capsule
+1049635,Acetaminophen 325 mg / Oxycodone HCl 2.5 mg Oral Tablet
+1094377,Coffee bean allergenic extract 50 mg/mL Injectable Solution
+1743549,Oxacillin 2000 mg Injection
+2261746,Cetirizine hydrochloride 10 mg/mL Injection
+2605796,Methylphenidate HCl 63 mg 24 HR Extended Release Oral Tablet
+311702,Midazolam 5 mg/mL Injectable Solution
+687043,Amphetamine Salt Combo (Adderall) Oral Tablet
+1020066,Risedronate sodium 35 mg Delayed Release Oral Tablet [Atelvia]
+1043570,Metformin HCl 1000 mg / Saxagliptin 5 mg Extended Release Tablet
+1086786,Vilazodone hydrochloride 40 mg Oral Tablet [Viibryd]
+1737569,Xylocaine-MPF 20 mg per 2 mL Injection
+211816,Levaquin 500 mg Oral Tablet
+2174805,Kanjinti
+2681026,Fidanacogene elaparvovec-dzkt 10^13 VG/mL Injection
+1049563,Oxycodone HCl 20 mg 12 HR Extended Release Oral Tablet
+1666338,Buprenorphine 2.9 mg / Naloxone 0.71 mg Sublingual Tablet
+205739,Phospholine Iodide 1.25 mg/mL Ophthalmic Solution
+2104336,Cenegermin-bkbj 0.02 mg/mL Ophthalmic Solution
+311568,Metaraminol 10 mg/mL Injectable Solution
+858733,Ursodiol 500 mg Oral Tablet
+892283,Bluefish allergenic extract 100 mg/mL Injectable Solution
+1649425,Doxycycline hyclate 75 mg Oral Tablet
+1721476,Ampicillin 2000 mg Injection
+2386872,Coagulation factor VIIa (recombinant)-jncw 1 mg Injection
+2605803,Vivjoa 18-Count Pack
+2691190,Spikevax 2024-2025 (COVID-19 Vaccine) Injection
+898353,Amlodipine 5 mg / Benazepril HCl 10 mg Oral Capsule
+10039634,Spedra
+1606337,Asenapine 2.5 mg Sublingual Tablet
+198241,Temazepam 15 mg Oral Capsule
+2054103,Direct blue 2
+207949,Chemet 100 mg Oral Capsule
+730878,"Synthetic conjugated estrogens, B 0.9 mg Oral Tablet"
+763089,Levonorgestrel 0.75 mg Oral Tablet Pack
+77655,Zoledronic acid
+828525,Calcium chloride 10 % Injection
+852275,Pecan pollen extract 50 mg/mL Injectable Solution
+1040055,Nuedexta
+1720773,Levoleucovorin 250 mg in 25 mL Injection
+197699,Fluconazole 150 mg Oral Tablet
+211544,Zoladex 10.8 mg Drug Implant
+314268,Tazarotene 0.5 mg/mL Topical Cream
+385970,Loperamide Oral Tablet [Norimode]
+402011,Risperidone 37.5 mg Injection
+833008,Desmopressin acetate 0.2 mg Oral Tablet
+857174,FNP Sodium 20 mg / HCTZ 12.5 mg Oral Tablet
+899642,Nitroglycerin 0.6 mg/HR Transdermal System
+901381,Sesame seed allergenic extract 100 mg/mL Injection

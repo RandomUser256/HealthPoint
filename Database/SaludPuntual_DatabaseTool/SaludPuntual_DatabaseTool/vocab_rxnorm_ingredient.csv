@@ -1,23 +1,144 @@
 rxnorm_id,rxnorm_name
-5001,Amoxicillin
-5002,Lisinopril
-5003,Metformin
-5004,Atorvastatin
-5005,Hydrochlorothiazide
-5006,Albuterol
-5007,Gabapentin
-5008,Sertraline
-5009,Amlodipine
-5010,Omeprazole
-5011,Hydrocodone
-5012,Acetaminophen
-5013,Oxycodone
-5014,Ibuprofen
-5015,Budesonide
-5016,Formoterol
-5017,Clavulanate
-5018,Aspirin
-5019,Caffeine
-5020,Fluticasone
-5021,Umeclidinium
-5022,Vilanterol
+1006297,Aspergillus niger var. niger allergenic extract
+10814,Liothyronine
+10829,Trimethoprim
+108542,Meningitis vaccine
+10869,Tropicamide
+117055,Alemtuzumab
+1192729,Colletotrichum coccodes allergenic extract
+1192992,Microascus brevicaulis allergenic extract
+1193003,Neurospora crassa allergenic extract
+1202,Atenolol
+1291301,Avanafil
+1291609,Taliglucerase alfa
+1292422,Varicella-zoster virus vaccine live (Oka-Merck) strain
+10039646,Alfa dibotermin
+10039647,"Influenza Virus Surface Antigen, Inactivated, Strain B"
+1010954,Licorice allergenic extract
+10114,Streptozocin
+1014743,White (mexican) dock pollen extract
+1014766,Jerusalem oak pollen extract
+10324,Tamoxifen
+105694,Epoetin alfa
+1100072,Abiraterone
+11115,Valine
+11149,Vasopressin (USP)
+11246,Vitamin A
+114970,Zafirlukast
+276237,Emtricitabine
+29046,Lisinopril
+29503,Meningococcal group C polysaccharide
+2977,Cyclizine
+3289,Dextromethorphan
+358258,Bortezomib
+10039644,Regdanvimab
+2677894,Resmetirom
+2679296,Vadadustat
+2663954,Palovarotene
+2669967,Capivasertib
+2670631,Nirogacestat
+10039630,Baricitinib
+115698,Ziprasidone
+118886,Verteporfin
+1256,Azathioprine
+10039645,Oteracil
+1012892,Fingolimod
+10390,Tetrabenazine
+10627,Tobramycin
+10636,Tolmetin
+11198,Vinblastine
+114979,Rabeprazole
+141626,Colesevelam
+851918,Meadow fescue grass pollen extract
+851934,Western waterhemp pollen extract
+852015,Corn pollen extract
+852020,Common sagebrush pollen extract
+852054,American elm pollen extract
+852132,Sugar beet pollen extract
+852144,Cherry birch pollen extract
+852634,Alfalfa pollen extract
+852669,White mulberry pollen extract
+852687,Mucor racemosus allergenic extract
+852693,House mouse skin extract
+889591,Mackerel allergenic extract
+891676,String bean allergenic extract
+891752,American chestnut allergenic extract
+892181,Bluefish allergenic extract
+892368,Carrot allergenic extract
+892674,Baker's yeast allergenic extract
+894961,Canary feather extract
+895279,Rat skin extract
+863035,Bepotastine
+882469,Pacific halibut allergenic extract
+1010879,Bay leaf allergenic extract
+1010932,Leek allergenic extract
+1011027,Parsnip allergenic extract
+1014385,Bermuda grass smut allergenic extract
+10627,Tobramycin
+10636,Tolmetin
+11198,Vinblastine
+114979,Rabeprazole
+141626,Colesevelam
+852162,Black willow pollen extract
+852320,Mesquite pollen extract
+852532,Rough marshelder pollen extract
+852589,Western oak pollen extract
+852609,Red cedar pollen extract
+852716,Yellow pine pollen extract
+854948,Streptococcus pneumoniae type 19F capsular polysaccharide
+854962,Streptococcus pneumoniae type 4 capsular polysaccharide
+891514,Brazil nut allergenic extract
+891633,Hazelnut allergenic extract
+891641,Lima bean allergenic extract
+891647,Mung bean allergenic extract
+892517,Cantaloupe allergenic extract
+892547,Corn allergenic extract
+895503,Domestic goat hair extract
+8700,Procainamide
+861634,Pitavastatin
+867142,Prairie sagebrush pollen extract
+867218,Dogfennel pollen extract
+8698,Probenecid
+897316,Saltbush pollen extract
+89778,Ecothiopate
+898324,Lodgepole pine pollen extract
+898492,Collagenase Clostridium histolyticum
+899424,Grapefruit allergenic extract
+899470,Plum allergenic extract
+899576,Paper birch pollen extract
+899906,Raspberry allergenic extract
+900045,Oregon ash pollen extract
+900754,Red pine pollen extract
+901805,Velaglucerase alfa
+901845,Alternaria alternata allergenic extract
+9386,Rimantadine
+9525,Salicylic acid
+115243,Temoporfin
+851744,Red maple pollen extract
+851866,Silver maple pollen extract
+851902,Tag alder pollen extract
+851910,White alder pollen extract
+852158,Russian thistle pollen extract
+852339,Aspen pollen extract
+852810,House dust mite extract (D. farinae)
+854966,Streptococcus pneumoniae type 6B capsular polysaccharide
+886637,Dog flea allergenic extract
+891668,Soybean allergenic extract
+892507,Almond allergenic extract
+894934,Chicken feather extract
+895353,Cootamundra wattle pollen extract
+895515,Horse hair extract
+857974,Saxagliptin
+86009,Insulin lispro
+88014,Rizatriptan
+899359,Sugar beet allergenic extract
+900108,Oneseed juniper pollen extract
+901283,Swordfish allergenic extract
+901620,Prevnar 13 component (Serotype 1)
+905070,Acremonium strictum allergenic extract
+9524,Sulfasalazine
+968123,Stachybotrys chartarum allergenic extract
+968426,Trichothecium roseum allergenic extract
+974140,English sole allergenic extract
+974741,Mosquito allergenic extract
+9913,Sodium tetradecyl sulfate

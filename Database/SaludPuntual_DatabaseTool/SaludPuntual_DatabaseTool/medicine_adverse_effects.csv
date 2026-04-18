@@ -1,21 +1,63 @@
 rxnorm_id,rxnorm_name,meddra_id,meddra_name
-1001,Amoxicillin 500mg Capsule,9001,Nausea
-1001,Amoxicillin 500mg Capsule,9002,Diarrhoea
-1002,Lisinopril 10mg Tablet,9003,Dry Cough
-1002,Lisinopril 10mg Tablet,9004,Dizziness
-1003,Metformin 500mg Tablet,9005,Lactic Acidosis
-1004,Atorvastatin 20mg Tablet,9006,Myalgia
-1005,Hydrochlorothiazide 25mg Tablet,9007,Hyperuricemia
-1006,Albuterol 90mcg Inhaler,9008,Tachycardia
-1006,Albuterol 90mcg Inhaler,9009,Tremor
-1010,Omeprazole 20mg Capsule,9010,Headache
-1011,Vicodin,9011,Constipation
-1011,Vicodin,9012,Somnolence
-1011,Vicodin,9013,Respiratory Depression
-1012,Percocet,9004,Dizziness
-1012,Percocet,9014,Pruritus
-1015,Augmentin,9015,Vomiting
-1015,Augmentin,9001,Nausea
-1016,Excedrin Migraine,9016,Gastritis
-1016,Excedrin Migraine,9017,Nervousness
-1017,Trelegy Ellipta,9018,Candidiasis
+349407,Treprostinil 1 mg/mL Injectable Solution,10030095,Oedema
+349407,Treprostinil 1 mg/mL Injectable Solution,10025482,Malaise
+349407,Treprostinil 1 mg/mL Injectable Solution,10037660,Pyrexia
+349407,Treprostinil 1 mg/mL Injectable Solution,10037087,Pruritus
+349407,Treprostinil 1 mg/mL Injectable Solution,10019211,Headache
+349407,Treprostinil 1 mg/mL Injectable Solution,10013968,Dyspnoea
+349407,Treprostinil 1 mg/mL Injectable Solution,10011224,Cough
+349407,Treprostinil 1 mg/mL Injectable Solution,10022437,Insomnia
+860901,Galantamine HBr 4 mg in 1 mL Oral Solution,10016173,Fall
+860901,Galantamine HBr 4 mg in 1 mL Oral Solution,10017577,Gait disturbance
+860901,Galantamine HBr 4 mg in 1 mL Oral Solution,10016256,Fatigue
+860901,Galantamine HBr 4 mg in 1 mL Oral Solution,10008479,Chest pain
+860901,Galantamine HBr 4 mg in 1 mL Oral Solution,10021097,Hypotension
+860901,Galantamine HBr 4 mg in 1 mL Oral Solution,10020772,Hypertension
+860901,Galantamine HBr 4 mg in 1 mL Oral Solution,10033557,Palpitations
+860901,Galantamine HBr 4 mg in 1 mL Oral Solution,10003658,Atrial fibrillation
+200329,Omeprazole 40 mg Delayed Release Oral Capsule,10028813,Nausea
+200329,Omeprazole 40 mg Delayed Release Oral Capsule,10030216,Oesophagitis
+200329,Omeprazole 40 mg Delayed Release Oral Capsule,10012735,Diarrhoea
+200329,Omeprazole 40 mg Delayed Release Oral Capsule,10037844,Rash
+200329,Omeprazole 40 mg Delayed Release Oral Capsule,10001488,Aggression
+200329,Omeprazole 40 mg Delayed Release Oral Capsule,10002855,Anxiety
+153822,Candesartan cilexetil 4 mg Oral Tablet,10020772,Hypertension
+153822,Candesartan cilexetil 4 mg Oral Tablet,10002034,Anaemia
+153822,Candesartan cilexetil 4 mg Oral Tablet,10038451,Renal function abnormal
+153822,Candesartan cilexetil 4 mg Oral Tablet,10021097,Hypotension
+153822,Candesartan cilexetil 4 mg Oral Tablet,10007554,Cardiac failure
+153822,Candesartan cilexetil 4 mg Oral Tablet,10002424,Angioedema
+314285,Zonisamide 100 mg Oral Capsule,10007739,Cataract
+314285,Zonisamide 100 mg Oral Capsule,10017076,Fracture
+314285,Zonisamide 100 mg Oral Capsule,10010300,Confusion
+314285,Zonisamide 100 mg Oral Capsule,10012239,Delusion
+314285,Zonisamide 100 mg Oral Capsule,10029282,Neuroleptic malignant syndrome
+402010,Risperidone 25 mg Injection,10039626,Schizophrenia
+402010,Risperidone 25 mg Injection,10033371,Pain
+402010,Risperidone 25 mg Injection,10016173,Fall
+402010,Risperidone 25 mg Injection,10020642,Hyperhidrosis
+402010,Risperidone 25 mg Injection,10033645,Pancreatitis
+402010,Risperidone 25 mg Injection,10015037,Epilepsy
+402010,Risperidone 25 mg Injection,10013642,Drooling
+314285,Zonisamide 100 mg Oral Capsule,10019063,Hallucination
+314285,Zonisamide 100 mg Oral Capsule,10010770,Consciousness disturbed
+314285,Zonisamide 100 mg Oral Capsule,10030302,Oliguria
+314285,Zonisamide 100 mg Oral Capsule,10036018,Pollakiuria
+314285,Zonisamide 100 mg Oral Capsule,10029282,Neuroleptic malignant syndrome
+402010,Risperidone 25 mg Injection,10028035,Movement disorder
+402010,Risperidone 25 mg Injection,10030899,Opisthotonus
+402010,Risperidone 25 mg Injection,10020765,Hypersomnia
+402010,Risperidone 25 mg Injection,10010947,Coordination abnormal
+402010,Risperidone 25 mg Injection,10029331,Neuropathy peripheral
+402010,Risperidone 25 mg Injection,10027175,Memory impairment
+402010,Risperidone 25 mg Injection,10012373,Depressed level of consciousness
+402010,Risperidone 25 mg Injection,10024264,Lethargy
+402010,Risperidone 25 mg Injection,10039626,Schizophrenia
+402010,Risperidone 25 mg Injection,10033371,Pain
+402010,Risperidone 25 mg Injection,10016173,Fall
+153822,Candesartan cilexetil 4 mg Oral Tablet,10016373,Feelings of weakness
+153822,Candesartan cilexetil 4 mg Oral Tablet,10020993,Hypoglycaemia
+153822,Candesartan cilexetil 4 mg Oral Tablet,10035664,Pneumonia
+153822,Candesartan cilexetil 4 mg Oral Tablet,10022617,Interstitial pneumonia
+153822,Candesartan cilexetil 4 mg Oral Tablet,10030095,Oedema
+153822,Candesartan cilexetil 4 mg Oral Tablet,10002424,Angioedema

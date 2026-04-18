@@ -1,27 +1,86 @@
 rxnorm_id_product,product_name,rxnorm_id_ingredient,ingredient_name
-1001,Amoxicillin 500mg Capsule,5001,Amoxicillin
-1002,Lisinopril 10mg Tablet,5002,Lisinopril
-1003,Metformin 500mg Tablet,5003,Metformin
-1004,Atorvastatin 20mg Tablet,5004,Atorvastatin
-1005,Hydrochlorothiazide 25mg Tablet,5005,Hydrochlorothiazide
-1006,Albuterol 90mcg Inhaler,5006,Albuterol
-1007,Gabapentin 300mg Capsule,5007,Gabapentin
-1008,Sertraline 50mg Tablet,5008,Sertraline
-1009,Amlodipine 5mg Tablet,5009,Amlodipine
-1010,Omeprazole 20mg Capsule,5010,Omeprazole
-1011,Vicodin,5011,Hydrocodone
-1011,Vicodin,5012,Acetaminophen
-1012,Percocet,5013,Oxycodone
-1012,Percocet,5012,Acetaminophen
-1013,Advil Dual Action,5014,Ibuprofen
-1013,Advil Dual Action,5012,Acetaminophen
-1014,Symbicort,5015,Budesonide
-1014,Symbicort,5016,Formoterol
-1015,Augmentin,5001,Amoxicillin
-1015,Augmentin,5017,Clavulanate
-1016,Excedrin Migraine,5018,Aspirin
-1016,Excedrin Migraine,5012,Acetaminophen
-1016,Excedrin Migraine,5019,Caffeine
-1017,Trelegy Ellipta,5020,Fluticasone
-1017,Trelegy Ellipta,5021,Umeclidinium
-1017,Trelegy Ellipta,5022,Vilanterol
+1655928,Ivacaftor 125 mg / Lumacaftor 200 mg Oral Tablet,1655922,Lumacaftor
+1655928,Ivacaftor 125 mg / Lumacaftor 200 mg Oral Tablet,1243041,Ivacaftor
+1745280,Norepinephrine 1 mg/mL Injection,7512,Norepinephrine
+197785,Hydrocortisone 2.5 % Topical Lotion,5492,Hydrocortisone
+880649,Dexamethasone 3 mg/mL Injectable Solution,3264,Dexamethasone
+897309,Atriplex polycarpa pollen extract,897304,Allscale pollen extract
+379804,Glipizide 2.5 mg Oral Tablet,4821,Glipizide
+2672922,Ferrous bisglycinate 36.5 mg Oral Tablet,1102188,Ferrous bisglycinate
+220074,Sudafed Sinus,161,Acetaminophen
+220074,Sudafed Sinus,8896,Pseudoephedrine
+573961,Ibuprofen 200 mg [Anadin Ibuprofen],5640,Ibuprofen
+2103177,Lorlatinib 100 mg Oral Tablet,2103164,Lorlatinib
+402943,Starlix,274332,Nateglinide
+2602774,Tyvaso 32-48 mcg Maintenance Pack,343048,Treprostinil
+1737459,Pamidronate disodium 30 mg Injection,11473,Pamidronate
+835829,Testosterone cypionate 100 mg/mL Injection,10379,Testosterone
+905482,Shrimp extract 0.05 g/mL Injection,892592,Shrimp allergenic extract
+313988,Furosemide 40 mg Oral Tablet,4603,Furosemide
+483445,Pregabalin 200 mg,187832,Pregabalin
+564064,Metyrapone 250 mg [Metopirone],6923,Metyrapone
+977883,Amiloride HCl 5 mg / HCTZ 50 mg Tablet,644,Amiloride
+861783,Pioglitazone 15 mg / Metformin 500 mg Tablet,33738,Pioglitazone
+861783,Pioglitazone 15 mg / Metformin 500 mg Tablet,6809,Metformin
+1000395,"Estrogens, conjugated / Medroxyprogesterone",4099,"Estrogens, conjugated"
+1000395,"Estrogens, conjugated / Medroxyprogesterone",6691,Medroxyprogesterone
+2280761,Charlotte 24 Fe Chewable 28 Day,24941,Ferrous fumarate
+2280761,Charlotte 24 Fe Chewable 28 Day,4124,Ethinyl estradiol
+729455,Amlodipine / Valsartan,17767,Amlodipine
+1013629,Drospirenone / Ethinyl estradiol / Ca Levomefolate,4124,Ethinyl estradiol
+1013629,Drospirenone / Ethinyl estradiol / Ca Levomefolate,1592257,Levomefolate
+2197691,Dengvaxia,2197291,Dengue virus CYD serotype 2
+2197691,Dengvaxia,2197290,Dengue virus CYD serotype 1
+1085728,Triamcinolone acetonide Oral Paste,10759,Triamcinolone
+1424850,Daytime/Nighttime Cold and Flu Relief,161,Acetaminophen
+1424850,Daytime/Nighttime Cold and Flu Relief,8163,Phenylephrine
+1359124,Estradiol 0.5 mg / Norethindrone 0.1 mg Pack,4083,Estradiol
+1359124,Estradiol 0.5 mg / Norethindrone 0.1 mg Pack,7514,Norethindrone
+1654006,Etomidate 20 mg per 10 mL Injection,4177,Etomidate
+2123313,Siponimod 0.25 mg Oral Tablet Pack,2123300,Siponimod
+213293,Xeloda 500 mg Oral Tablet,194000,Capecitabine
+2606491,Pirfenidone 267 mg Oral Capsule Pack,283525,Pirfenidone
+2618837,Rayasal 59 mg/mL Topical Cream,9525,Salicylic acid
+2626812,Etranacogene dezaparvovec-drlb Kit,2626800,Etranacogene dezaparvovec
+284008,Travoprost 40 mcg/mL Ophthalmic Solution,283809,Travoprost
+892643,Morphine sulfate 200 mg Extended Release Capsule,7052,Morphine
+1722934,Meropenem 500 mg Injection,29561,Meropenem
+2636039,Risperidone 357 mg/mL Prefilled Syringe [Uzedy],35636,Risperidone
+2640419,Adalimumab-bwwd 40 mg in 0.8 mL Injection,117055,Adalimumab
+966434,Levothyroxine sodium 0.013 mg Oral Capsule,10582,Levothyroxine
+1006684,Sulfacetamide sodium 100 mg/mL Topical Cream,10169,Sulfacetamide
+1011002,Nectarine allergenic extract 50 mg/mL Injection,1010998,Nectarine extract
+1011648,Articadent (Articaine/Epinephrine) Cartridge,1253,Articaine
+1011648,Articadent (Articaine/Epinephrine) Cartridge,3992,Epinephrine
+1368437,Oseni 25/30 (Alogliptin/Pioglitazone) Tablet,1368367,Alogliptin
+1368437,Oseni 25/30 (Alogliptin/Pioglitazone) Tablet,33738,Pioglitazone
+1743855,Methylprednisolone acetate 80 mg/mL Injection,6902,Methylprednisolone
+310429,Furosemide 20 mg Oral Tablet,4603,Furosemide
+1046997,Donnatal (Atropine/Hyoscyamine/PB/Scopolamine),1220,Atropine
+1046997,Donnatal (Atropine/Hyoscyamine/PB/Scopolamine),5531,Hyoscyamine
+1046997,Donnatal (Atropine/Hyoscyamine/PB/Scopolamine),8134,Phenobarbital
+1046997,Donnatal (Atropine/Hyoscyamine/PB/Scopolamine),9601,Scopolamine
+1098670,Nefazodone hydrochloride 200 mg Oral Tablet,31565,Nefazodone
+2099993,Leucovorin 100 mg per 10 mL Injection,6313,Leucovorin
+746190,Beclomethasone Metered Dose Inhaler,1347,Beclomethasone
+831296,Diltiazem HCl 240 mg Extended Release Capsule,3443,Diltiazem
+852690,Mucor racemosus allergenic extract 100 mg/mL,852687,Mucor racemosus extract
+1307058,Suboxone 4 mg / 1 mg Sublingual Film,1831,Buprenorphine
+1307058,Suboxone 4 mg / 1 mg Sublingual Film,7242,Naloxone
+1543207,"Insulin, regular, human Inhalation Powder",5852,"Insulin, regular, human"
+1721614,Genvoya (EVG/COBI/FTC/TAF) Oral Tablet,1721603,Tenofovir alafenamide
+1721614,Genvoya (EVG/COBI/FTC/TAF) Oral Tablet,1361957,Cobicistat
+1721614,Genvoya (EVG/COBI/FTC/TAF) Oral Tablet,460113,Elvitegravir
+1721614,Genvoya (EVG/COBI/FTC/TAF) Oral Tablet,276237,Emtricitabine
+2044967,Jynarque 60/30 mg Oral Tablet Pack,358257,Tolvaptan
+2286602,Bimatoprost 0.01 mg Drug Implant,194848,Bimatoprost
+309113,Cephalexin Oral Tablet [Loreev],2231,Cephalexin
+2685246,Imetelstat 47 mg Injection,1313437,Imetelstat
+1011425,Barley malt allergenic extract 100 mg/mL,1011421,Barley malt extract
+1608328,Cresemba,1608322,Isavuconazonium
+1867618,"Sensorcaine 0.25 % / Epinephrine 1:200,000",2563,Bupivacaine
+1867618,"Sensorcaine 0.25 % / Epinephrine 1:200,000",3992,Epinephrine
+201912,Daraprim 25 mg Oral Tablet,8959,Pyrimethamine
+2122661,Cladribine 10 mg Oral Tablet [Mavenclad],44157,Cladribine
+2395791,Bupivacaine hydrochloride 100 mg Drug Implant,2563,Bupivacaine
+2675312,Nedosiran 160 mg/mL Prefilled Syringe,2586611,Nedosiran

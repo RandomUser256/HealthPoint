@@ -1,19 +1,151 @@
 meddra_id,meddra_name
-9001,Nausea
-9002,Diarrhoea
-9003,Dry Cough
-9004,Dizziness
-9005,Lactic Acidosis
-9006,Myalgia
-9007,Hyperuricemia
-9008,Tachycardia
-9009,Tremor
-9010,Headache
-9011,Constipation
-9012,Somnolence
-9013,Respiratory Depression
-9014,Pruritus
-9015,Vomiting
-9016,Gastritis
-9017,Nervousness
-9018,Candidiasis
+10000050,Abdominal adhesions
+10000059,Abdominal discomfort
+10000060,Abdominal distension
+10000077,Abdominal mass
+10000081,Abdominal pain
+10000084,Abdominal pain lower
+10000087,Abdominal pain upper
+10000125,Abnormal dreams
+10000133,Abnormal faeces
+10000153,Abnormal labour
+10000159,Abnormal loss of weight
+10000173,Abnormal sensation in eye
+10000188,Abnormal weight gain
+10000210,Abortion
+10000234,Abortion spontaneous
+10000269,Abscess
+10000349,Acanthosis
+10000358,Accelerated hypertension
+10000369,Accident
+10000381,Accidental overdose
+10000389,Accommodation disorder
+10000486,Acidosis
+10000496,Acne
+10000565,Acquired immunodeficiency syndrome
+10000591,Acrochordon
+10000599,Acromegaly
+10000614,Actinic keratosis
+10000620,Actinomycosis
+10000647,Acute abdomen
+10000709,Acute disseminated encephalomyelitis
+10000748,Acute febrile neutrophilic dermatosis
+10000804,Acute hepatic failure
+10000830,Acute leukaemia
+10000846,Acute lymphocytic leukaemia
+10000880,Acute myeloid leukaemia
+10000891,Acute myocardial infarction
+10001022,Acute psychosis
+10001029,Acute pulmonary oedema
+10001052,Acute respiratory distress syndrome
+10001053,Acute respiratory failure
+10001076,Acute sinusitis
+10001115,Adams-Stokes syndrome
+10001130,Addison's disease
+10001141,Adenocarcinoma
+10001229,Adenoidal hypertrophy
+10001315,Administration site reaction
+10001323,Adrenal adenoma
+10001347,Adrenal disorder
+10001361,Adrenal haemorrhage
+10001367,Adrenal insufficiency
+10027161,Melasma
+10027162,Melena
+10027170,Membranous nephropathy
+10027172,Memory disturbance
+10027176,Memory loss
+10027183,Meniere's disease
+10027188,Meningeal irritation
+10027191,Meningioma
+10027197,Meningism
+10027199,Meningitis
+10027201,Meningitis aseptic
+10027202,Meningitis bacterial
+10027209,Meningitis cryptococcal
+10027248,Meningitis listeria
+10027249,Meningitis meningococcal
+10027274,Meningococcal infection
+10027280,Meningococcal sepsis
+10027282,Meningoencephalitis
+10027285,Meningoencephalitis herpetic
+10027295,Menometrorrhagia
+10027304,Menopausal symptoms
+10027313,Menorrhagia
+10027321,Menses painful
+10027323,Menstrual cramp
+10027325,Menstrual cycle abnormal
+10027327,Menstrual disorder
+10027331,Menstrual flow altered
+10027333,Menstrual irregularity
+10027336,Menstruation delayed
+10027339,Menstruation irregular
+10027345,Mental activity decreased
+10027346,Mental concentration decreased
+10027350,Mental confusion
+10027378,Mental retardation
+10027397,Mesenteric artery thrombosis
+10027403,Mesenteric venous occlusion
+10027406,Mesothelioma
+10027417,Metabolic acidosis
+10027423,Metabolic alkalosis
+10027452,Metastases to bone
+10027458,Metastases to lung
+10027475,Metastatic breast cancer
+10027478,Metastatic disease
+10027484,Metastatic pain
+10027493,Meteorism
+10027506,Methemoglobinemia
+10027514,Metrorrhagia
+10027538,Micturition disorder
+10027548,Midbrain syndrome
+10027581,Migraine
+10027614,Migraine with aura
+10027627,Miliaria
+10027665,Milk-alkali syndrome
+10027685,Mineral deficiency
+10027689,Mineralocorticoid excess
+10027702,Miosis
+10027704,Miscarriage
+10027714,Mitral valve incompetence
+10027725,Mitral valve prolapse
+10027741,Mitral valve stenosis
+10027759,Mixed connective tissue disease
+10027774,Mixed glioma
+10027787,Mixed infection
+10027798,Mixed liver injury
+10027814,Mobitz I heart block
+10027815,Mobitz II heart block
+10027827,Moeller-Hunter glossitis
+10027845,Monilethrix
+10027849,Moniliasis
+10027878,Mononeuritis
+10027880,Mononeuritis multiplex
+10027881,Mononeuropathy
+10027891,Monoplegia
+10027914,Mood altered
+10027917,Mood disorder
+10027932,Mood swings
+10027940,Moon face
+10027942,Moraxella infection
+10027962,Morphea
+10028028,Motor neurone disease
+10028029,Motor neuropathy
+10028035,Movement disorder
+10028041,Movements involuntary
+10028054,Mucocutaneous lymph node syndrome
+10028059,Mucoid stools
+10028062,Mucormycosis
+10028069,Mucosal atrophy
+10028073,Mucosal burning sensation
+10028077,Mucosal disorder
+10028085,Mucosal dryness
+10028090,Mucosal erosion
+10028098,Mucosal haemorrhage
+10028116,Mucosal inflammation
+10028124,Mucosal lesion
+10028127,Mucosal oedema
+10028135,Mucosal pigmentation
+10028139,Mucosal ulceration
+10028143,Mucositis
+10028169,Multiple fractures
+10028203,Multiple myeloma
