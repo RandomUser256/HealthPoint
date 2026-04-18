@@ -20,6 +20,10 @@ EXTERNAL IMPORTS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 For the voice to text function, we used a TranscriptionKit, ThemeKit and TimerKit to make it work. To download these packages, head to:
 https://developer.apple.com/tutorials/app-dev-training/transcribing-speech-to-text
 
+EXTERNAL INFORMATION  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Main app uses a reduced set of synthetic test data. In the Database folder, real world information is stored in the various csv files. Said information was extracted from the
+public database onSides made by the University Columbia. You can consult the original database and publication here: https://onsidesdb.org
+
 APP USAGE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 To use the app, simply make sure that the packages are included. Once these are ready, you can launch the app on any device that contains Apple Inteligence, and feel
 free to use any function.
